@@ -96,8 +96,7 @@ function import_page($page) {
 }
 
 function read_line($fp) {
-    $result = fgets($fp);
-    trim($result);
+    $result = trim(fgets($fp));
     return $result;
 }
 
