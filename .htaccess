@@ -2,6 +2,7 @@ RewriteEngine On
 
 RewriteBase /
 
-RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond $1#%{REQUEST_URI} ([^#]*)#(.*)\1$
+RewriteCond %1 !^r/
+RewriteCond %1 !^index.php$
 RewriteRule ^(.*)$ %2index.php [QSA,L]

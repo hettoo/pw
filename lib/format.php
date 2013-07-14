@@ -27,7 +27,7 @@ function format_date($time) {
     return '<span class="time">' . exact_date($time) . ($time == 0 ? '' : '<span class="exacttime">' . exact_time($time) . '</span>') . '</span>';
 }
 
-function format_time($time, $map) {
+function format_time($time) {
     $negative = $time < 0;
     $time = abs($time);
     $result = '.' . sprintf('%03d', $time % 1000);
@@ -42,9 +42,7 @@ function format_time($time, $map) {
     }
     if ($negative)
         $result = '-' . $result;
-    if (!file_exists("./demos/$map.wd15"))
-        return $result;
-    return '<a href="' . resource_url("demos/$map.wd15") . '" target="_blank">' . $result . '</a>';
+    return $result;
 }
 
 function format_rank($rank) {

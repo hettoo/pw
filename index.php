@@ -104,15 +104,22 @@ $args = preg_replace('/\/$/', '', substr($_SERVER['REQUEST_URI'], strlen($base))
 if (empty($args))
     $args = '/index';
 
-$s = array(
-    'max_rows' => 20,
-    'max_pages' => 8
-);
+$s = array();
 $hierarchy = explode('/', substr($args, 1));
 
-if (file_exists(script('config'))) {
-    import('config');
-} else {
-}
+$s['project'] = 'Personal Website';
+$s['analytics'] = '';
+
+$s['menu'] = array(
+    array('', 'Home'),
+    'Test'
+);
+$s['max_pages'] = 8;
+
+echo $_GET['x'];
+import_lib('format');
+import_lib('time');
+import_lib('database');
+import_lib('content');
 
 ?>
