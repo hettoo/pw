@@ -1,7 +1,16 @@
 <?php
 
+function pw_file($file) {
+    if (file_exists('custom/' . $file))
+        return 'custom/' . $file;
+    elseif (file_exists($file))
+        return $file;
+    else
+        return null;
+}
+
 function script($script) {
-    return $script . '.php';
+    return pw_file($script . '.php');
 }
 
 function import_once($script) {
@@ -26,10 +35,10 @@ function page_file($page) {
 
 function real_page($page) {
     global $args;
-    while ($page != $args[0] && !file_exists(script(page_file($page)))) {
+    while ($page != $args[0] && !is_null(script(page_file($page)))) {
         $next_page = dirname($page);
         $page = $next_page . '/_';
-        if (!file_exists(script(page_file($page))))
+        if (!is_null(script(page_file($page))))
             $page = $next_page;
     }
     if ($page == $args[0])
