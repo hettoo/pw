@@ -25,6 +25,10 @@ function import($script) {
     include(script($script));
 }
 
+function import_raw($file) {
+    include(pw_file($file));
+}
+
 function import_lib($lib) {
     import_once("lib/$lib");
 }
@@ -109,6 +113,16 @@ function read_line($fp) {
     return $result;
 }
 
+function value_split($string) {
+    $values = explode(',', $string);
+    $result = array();
+    foreach ($values as $value) {
+        if (!empty($value))
+            $result[] = $value;
+    }
+    return $result;
+}
+
 header('Content-Type: text/html; charset=iso-8859-1');
 
 $base = substr($_SERVER['SCRIPT_NAME'], 0, -10);
@@ -126,6 +140,7 @@ $s['menu'] = array(
     array('', 'Home'),
     'Test'
 );
+$s['css'] = 'main';
 $s['max_pages'] = 8;
 
 if (file_exists('setup')) {
