@@ -35,7 +35,7 @@ function import_lib($lib) {
 
 function resource_url($target) {
     global $base;
-    return $base . (substr($base, -1) == '/' ? '' : '/') . 'r/' . $target;
+    return $base . ($base[-1] == '/' ? '' : '/') . 'r/' . $target;
 }
 
 function url($target, $level = 0, $rootify = true) {
@@ -85,18 +85,9 @@ $args = preg_replace('/\/$/', '', substr($_SERVER['REQUEST_URI'], strlen($base))
 if (empty($args))
     $args = '/';
 
-$s = array();
 $hierarchy = explode('/', substr($args, 1));
 
-$s['project'] = 'Personal Website';
-$s['analytics'] = '';
-
-$s['menu'] = array(
-    array('', 'Home'),
-    'Test'
-);
-$s['css'] = 'main';
-$s['max_pages'] = 8;
+import_lib('init');
 
 if (file_exists('setup')) {
     $fp = fopen('setup', 'r');

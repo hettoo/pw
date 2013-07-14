@@ -51,7 +51,7 @@ class Table {
                 $order = 'name';
             $hierarchy[$this->order_index] = $order;
         }
-        $descending = substr($order, 0, 1) == '-';
+        $descending = $order[0] == '-';
         if ($descending)
             $order = substr($order, 1);
         return array($order, $descending);
