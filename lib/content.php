@@ -1,5 +1,7 @@
 <?php
 
+import_lib('format');
+
 $s['submenu'] = '';
 $s['head'] = 'Unnamed page';
 $s['keywords'] = $s['project'];

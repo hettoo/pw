@@ -127,13 +127,12 @@ if (file_exists('setup')) {
     $s['user'] = read_line($fp);
     $s['password'] = read_line($fp);
     fclose($fp);
+
+    import_lib('database');
 } else {
     $args = '/pw';
 }
 
-import_lib('database');
-import_lib('format');
-import_lib('time');
 import_lib('content');
 
 ?>
