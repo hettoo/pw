@@ -35,10 +35,10 @@ function page_file($page) {
 
 function real_page($page) {
     global $args;
-    while ($page != $args[0] && !is_null(script(page_file($page)))) {
+    while ($page != $args[0] && is_null(script(page_file($page)))) {
         $next_page = dirname($page);
         $page = $next_page . '/_';
-        if (!is_null(script(page_file($page))))
+        if (is_null(script(page_file($page))))
             $page = $next_page;
     }
     if ($page == $args[0])
