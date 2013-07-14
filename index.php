@@ -113,7 +113,7 @@ function read_line($fp) {
     return $result;
 }
 
-function value_split($string) {
+function split_values($string) {
     $values = explode(',', $string);
     $result = array();
     foreach ($values as $value) {
@@ -122,8 +122,6 @@ function value_split($string) {
     }
     return $result;
 }
-
-header('Content-Type: text/html; charset=iso-8859-1');
 
 $base = substr($_SERVER['SCRIPT_NAME'], 0, -10);
 $args = preg_replace('/\/$/', '', substr($_SERVER['REQUEST_URI'], strlen($base)));
@@ -156,6 +154,10 @@ if (file_exists('setup')) {
     $args = '/pw';
 }
 
-import_lib('content');
+if (!isset($s['libs']))
+    $s['libs'] = 'content';
+$libs = split_values($s['libs']);
+foreach ($libs as $lib)
+    import_lib($lib);
 
 ?>

@@ -2,6 +2,8 @@
 
 import_lib('format');
 
+header('Content-Type: text/html; charset=iso-8859-1');
+
 $s['submenu'] = '';
 $s['head'] = 'Unnamed page';
 $s['keywords'] = $s['project'];
@@ -18,7 +20,7 @@ if ($s['head'] == '') {
     $s['head'] .= ' | ' . $s['project'];
 }
 $main_menu = create_menu(0, $s['menu']);
-$css = value_split($s['css']);
+$css = split_values($s['css']);
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
