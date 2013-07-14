@@ -21,7 +21,6 @@ function import_lib($lib) {
 }
 
 function page_file($page) {
-    $page[0] = '/';
     return 'page' . $page;
 }
 
@@ -56,7 +55,7 @@ function import_child_page($child, $header = true) {
 
 function resource_url($target) {
     global $base;
-    return $base . (substr($base, -1) == '/' ? '' : '/') . $target;
+    return $base . (substr($base, -1) == '/' ? '' : '/') . 'r/' . $target;
 }
 
 function url($target, $level = 0, $rootify = true) {
@@ -96,13 +95,18 @@ function import_page($page) {
     import(page_file(real_page($page)));
 }
 
+function read_line($fp) {
+    $result = fgets($fp);
+    trim($result);
+    return $result;
+}
+
 header('Content-Type: text/html; charset=iso-8859-1');
 
 $base = substr($_SERVER['SCRIPT_NAME'], 0, -10);
 $args = preg_replace('/\/$/', '', substr($_SERVER['REQUEST_URI'], strlen($base)));
-
 if (empty($args))
-    $args = '/index';
+    $args = '/';
 
 $s = array();
 $hierarchy = explode('/', substr($args, 1));
@@ -116,10 +120,20 @@ $s['menu'] = array(
 );
 $s['max_pages'] = 8;
 
-echo $_GET['x'];
+if (file_exists('setup')) {
+    $fp = fopen('setup', 'r');
+    $s['host'] = read_line($fp);
+    $s['database'] = read_line($fp);
+    $s['user'] = read_line($fp);
+    $s['password'] = read_line($fp);
+    fclose($fp);
+} else {
+    $args = '/pw';
+}
+
+import_lib('database');
 import_lib('format');
 import_lib('time');
-import_lib('database');
 import_lib('content');
 
 ?>

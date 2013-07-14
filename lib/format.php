@@ -12,7 +12,7 @@ function create_menu($level, $menu) {
             $name = $item;
         }
         $result .= '<div';
-        if ($hierarchy[$level] == (empty($link) ? 'index' : $link))
+        if ($hierarchy[$level] == $link)
             $result .= ' class="active"';
         $result .= '><a href="' . url($link, $level) . '">' . $name . '</a></div>';
     }
