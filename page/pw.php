@@ -32,6 +32,7 @@ To be able to set this up, enter the code found in the key file in the setup fol
 
 <?php
 } else {
+    import_lib('setup');
     $fp = fopen('setup', 'w');
     fwrite($fp, $_POST['host']);
     fwrite($fp, "\n");
