@@ -21,8 +21,8 @@ $s['menu'] = array(
 $s['css'] = 'main';
 $s['max_pages'] = 8;
 
-if (file_exists('setup')) {
-    $fp = fopen('setup', 'r');
+if (file_exists('setup/setup')) {
+    $fp = fopen('setup/setup', 'r');
     $s['host'] = read_line($fp);
     $s['database'] = read_line($fp);
     $s['user'] = read_line($fp);

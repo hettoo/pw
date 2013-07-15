@@ -7,7 +7,7 @@ if (!isset($_POST['key']) || $_POST['key'] != $s['key']) {
 ?>
 
 <p>
-To be able to set this up, enter the code found in the 'key' file in the root of the project in the box below.
+To be able to set this up, enter the code found in the key file in the setup folder of the project in the box below.
 </p>
 
 <form action="<?= this_url(); ?>" method="POST">
