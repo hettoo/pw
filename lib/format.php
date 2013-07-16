@@ -49,4 +49,18 @@ function format_rank($rank) {
     return ($rank + 1) . '.';
 }
 
+function create_element($name, $attributes = array()) {
+    $result = '<' . $name;
+    foreach ($attributes as $key => $value)
+        $result .= ' ' . $key . '="' . $value . '"';
+    if (autoclose($name))
+        $result .= ' /';
+    $result .= '>';
+    if (!autoclose($name)) {
+        $result .= $attributes['value'];
+        $result .= '</' . $name . '>';
+    }
+    return $result;
+}
+
 ?>

@@ -47,4 +47,8 @@ function split_values($string) {
     return $result;
 }
 
+function autoclose($name) {
+    return $name == 'br' || $name == 'img' || $name == 'input';
+}
+
 ?>
