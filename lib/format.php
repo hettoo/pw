@@ -49,7 +49,7 @@ function format_rank($rank) {
     return ($rank + 1) . '.';
 }
 
-function create_element($name, $attributes = array()) {
+function create_element($name, $content = '', $attributes = array()) {
     $result = '<' . $name;
     foreach ($attributes as $key => $value)
         $result .= ' ' . $key . '="' . $value . '"';
@@ -57,6 +57,7 @@ function create_element($name, $attributes = array()) {
         $result .= ' /';
     $result .= '>';
     if (!autoclose($name)) {
+        $result .= $content;
         $result .= $attributes['value'];
         $result .= '</' . $name . '>';
     }

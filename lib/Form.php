@@ -38,12 +38,12 @@ class Form {
     }
 
     private function createInput($name, $title, $type, $attributes) {
-        if ($type == 'submit') {
-            return create_element('input', array_merge($attributes, array('type' => $type)));
-        } elseif ($type == 'textarea') {
-            return create_element('textarea', $attributes);
+        if ($type == 'textarea') {
+            $value = $attributes['value'];
+            unset($attributes['value']);
+            return create_element('textarea', $value, $attributes);
         } else {
-            return create_element('input', array_merge($attributes, array('type' => $type)));
+            return create_element('input', '', array_merge($attributes, array('type' => $type)));
         }
     }
     
@@ -54,12 +54,16 @@ class Form {
         return $attributes;
     }
 
+    private function tableLess($type) {
+        return $type == 'hidden' || $type == 'submit');
+    }
+
     function add($name, $title, $type, $attributes = array()) {
         $attributes = $this->fillAttributes($attributes, $name);
-        if ($type == 'hidden' || $type == 'submit') {
+        if ($this->tableLess($type)) {
             $this->html .= $this->finishTable();
             $this->tabled = false;
-            $this->html .= create_element('input', array_merge($attributes, array('type' => $type)));
+            $this->html .= $this->createInput($name, $title, $type, $attributes);
             return;
         }
         if (!$this->tabled) {
@@ -67,11 +71,7 @@ class Form {
             $this->tabled = true;
         }
         $this->html .= '<tr>';
-        if ($type != 'submit')
-            $this->html .= '<td>' . $title . '</td>';
         $this->html .= '<td>' . $this->createInput($name, $title, $type, $attributes) . '</td>';
-        if ($type == 'submit')
-            $this->html .= '<td></td>';
         $this->html .= '</tr>';
     }
 
