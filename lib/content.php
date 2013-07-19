@@ -52,6 +52,8 @@ function default_head() {
     echo '<title>' . $s['head'] . '</title>';
     echo '<meta name="keywords" content="' . $s['keywords'] . '">';
     echo '<meta name="description" content="' . $s['description'] . '">';
+    if ($s['hide'])
+        echo '<meta name="robots" content="noindex, nofollow">';
     echo '<style type="text/css">';
     $css = split_values($s['css']);
     foreach ($css as $sheet)
@@ -67,7 +69,9 @@ $s['submenu'] = '';
 $s['head'] = 'Unnamed page';
 $s['keywords'] = $s['project'];
 $s['description'] = '';
+
 init_page($args);
+
 if ($s['head'] == '') {
     $s['head'] = $s['project'];
     $s['title'] = $s['head'];
