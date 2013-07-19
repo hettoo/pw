@@ -1,1 +1,1 @@
-<?= $s['form']->format(); ?>
+<?= $s['content']; ?>
