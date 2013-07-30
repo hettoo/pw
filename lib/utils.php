@@ -37,6 +37,11 @@ function read_line($fp) {
     return $result;
 }
 
+function write_line($fp, $line) {
+    fwrite($fp, $line);
+    fwrite($fp, "\n");
+}
+
 function split_values($string) {
     $values = explode(',', $string);
     $result = array();

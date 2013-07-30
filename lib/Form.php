@@ -6,16 +6,22 @@ class Form {
     private $received;
     private $tabled;
     private $clear;
+    private $data;
 
     function __construct($id, $clear = false) {
         $this->html = '<form action="' . this_url() . '" method="POST">';
         $this->id = $id;
-        $this->tabled = false;
         $this->clear = $clear;
+        $this->data = array();
+        $this->tabled = false;
         if ($_POST['_form_id'] == $id)
             $this->received = true;
         else
             $this->received = false;
+    }
+
+    function setData($data) {
+        $this->data = $data;
     }
 
     private function clear() {
@@ -53,15 +59,15 @@ class Form {
         }
     }
     
-    private function fillAttributes($attributes, $name) {
-        $attributes = array_merge($attributes, array('name' => $this->id . '_' . $name));
-        if (!$this->clear && $this->received)
-            $attributes = array_merge($attributes, array('value' => $_POST[$this->id . '_' . $name]));
-        return $attributes;
-    }
-
     function get($name) {
         return $_POST[$this->id . '_' . $name];
+    }
+
+    private function fillAttributes($attributes, $name) {
+        $attributes = array_merge($attributes, array('name' => $this->id . '_' . $name));
+        if (!$this->clear)
+            $attributes = array_merge($attributes, array('value' => $this->received && !is_null(get($name)) ? get($name) : $this->data[$name]));
+        return $attributes;
     }
 
     function add($title, $type, $name = null, $attributes = array()) {

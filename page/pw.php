@@ -32,6 +32,7 @@ if ((!$form_key->received() || $form_key->get('key') != $key) && (!$form_setup->
     $form_key->add('Submit', 'submit');
     section('single', $form_key->format());
 } elseif (!$form_setup->received()) {
+    $form_setup->setData(array('host' => $s['host'], 'database' => $s['database'], 'user' => $s['user'], 'password' => $s['password']));
     $form_setup->add('Host', 'text', 'host');
     $form_setup->add('Database', 'text', 'database');
     $form_setup->add('User', 'text', 'user');
@@ -42,14 +43,10 @@ if ((!$form_key->received() || $form_key->get('key') != $key) && (!$form_setup->
 } else {
     import_lib('setup');
     $fp = fopen('setup/setup', 'w');
-    fwrite($fp, $form_setup->get('host'));
-    fwrite($fp, "\n");
-    fwrite($fp, $form_setup->get('database'));
-    fwrite($fp, "\n");
-    fwrite($fp, $form_setup->get('user'));
-    fwrite($fp, "\n");
-    fwrite($fp, $form_setup->get('password'));
-    fwrite($fp, "\n");
+    write_line($fp, $form_setup->get('host'));
+    write_line($fp, $form_setup->get('database'));
+    write_line($fp, $form_setup->get('user'));
+    write_line($fp, $form_setup->get('password'));
     section('single', 'Setup saved!');
 }
 
