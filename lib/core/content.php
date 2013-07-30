@@ -1,6 +1,6 @@
 <?php
 
-import_lib('format');
+import_lib('utils/format');
 
 function page_file($page) {
     return 'page' . $page;

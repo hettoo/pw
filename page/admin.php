@@ -1,6 +1,6 @@
 <?php
 
-import_lib('session');
+import_lib('core/session');
 import_lib('Form');
 
 $s['head'] = 'Admin';

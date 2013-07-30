@@ -33,6 +33,6 @@ function import_lib($lib) {
     import_once("lib/$lib");
 }
 
-import_lib('init');
+import_lib('core/init');
 
 ?>

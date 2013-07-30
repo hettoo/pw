@@ -1,6 +1,6 @@
 <?php
 
-import_lib('utils');
+import_lib('utils/main');
 
 $base = substr($_SERVER['SCRIPT_NAME'], 0, -10);
 $args = preg_replace('/\/$/', '', substr($_SERVER['REQUEST_URI'], strlen($base)));
@@ -29,13 +29,13 @@ if (file_exists('setup/setup')) {
     $s['password'] = read_line($fp);
     fclose($fp);
 
-    import_lib('database');
+    import_lib('core/database');
 } else {
     $args = '/pw';
 }
 
 if (!isset($s['libs']))
-    $s['libs'] = 'content';
+    $s['libs'] = 'core/content';
 $libs = split_values($s['libs']);
 foreach ($libs as $lib)
     import_lib($lib);
