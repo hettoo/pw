@@ -70,7 +70,7 @@ function body() {
 function default_head() {
     global $s;
 
-    echo '<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">';
+    echo '<meta http-equiv="Content-Type" content="text/html; charset=' . $s['charset'] . '">';
     echo '<title>' . $s['head'] . '</title>';
     echo '<meta name="keywords" content="' . $s['keywords'] . '">';
     echo '<meta name="description" content="' . $s['description'] . '">';
@@ -84,8 +84,6 @@ function default_head() {
     echo $s['analytics'];
 }
 
-header('Content-Type: text/html; charset=iso-8859-1');
-
 $s['template'] = 'default';
 $s['submenu'] = '';
 $s['head'] = 'Unnamed page';
@@ -94,6 +92,8 @@ $s['description'] = '';
 $s['sections'] = array();
 
 init_page($args);
+
+header('Content-Type: text/html; charset=' . $s['charset']);
 
 if ($s['head'] == '') {
     $s['head'] = $s['project'];

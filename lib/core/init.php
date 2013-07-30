@@ -14,6 +14,7 @@ $s = array();
 $s['project'] = 'Personal Website';
 $s['analytics'] = '';
 
+$s['charset'] = 'iso-8859-1';
 $s['menu'] = array(
     array('', 'Home'),
     'Test'
