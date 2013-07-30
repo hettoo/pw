@@ -4,6 +4,9 @@ PW needs to know about its database.
 
 <?php
 if (!isset($_POST['key']) || $_POST['key'] != $s['key']) {
+    if ($s['error']) {
+        echo $s['error'];
+    } else {
 ?>
 
 <p>
@@ -16,6 +19,7 @@ To be able to set this up, enter the code found in the key file in the setup fol
 </form>
 
 <?php
+    }
 } elseif (!isset($_POST['host'])) {
 ?>
 
@@ -33,7 +37,7 @@ To be able to set this up, enter the code found in the key file in the setup fol
 <?php
 } else {
     import_lib('setup');
-    $fp = fopen('setup', 'w');
+    $fp = fopen('setup/setup', 'w');
     fwrite($fp, $_POST['host']);
     fwrite($fp, "\n");
     fwrite($fp, $_POST['database']);

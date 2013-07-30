@@ -12,8 +12,12 @@ if (file_exists('setup/key')) {
     for ($i = 0; $i < 16; $i++)
         $s['key'] .= $chars[rand() % $length];
     $fp = fopen('setup/key', 'w');
-    fwrite($fp, $s['key']);
-    fclose($fp);
+    if ($fp) {
+        fwrite($fp, $s['key']);
+        fclose($fp);
+    } else {
+        $s['error'] = 'Unable to write a key file.';
+    }
 }
 
 ?>
