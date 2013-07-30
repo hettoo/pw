@@ -22,7 +22,7 @@ class Form {
         $this->clear = true;
     }
 
-    private function received() {
+    function received() {
         return $this->received;
     }
 
@@ -58,6 +58,10 @@ class Form {
         if (!$this->clear && $this->received)
             $attributes = array_merge($attributes, array('value' => $_POST[$this->id . '_' . $name]));
         return $attributes;
+    }
+
+    function get($name) {
+        return $_POST[$this->id . '_' . $name];
     }
 
     function add($title, $type, $name = null, $attributes = array()) {

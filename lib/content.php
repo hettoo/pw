@@ -20,29 +20,23 @@ function real_page($page) {
 }
 
 function init_page($page) {
-    $file = page_file(real_page($page) . '_init');
+    $file = page_file(real_page($page));
     if (file_exists(script($file)))
         import_once($file);
 }
 
-function import_page($page) {
-    import(page_file(real_page($page)));
+function section($section, $data = '') {
+    global $s;
+    $s['sections'][] = array($section, $data);
 }
 
-function init_child_page($child) {
-    global $args;
-    init_page(real_page($args) . '/' . $child);
-}
-
-function import_child_page($child, $header = true) {
-    global $args, $s, $hierarchy;
-    $page = real_page($args) . '/' . $child;
-    $hierarchy[1] = $child;
-    if ($header) {
-        init_page($page);
-        echo '<h2>' . $s['head'] . '</h2>';
+function body() {
+    global $s;
+    foreach ($s['sections'] as $section_data) {
+        $section = $section_data[0];
+        $s['d'] = $section_data[1];
+        import('section/' . $section);
     }
-    import_page($page);
 }
 
 function default_head() {
@@ -69,6 +63,7 @@ $s['submenu'] = '';
 $s['head'] = 'Unnamed page';
 $s['keywords'] = $s['project'];
 $s['description'] = '';
+$s['sections'] = array();
 
 init_page($args);
 

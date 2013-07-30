@@ -20,7 +20,7 @@
                 <?= $s['submenu']; ?>
             </div>
             <div id="content">
-                <?php import_page($args); ?>
+                <?php body(); ?>
             </div>
         </div>
 </body>

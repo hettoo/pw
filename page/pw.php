@@ -1,55 +1,56 @@
-<p>
-PW needs to know about its database.
-</p>
-
 <?php
-if (!isset($_POST['key']) || $_POST['key'] != $s['key']) {
-    if ($s['error']) {
-        echo $s['error'];
+
+import_lib('Form');
+
+$s['head'] = 'PW Configuration';
+$s['description'] = 'PW needs to know about its database.';
+
+section('simple', 'PW needs to know about its database.');
+
+if (file_exists('setup/key')) {
+    $key = file_get_contents('setup/key');
+} else {
+    $chars = '1234567890qwertyuiopasdfghjklzxcvbnm';
+    $length = strlen($chars);
+    $key = '';
+    for ($i = 0; $i < 16; $i++)
+        $key .= $chars[rand() % $length];
+    $fp = fopen('setup/key', 'w');
+    if ($fp) {
+        fwrite($fp, $key);
+        fclose($fp);
     } else {
-?>
-
-<p>
-To be able to set this up, enter the code found in the key file in the setup folder of the project in the box below.
-</p>
-
-<form action="<?= this_url(); ?>" method="POST">
-    <input type="text" name="key" />
-    <input type="submit" name="submit" value="Submit">
-</form>
-
-<?php
+        section('simple', 'Unable to write a key file.');
     }
-} elseif (!isset($_POST['host'])) {
-?>
+}
 
-<form action="<?= this_url(); ?>" method="POST">
-<table>
-    <tr><td>Host</td><td><input type="text" name="host" /></td></tr>
-    <tr><td>Database</td><td><input type="text" name="database" /></td></tr>
-    <tr><td>User</td><td><input type="text" name="user" /></td></tr>
-    <tr><td>Password</td><td><input type="password" name="password" /></td></tr>
-</table>
-<input type="hidden" name="key" value="<?= $s['key']; ?>" />
-<input type="submit" name="submit" value="Submit" />
-</form>
-
-<?php
+$form_key = new Form('key');
+$form_setup = new Form('setup');
+if ((!$form_key->received() || $form_key->get('key') != $key) && (!$form_setup->received() || $form_setup->get('key') != $key)) {
+    section('simple', 'To be able to set this up, enter the code found in the key file in the setup folder of the project in the box below.');
+    $form_key->add('Key', 'text', 'key');
+    $form_key->add('Submit', 'submit');
+    section('simple', $form_key->format());
+} elseif (!$form_setup->received()) {
+    $form_setup->add('Host', 'text', 'host');
+    $form_setup->add('Database', 'text', 'database');
+    $form_setup->add('User', 'text', 'user');
+    $form_setup->add('Password', 'password', 'password');
+    $form_setup->add($key, 'hidden', 'key');
+    $form_setup->add('Submit', 'submit');
+    section('simple', $form_setup->format());
 } else {
     import_lib('setup');
     $fp = fopen('setup/setup', 'w');
-    fwrite($fp, $_POST['host']);
+    fwrite($fp, $form_setup->get('host'));
     fwrite($fp, "\n");
-    fwrite($fp, $_POST['database']);
+    fwrite($fp, $form_setup->get('database'));
     fwrite($fp, "\n");
-    fwrite($fp, $_POST['user']);
+    fwrite($fp, $form_setup->get('user'));
     fwrite($fp, "\n");
-    fwrite($fp, $_POST['password']);
+    fwrite($fp, $form_setup->get('password'));
     fwrite($fp, "\n");
-?>
-
-Setup saved!
-
-<?php
+    section('simple', 'Setup saved!');
 }
+
 ?>
