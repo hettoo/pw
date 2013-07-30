@@ -17,8 +17,8 @@ class Search {
     }
 
     function get() {
-        global $s, $hierarchy;
-        return $s['db']->real_escape_string($hierarchy[$this->index]);
+        global $hierarchy;
+        return secure($hierarchy[$this->index]);
     }
 
     function format($pager = null) {

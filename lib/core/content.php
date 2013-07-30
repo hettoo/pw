@@ -20,9 +20,30 @@ function real_page($page) {
 }
 
 function init_page($page) {
-    $file = page_file(real_page($page));
-    if (file_exists(script($file)))
-        import_once($file);
+    global $s, $args;
+    $s['c'] = array();
+    $filtered = secure($page);
+    $id = 0;
+    $result = query("SELECT * FROM `page` WHERE `page`='$filtered'");
+    if ($row = $result->fetch_array()) {
+        $s = array_merge($s, $row);
+        $id = $row['id'];
+        $result = query("SELECT `content` FROM `content` WHERE `page`='$id'");
+        while ($row = $result->fetch_array()) {
+            $s['c'][] = $row['content'];
+        }
+    }
+    $real = real_page($page);
+    if ($real != $args[0] . '404' || $id == 0) {
+        $file = page_file($real);
+        if (file_exists(script($file)))
+            import_once($file);
+    }
+}
+
+function customs() {
+    global $s;
+    return count($s['c']);
 }
 
 function section($section, $data = '') {
@@ -38,8 +59,12 @@ function subsection($section, $data = '') {
 
 function body() {
     global $s;
-    foreach ($s['sections'] as $section_data)
-        subsection($section_data[0], $section_data[1]);
+    if (empty($s['sections'])) {
+        subsection('fallback');
+    } else {
+        foreach ($s['sections'] as $section_data)
+            subsection($section_data[0], $section_data[1]);
+    }
 }
 
 function default_head() {
