@@ -3,24 +3,25 @@
 import_lib('utils/format');
 
 function page_file($page) {
-    return 'page' . $page;
+    return 'page/' . $page;
 }
 
 function real_page($page) {
-    global $args;
-    while ($page != $args[0] && is_null(script(page_file($page)))) {
+    while ($page != '' && is_null(script(page_file($page)))) {
         $next_page = dirname($page);
+        if ($next_page == '.')
+            $next_page = '';
         $page = $next_page . '/_';
         if (is_null(script(page_file($page))))
             $page = $next_page;
     }
-    if ($page == $args[0])
-        $page .= '404';
+    if ($page == '')
+        $page = '404';
     return $page;
 }
 
 function init_page($page) {
-    global $s, $args;
+    global $s;
     $s['c'] = array();
     $filtered = secure($page);
     $id = 0;
@@ -34,17 +35,17 @@ function init_page($page) {
         }
     }
     $real = real_page($page);
-    if ($real == $args[0] . '404' && $id != 0) {
-        if ($page == $args[0] . '404')
+    if ($real == '404' && $id != 0) {
+        if ($page == '404')
             header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
-    } else if ($real != $args[0] . '404' || $page == $args[0] . '404') {
-        if ($page == $args[0] . '404')
+    } else if ($real != '404' || $page == '404') {
+        if ($page == '404')
             header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
         $file = page_file($real);
         if (file_exists(script($file)))
             import_once($file);
     } else {
-        init_page($args[0] . '404');
+        init_page('404');
     }
 }
 

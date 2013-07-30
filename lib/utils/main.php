@@ -2,12 +2,12 @@
 
 function resource_url($target) {
     global $base;
-    return $base . ($base[-1] == '/' ? '' : '/') . 'r/' . $target;
+    return $base . 'r/' . $target;
 }
 
 function url($target, $level = 0, $rootify = true) {
-    global $base, $args, $hierarchy;
-    $result = $base . $args[0];
+    global $base, $hierarchy;
+    $result = $base;
     for ($i = 0; $i < count($hierarchy); $i++) {
         if ($i > 0)
             $result .= '/';
