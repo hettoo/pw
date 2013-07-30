@@ -30,13 +30,16 @@ function section($section, $data = '') {
     $s['sections'][] = array($section, $data);
 }
 
+function subsection($section, $data = '') {
+    global $s;
+    $s['d'] = $data;
+    import('section/' . $section);
+}
+
 function body() {
     global $s;
-    foreach ($s['sections'] as $section_data) {
-        $section = $section_data[0];
-        $s['d'] = $section_data[1];
-        import('section/' . $section);
-    }
+    foreach ($s['sections'] as $section_data)
+        subsection($section_data[0], $section_data[1]);
 }
 
 function default_head() {
