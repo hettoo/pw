@@ -41,6 +41,11 @@ if ((!$form_key->received() || $form_key->get('key') != $key) && (!$form_setup->
     $form_setup->add('Submit', 'submit');
     section('single', $form_setup->format());
 } else {
+    $s['host'] = $form_setup->get('host');
+    $s['database'] = $form_setup->get('database');
+    $s['user'] = $form_setup->get('user');
+    $s['password'] = $form_setup->get('password');
+    import_lib('core/database');
     import_lib('core/setup');
     $fp = fopen('setup/setup', 'w');
     write_line($fp, $form_setup->get('host'));
