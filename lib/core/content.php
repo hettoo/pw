@@ -34,10 +34,17 @@ function init_page($page) {
         }
     }
     $real = real_page($page);
-    if ($real != $args[0] . '404' || $id == 0) {
+    if ($real == $args[0] . '404' && $id != 0) {
+        if ($page == $args[0] . '404')
+            header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
+    } else if ($real != $args[0] . '404' || $page == $args[0] . '404') {
+        if ($page == $args[0] . '404')
+            header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
         $file = page_file($real);
         if (file_exists(script($file)))
             import_once($file);
+    } else {
+        init_page($args[0] . '404');
     }
 }
 
