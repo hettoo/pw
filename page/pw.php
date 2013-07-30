@@ -5,7 +5,7 @@ import_lib('Form');
 $s['head'] = 'PW Configuration';
 $s['description'] = 'PW needs to know about its database.';
 
-section('simple', 'PW needs to know about its database.');
+section('single', 'PW needs to know about its database.');
 
 if (file_exists('setup/key')) {
     $key = file_get_contents('setup/key');
@@ -20,17 +20,17 @@ if (file_exists('setup/key')) {
         fwrite($fp, $key);
         fclose($fp);
     } else {
-        section('simple', 'Unable to write a key file.');
+        section('single', 'Unable to write a key file.');
     }
 }
 
 $form_key = new Form('key');
 $form_setup = new Form('setup');
 if ((!$form_key->received() || $form_key->get('key') != $key) && (!$form_setup->received() || $form_setup->get('key') != $key)) {
-    section('simple', 'To be able to set this up, enter the code found in the key file in the setup folder of the project in the box below.');
+    section('single', 'To be able to set this up, enter the code found in the key file in the setup folder of the project in the box below.');
     $form_key->add('Key', 'text', 'key');
     $form_key->add('Submit', 'submit');
-    section('simple', $form_key->format());
+    section('single', $form_key->format());
 } elseif (!$form_setup->received()) {
     $form_setup->add('Host', 'text', 'host');
     $form_setup->add('Database', 'text', 'database');
@@ -38,7 +38,7 @@ if ((!$form_key->received() || $form_key->get('key') != $key) && (!$form_setup->
     $form_setup->add('Password', 'password', 'password');
     $form_setup->add($key, 'hidden', 'key');
     $form_setup->add('Submit', 'submit');
-    section('simple', $form_setup->format());
+    section('single', $form_setup->format());
 } else {
     import_lib('setup');
     $fp = fopen('setup/setup', 'w');
@@ -50,7 +50,7 @@ if ((!$form_key->received() || $form_key->get('key') != $key) && (!$form_setup->
     fwrite($fp, "\n");
     fwrite($fp, $form_setup->get('password'));
     fwrite($fp, "\n");
-    section('simple', 'Setup saved!');
+    section('single', 'Setup saved!');
 }
 
 ?>

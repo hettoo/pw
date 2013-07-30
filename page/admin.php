@@ -12,7 +12,7 @@ if (!$_SESSION['auth']) {
     $form->add('Name', 'text', 'name');
     $form->add('Password', 'password', 'password');
     $form->add('Submit', 'submit');
-    section('simple', $form->format());
+    section('single', $form->format());
 }
 
 ?>
