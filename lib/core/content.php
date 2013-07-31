@@ -30,23 +30,21 @@ function init_page($page) {
         $s = array_merge($s, $row);
         $id = $row['id'];
         $result = query("SELECT `content` FROM `content` WHERE `page`='$id'");
-        while ($row = $result->fetch_array()) {
+        while ($row = $result->fetch_array())
             $s['c'][] = $row['content'];
-        }
     }
     $real = real_page($page);
-    if ($real == '404' && $id != 0) {
-        if ($page == '404')
-            header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
-    } else if ($real != '404' || $page == '404') {
-        if ($page == '404')
-            header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
-        $file = page_file($real);
-        if (file_exists(script($file)))
-            import_once($file);
-    } else {
+    if ($real == '404' && $id != 0 && $page != '404') {
+        $real = 'default';
+    } else if ($real == '404' && $page != '404') {
         init_page('404');
+        return;
     }
+    if ($page == '404')
+        header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
+    $file = page_file($real);
+    if (file_exists(script($file)))
+        import_once($file);
 }
 
 function customs() {
