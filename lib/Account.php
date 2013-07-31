@@ -1,5 +1,6 @@
 <?php
 
+import_lib('core/session');
 import_lib('Form');
 
 class Account {
@@ -26,15 +27,15 @@ class Account {
             if ($row = $result->fetch_array()) {
                 $this->id = $row['id'];
                 $this->level = $row['level'];
+                $_SESSION[$this->table] = $row['id'];
                 return true;
             }
             section('single', 'Incorrect name / password combination.');
-        } else {
-            $form->add('Name', 'text', 'name');
-            $form->add('Password', 'password', 'password');
-            $form->add('Submit', 'submit');
-            section('single', $form->format());
         }
+        $form->add('Name', 'text', 'name');
+        $form->add('Password', 'password', 'password');
+        $form->add('Submit', 'submit');
+        section('single', $form->format());
         return false;
     }
 

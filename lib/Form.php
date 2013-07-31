@@ -66,7 +66,7 @@ class Form {
     private function fillAttributes($attributes, $name) {
         $attributes = array_merge($attributes, array('name' => $this->id . '_' . $name));
         if (!$this->clear)
-            $attributes = array_merge($attributes, array('value' => $this->received && !is_null(get($name)) ? get($name) : $this->data[$name]));
+            $attributes = array_merge($attributes, array('value' => $this->received && !is_null($this->get($name)) ? $this->get($name) : $this->data[$name]));
         return $attributes;
     }
 
