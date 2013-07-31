@@ -20,6 +20,8 @@ $s['menu'] = array(
 $s['css'] = 'main';
 $s['max_pages'] = 8;
 
+import_lib('core/database');
+
 if (file_exists('setup/setup')) {
     $fp = fopen('setup/setup', 'r');
     $s['host'] = read_line($fp);
@@ -28,7 +30,7 @@ if (file_exists('setup/setup')) {
     $s['password'] = read_line($fp);
     fclose($fp);
 
-    import_lib('core/database');
+    load_db();
 } else {
     $args = 'pw';
 }

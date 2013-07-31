@@ -26,7 +26,7 @@ function init_page($page) {
     $filtered = secure($page);
     $id = 0;
     $result = query("SELECT * FROM `page` WHERE `page`='$filtered'");
-    if ($row = $result->fetch_array()) {
+    if ($result && $row = $result->fetch_array()) {
         $s = array_merge($s, $row);
         $id = $row['id'];
         $result = query("SELECT `content` FROM `content` WHERE `page`='$id'");
