@@ -114,6 +114,8 @@ if ($s['head'] == '') {
     $s['head'] .= ' | ' . $s['project'];
 }
 
+$s['menu'] = parse_menu($s['menu']);
+
 import('templates/' . $s['template']);
 
 ?>

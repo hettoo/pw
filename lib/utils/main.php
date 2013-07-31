@@ -56,4 +56,16 @@ function autoclose($name) {
     return $name == 'br' || $name == 'img' || $name == 'input';
 }
 
+function parse_menu($string) {
+    $result = array();
+    $pairs = explode(',', $string);
+    foreach ($pairs as $pair) {
+        if (strpos($pair, ':') === false)
+            $result[] = $pair;
+        else
+            $result[] = explode(':', $pair);
+    }
+    return $result;
+}
+
 ?>
