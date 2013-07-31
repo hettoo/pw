@@ -5,8 +5,7 @@ function create_menu($level, $menu) {
     $result = '';
     foreach ($menu as $item) {
         if (is_array($item)) {
-            $link = $item[0];
-            $name = $item[1];
+            list($link, $name) = $item;
         } else {
             $link = strtolower($item);
             $name = $item;
