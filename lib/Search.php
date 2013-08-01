@@ -3,8 +3,8 @@
 class Search {
     private $index;
 
-    function __construct($index) {
-        $this->index = $index;
+    function __construct() {
+        $this->index = find_index('search');
     }
 
     function redirect($pager) {
@@ -18,14 +18,14 @@ class Search {
 
     function get() {
         global $hierarchy;
-        return secure(urldecode($hierarchy[$this->index]));
+        return secure(simplify(urldecode($hierarchy[$this->index])));
     }
 
     function format($pager = null) {
         global $hierarchy;
         $result = '<p>';
         $result .= '<form action="' . this_url() . '" method="POST"' . ($pager && $pager->drawable() ? ' class="left"' : '' ) . '>';
-        $result .= '<input type="text" name="name" value="' . urldecode($hierarchy[$this->index]) . '" />';
+        $result .= '<input type="text" name="name" value="' . secure(urldecode($hierarchy[$this->index]), 'html') . '" />';
         $result .= '<input type="submit" name="submit" value="Search">';
         $result .= '</form>';
         if ($pager)

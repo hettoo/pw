@@ -68,4 +68,21 @@ function parse_menu($string) {
     return $result;
 }
 
+function simplify($string) {
+    $result = strtolower($string);
+    $result = preg_replace('/[^a-zA-Z0-9\s]+/', '', $result);
+    $result = preg_replace('/\s+/', ' ', $result);
+    return $result;
+}
+
+function find_index($string) {
+    global $s;
+    $count = count($s['suburl']);
+    for ($i = 0; $i < $count; $i++) {
+        if ($s['suburl'][$i] == $string)
+            return substr_count($s['page'], '/') + $i + 1;
+    }
+    return null;
+}
+
 ?>

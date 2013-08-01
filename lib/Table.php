@@ -16,13 +16,13 @@ class Table {
     private $table;
     private $descending;
 
-    function __construct($order_index = null) {
+    function __construct() {
         $this->content = '';
         $this->x = 0;
         $this->pager = null;
         $this->search = null;
         $this->columns = array();
-        $this->order_index = $order_index;
+        $this->order_index = find_index('order');
         $this->head = true;
         $this->force_columns = 1;
         $this->empty_message = 'No data found.';

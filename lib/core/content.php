@@ -42,6 +42,7 @@ function init_page($page) {
     }
     if ($page == '404')
         header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
+    $s['page'] = $real;
     $file = page_file($real);
     if (file_exists(script($file)))
         import_once($file);

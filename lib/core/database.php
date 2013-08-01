@@ -27,6 +27,8 @@ function secure($variable, $mode = 'sql') {
         return $variable;
     if ($mode == 'sql')
         $result = $s['db']->real_escape_string($result);
+    elseif ($mode == 'html')
+        $result = htmlspecialchars($result);
     return $result;
 }
 
