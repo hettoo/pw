@@ -31,13 +31,13 @@ th, td {
     padding-right: 30px;
 }
 th a {
-    color: #fff;
+    color: #000;
 }
 th a:hover {
-    color: #fff;
+    color: #000;
 }
 li.active a {
-    color: #fff;
+    color: #000;
 }
 
 .small {
@@ -48,6 +48,9 @@ li.active a {
 }
 .large {
     width: 170px;
+}
+.huge {
+    width: 250px;
 }
 
 form.left {

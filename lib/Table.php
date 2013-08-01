@@ -69,7 +69,7 @@ class Table {
     }
 
     function getOrder() {
-        return ' ORDER BY ' . (isset($this->table) ? $this->table . '.' : '') . '`' . $this->column . '` ' . ($this->descending ? 'DESC' : 'ASC');
+        return ' ORDER BY ' . (isset($this->table) ? $this->table . '.' : '') . $this->column . ' ' . ($this->descending ? 'DESC' : 'ASC');
     }
 
     function getClasses($values) {

@@ -18,14 +18,14 @@ class Search {
 
     function get() {
         global $hierarchy;
-        return secure($hierarchy[$this->index]);
+        return secure(urldecode($hierarchy[$this->index]));
     }
 
     function format($pager = null) {
         global $hierarchy;
         $result = '<p>';
         $result .= '<form action="' . this_url() . '" method="POST"' . ($pager && $pager->drawable() ? ' class="left"' : '' ) . '>';
-        $result .= '<input type="text" name="name" value="' . $hierarchy[$this->index] . '" />';
+        $result .= '<input type="text" name="name" value="' . urldecode($hierarchy[$this->index]) . '" />';
         $result .= '<input type="submit" name="submit" value="Search">';
         $result .= '</form>';
         if ($pager)

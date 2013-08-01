@@ -9,7 +9,7 @@ class Pager {
     private $pages;
     private $rows;
 
-    function __construct($index, $limit, $query) {
+    function __construct($index, $query, $limit = 30) {
         global $hierarchy;
         $this->index = $index;
         $this->page = max((int)$hierarchy[$index] - 1, 0);
