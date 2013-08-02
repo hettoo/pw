@@ -4,17 +4,15 @@ class Pager {
     private $index;
     private $page;
     private $limit;
-    private $query;
 
     private $pages;
     private $rows;
 
-    function __construct($query, $limit = 20) {
+    function __construct($limit = 20) {
         global $hierarchy;
         $this->index = find_index('page');
         $this->page = max((int)$hierarchy[$this->index] - 1, 0);
         $this->limit = (int)$limit;
-        $this->query = $query;
     }
 
     function getIndex() {
@@ -29,15 +27,18 @@ class Pager {
         return $this->page;
     }
 
-    function query() {
+    function query($fields, $table, $rest = '') {
         global $s;
 
         $skip = $this->getOffset();
+        $result = query("SELECT COUNT(*) AS `count` FROM $table");
+        $row = $result->fetch_array();
+        $total = $row['count'];
         $this->rows = array();
-        $result = query("SELECT $this->query LIMIT $skip, 18446744073709551615");
-        for ($i = 0; $i < $this->limit && ($row = $result->fetch_array()); $i++)
+        $result = query("SELECT $fields FROM `$table` $rest LIMIT $skip, $this->limit");
+        for ($i = 0; $i < $row = $result->fetch_array(); $i++)
             $this->rows[] = $row;
-        $this->pages = ceil($result->num_rows / $this->limit) + $this->page;
+        $this->pages = ceil($total / $this->limit);
     }
 
     function getRows() {
