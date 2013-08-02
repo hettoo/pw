@@ -1,7 +1,7 @@
 <?php
 
-function pw_file($file) {
-    if (file_exists('custom/' . $file))
+function pw_file($file, $original = false) {
+    if (!$original && file_exists('custom/' . $file))
         return 'custom/' . $file;
     elseif (file_exists($file))
         return $file;
@@ -9,28 +9,34 @@ function pw_file($file) {
         return null;
 }
 
-function script($script) {
-    return pw_file($script . '.php');
+function script($script, $original = false) {
+    return pw_file($script . '.php', $original);
 }
 
-function import_once($script) {
+function import_once($script, $original = false) {
     global $base, $args, $hierarchy;
     global $s;
-    include_once(script($script));
+    $script = script($script, $original);
+    return include_once($script);
 }
 
-function import($script) {
+function import($script, $original = false) {
     global $base, $args, $hierarchy;
     global $s;
-    include(script($script));
+    $script = script($script, $original);
+    return include($script);
 }
 
-function import_raw($file) {
-    include(pw_file($file));
+function import_raw($file, $original = false) {
+    $file = pw_file($file, $original);
+    return include($file);
 }
 
 function import_lib($lib) {
-    import_once("lib/$lib");
+    $lib = 'lib/' . $lib;
+    if (!import_once($lib))
+        return import_once($lib, true);
+    return true;
 }
 
 import_lib('core/init');
