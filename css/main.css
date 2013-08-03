@@ -123,35 +123,22 @@ ul.pager li {
     border-bottom: 1px dotted #3c3;
 }
 
-.c0 {
-    color: black;
-}
-.c1 {
+.obligatory {
     color: red;
 }
-.c2 {
-    color: green;
+p.success {
+    padding: 10px;
+    background-color: #7f7;
 }
-.c3 {
-    color: yellow;
+p.errors {
+    padding: 10px;
+    background-color: #f77;
 }
-.c4 {
-    color: #25f;
-}
-.c5 {
-    color: cyan;
-}
-.c6 {
-    color: magenta;
-}
-.c7 {
-    color: white;
-}
-.c8 {
-    color: orange;
-}
-.c9 {
-    color: grey;
+p.errors span {
+    font-size: 14px;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
 }
 
 .time {

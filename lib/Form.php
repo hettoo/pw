@@ -8,11 +8,11 @@ class Form {
     private $clear;
     private $data;
 
-    function __construct($id, $clear = false) {
+    function __construct($id) {
         $this->html = '<form action="' . this_url() . '" method="POST">';
         $this->id = $id;
-        $this->clear = $clear;
         $this->data = array();
+        $this->clear = false;
         $this->tabled = false;
         if ($_POST['_form_id'] == $id)
             $this->received = true;
@@ -24,8 +24,8 @@ class Form {
         $this->data = $data;
     }
 
-    private function clear() {
-        $this->clear = true;
+    function setClear($clear) {
+        $this->clear = $clear;
     }
 
     function received() {
@@ -51,14 +51,23 @@ class Form {
         if ($type == 'textarea') {
             $value = $attributes['value'];
             unset($attributes['value']);
-            return create_element('textarea', $value, $attributes);
+            return create_element($type, $value, $attributes);
+        } else if ($type == 'select') {
+            $options = $attributes['options'];
+            unset($attributes['options']);
+            $active = $attributes['value'];
+            unset($attributes['value']);
+            $i = 0;
+            foreach ($options as $option)
+                $html .= '<option value="' . $i . '" ' . ($i++ == $active ? ' selected="selected"' : '') . '>' . $option . '</option>';
+            return create_element($type, $html, $attributes);
         } elseif ($this->tableLess($type)) {
             return create_element('input', '', array_merge($attributes, array('value' => $title, 'type' => $type)));
         } else {
             return create_element('input', '', array_merge($attributes, array('type' => $type)));
         }
     }
-    
+
     function get($name) {
         return $_POST[$this->id . '_' . $name];
     }
@@ -70,7 +79,7 @@ class Form {
         return $attributes;
     }
 
-    function add($title, $type, $name = null, $attributes = array()) {
+    function add($title, $type, $name = null, $obligatory = true, $attributes = array()) {
         if (isset($name))
             $attributes = $this->fillAttributes($attributes, $name);
         if ($this->tableLess($type)) {
@@ -84,7 +93,7 @@ class Form {
             $this->tabled = true;
         }
         $this->html .= '<tr>';
-        $this->html .= '<td>' . $title . '</td><td>' . $this->createInput($name, $title, $type, $attributes) . '</td>';
+        $this->html .= '<td>' . $title . ($obligatory ? ' <span class="obligatory">*</span>' : '') . '</td><td>' . $this->createInput($name, $title, $type, $attributes) . '</td>';
         $this->html .= '</tr>';
     }
 
