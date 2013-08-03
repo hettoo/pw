@@ -141,6 +141,13 @@ p.errors span {
     margin-bottom: 8px;
 }
 
+#map, #directions_panel {
+    width: 480px;
+}
+#map {
+    height: 300px;
+}
+
 .time {
     position: relative;
 }

@@ -16,6 +16,7 @@ $setup = new TableSetup('content');
 $setup->add('id', 'INT NOT NULL AUTO_INCREMENT PRIMARY KEY');
 $setup->add('page', 'INT NOT NULL');
 $setup->add('content', 'TEXT');
+$setup->add('ranking', 'INT DEFAULT 0 NOT NULL');
 $setup->setup();
 
 $setup = new TableSetup('admin');

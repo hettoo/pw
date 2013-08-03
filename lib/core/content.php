@@ -29,7 +29,7 @@ function init_page($page) {
     if ($result && $row = $result->fetch_array()) {
         $s = array_merge($s, $row);
         $id = $row['id'];
-        $result = query("SELECT `content` FROM `content` WHERE `page`='$id'");
+        $result = query("SELECT `content` FROM `content` WHERE `page`='$id' ORDER BY `ranking`");
         while ($row = $result->fetch_array())
             $s['c'][] = $row['content'];
     }
@@ -88,6 +88,7 @@ function default_head() {
     foreach ($css as $sheet)
         import_raw('css/' . $sheet . '.css');
     echo '</style>';
+    echo $s['header'];
     echo $s['analytics'];
 }
 

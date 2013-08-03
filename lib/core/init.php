@@ -17,6 +17,7 @@ $s['menu'] = ':Home,Test';
 $s['css'] = 'main';
 $s['max_pages'] = 8;
 
+$s['header'] = '';
 $s['suburl'] = array();
 
 import_lib('core/database');
