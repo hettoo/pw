@@ -7,7 +7,7 @@ function create_menu($level, $menu) {
         if (is_array($item)) {
             list($link, $name) = $item;
         } else {
-            $link = strtolower($item);
+            $link = nicen(strtolower($item));
             $name = $item;
         }
         $result .= '<div';
