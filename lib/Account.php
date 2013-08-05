@@ -15,25 +15,51 @@ class Account {
         $this->table = $table;
     }
 
-    function login() {
+    function loggedIn() {
+        return $this->id != 0;
+    }
+
+    function login($registration = null) {
         if ($this->restore())
             return true;
         $form = new Form($this->table);
+        $function = null;
+        if (!is_null($registration)) {
+            $function = array_pop($registration);
+        }
         if ($form->received()) {
-            $name = $form->get('name');
-            $password = $form->get('password');
-            $this->name = $name;
-            $result = query("SELECT `id`, `level` FROM `$this->table` WHERE `name`='$name' AND `password`=MD5('$password')");
-            if ($row = $result->fetch_array()) {
-                $this->id = $row['id'];
-                $this->level = $row['level'];
-                $_SESSION[$this->table] = $row['id'];
-                return true;
+            $login = true;
+            if ($function != null) {
+                $login = false;
+                $result = $function($form);
+                if (is_array($result) && !empty($result)) {
+                    section('errors', $result);
+                } elseif (is_array($result) || is_null($result)) {
+                    $login = true;
+                } else {
+                    section('error', $result);
+                }
             }
-            section('single', 'Incorrect name / password combination.');
+            if ($login) {
+                $name = $form->get('name');
+                $password = $form->get('password');
+                $this->name = $name;
+                $result = query("SELECT `id`, `level` FROM `$this->table` WHERE `name`='$name' AND `password`=MD5('$password')");
+                if ($row = $result->fetch_array()) {
+                    $this->id = $row['id'];
+                    $this->level = $row['level'];
+                    $_SESSION[$this->table] = $row['id'];
+                    return true;
+                }
+                section('single', 'Incorrect name / password combination.');
+            }
         }
         $form->add('Name', 'text', 'name');
         $form->add('Password', 'password', 'password');
+        if (!is_null($registration)) {
+            foreach ($registration as $arguments)
+                call_user_func_array(array($form, 'add'), $arguments);
+        }
         $form->add('Submit', 'submit');
         section('single', $form->format());
         return false;

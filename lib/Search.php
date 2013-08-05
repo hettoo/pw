@@ -11,8 +11,7 @@ class Search {
         global $hierarchy;
         if ($_POST['submit']) {
             $hierarchy[$pager->getIndex()] = '1';
-            header('Location: http://' . $_SERVER['HTTP_HOST'] . url($_POST['name'], $this->index, false));
-            exit;
+            redirect(url($_POST['name'], $this->index, false));
         }
     }
 

@@ -2,12 +2,55 @@
 
 import_lib('Account');
 
-$s['head'] = 'Admin';
+$s['suburl'] = array('mode');
+$register = $hierarchy[find_index('mode')] == 'register';
+
+$s['head'] = 'Admin' . ($register ? ' registration' : '');
 $s['description'] = 'Administration area.';
 $s['hide'] = true;
 
+function admin_registration($form) {
+    $key = file_get_contents('setup/key');
+    if (empty($key))
+        return 'No key file found.';
+    if ($form->get('key') != $key)
+        return 'Invalid key.';
+    $errors = array();
+    $name = $form->get('name');
+    $password = $form->get('password');
+    $level = $form->get('level');
+    $email = $form->get('email');
+    if (strlen($name) == 0)
+        $errors[] = 'The name field is required.';
+    if (strlen($password) == 0)
+        $errors[] = 'The password field is required.';
+    if ($password != $form->get('confirmation'))
+        $errors[] = 'The passwords do not match.';
+    if (!is_numeric($level))
+        $errors[] = 'Level must be a number.';
+    if (strlen($email) == 0)
+        $errors[] = 'The e-mail field is required.';
+    if (empty($errors)) {
+        $name = secure($name);
+        $password = secure($password);
+        $email = secure($email);
+        query("INSERT INTO `admin` SET `level`=$level, `name`='$name', `password`=MD5('$password'), `email`='$email'");
+    }
+    return $errors;
+}
+
 $account = new Account('admin');
-if ($account->login())
+$extra_fields = null;
+if ($register) {
+    $extra_fields = array(
+        array('Confirmation', 'password', 'confirmation'),
+        array('Level', 'text', 'level'),
+        array('E-mail', 'text', 'email'),
+        array('Key', 'text', 'key'),
+        admin_registration
+    );
+}
+if ($account->login($extra_fields))
     section('logout', 'admin');
 
 ?>
