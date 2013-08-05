@@ -102,4 +102,46 @@ function redirect_back() {
     redirect_raw($_SERVER['HTTP_REFERER']);
 }
 
+function escape_url($string) {
+    $string = str_replace('|', '||', $string);
+    $string = str_replace('\\', '|]', $string);
+    $string = str_replace('/', '|[', $string);
+    $string = str_replace('#', '|+', $string);
+    return $string;
+}
+
+function unescape_url($string) {
+    $string = rawurldecode($string);
+    $length = strlen($string);
+    $result = '';
+    $escaped = false;
+    for ($i = 0; $i < $length; $i++) {
+        if ($escaped) {
+            switch ($string[$i]) {
+            case '|':
+                $result .= '|';
+                break;
+            case ']':
+                $result .= '\\';
+                break;
+            case '[':
+                $result .= '/';
+                break;
+            case '+':
+                $result .= '#';
+                break;
+            }
+            $escaped = false;
+        } else {
+            if ($string[$i] == '|')
+                $escaped = true;
+            else
+                $result .= $string[$i];
+        }
+    }
+    if ($escaped)
+        $result .= '|';
+    return $result;
+}
+
 ?>

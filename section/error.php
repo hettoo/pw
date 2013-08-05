@@ -1,1 +1,1 @@
-<p class="errors"><?= $s['d']; ?></p>
+<p class="error"><?= $s['d']; ?></p>

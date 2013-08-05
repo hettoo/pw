@@ -130,11 +130,11 @@ p.success {
     padding: 10px;
     background-color: #7f7;
 }
-p.errors {
+p.error {
     padding: 10px;
     background-color: #f77;
 }
-p.errors span {
+p.error span {
     font-size: 14px;
     font-weight: bold;
     display: block;

@@ -1,4 +1,4 @@
-<p class="errors">
+<p class="error">
 <span>Errors:</span>
 <?php foreach ($s['d'] as $e): ?>
 <?= $e; ?><br />
