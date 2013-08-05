@@ -15,7 +15,8 @@ $s['suburl'] = array('order', 'page', 'search');
 
 $table = new Table();
 $table->addColumn(array('name' => 'name', 'title' => 'Name', 'size' => 'large'));
-$table->addColumn(array('name' => 'password', 'title' => 'Password', 'size' => 'large'));
+if ($s['admin']->permits($s['admin_level']))
+    $table->addColumn(array('name' => 'password', 'title' => 'Password', 'size' => 'large'));
 $table->addColumn(array('name' => 'email', 'title' => 'E-mail', 'size' => 'large'));
 
 $table->processOrder('name');
@@ -31,7 +32,8 @@ $pager->query('`name`, `password`, `email`', 'admin', "WHERE `name` LIKE '%$like
 $rows = $pager->getRows();
 foreach ($rows as $row) {
     $table->addField($row['name']);
-    $table->addField($row['password']);
+    if ($s['admin']->permits($s['admin_level']))
+        $table->addField($row['password']);
     $table->addField($row['email']);
 }
 $table->setPager($pager);

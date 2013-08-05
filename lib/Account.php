@@ -83,8 +83,8 @@ class Account {
         unset($_SESSION[$this->table]);
     }
 
-    function getLevel() {
-        return $this->level;
+    function permits($level) {
+        return $this->level >= $level;
     }
 }
 

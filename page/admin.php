@@ -8,6 +8,7 @@ import_lib('common/admin');
 if (is_null($s['admin']))
     return;
 
+section('logout', 'admin');
 list_modules();
 
 ?>
