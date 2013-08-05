@@ -86,7 +86,7 @@ function find_index($string) {
 }
 
 function nicen($string) {
-    return preg_replace('/[^a-zA-Z0-9_\-]/', '', $string);
+    return preg_replace('/[^a-z0-9_\-]/', '', strtolower($string));
 }
 
 function redirect_raw($location) {
