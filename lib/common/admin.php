@@ -51,7 +51,7 @@ if ($register) {
     );
 }
 $result = $account->login($extra_fields);
-if (!$result || $register) {
+if (!$result) {
     $s['head'] = 'Admin' . ($register ? ' registration' : '');
     $s['description'] = 'Administration area.';
 }

@@ -10,11 +10,11 @@ if (!$s['admin_result'])
 
 section('modules', array('admin', array(
     array('Users', array(
-        array('list', 'List users'),
+        array('', 'List users'),
         array('add', 'Add user')
     )),
     array('Pages', array(
-        array('list', 'List pages'),
+        array('', 'List pages'),
         array('add', 'Add page')
     ))
 )));
