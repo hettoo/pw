@@ -55,6 +55,6 @@ if (!$result) {
     $s['head'] = 'Admin' . ($register ? ' registration' : '');
     $s['description'] = 'Administration area.';
 }
-$s['admin_result'] = $result;
+$s['admin'] = $result ? $account : null;
 
 ?>

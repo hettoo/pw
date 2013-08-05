@@ -1,3 +1,8 @@
-<?php foreach ($s['d'][1] as $module): ?>
-<?php subsection('module', array($s['d'][0], $module)) ?>
+<?php
+
+list($prefix, $modules) = $s['d'];
+
+?>
+<?php foreach ($modules as $module): ?>
+<?php subsection('module', array($prefix, $module)) ?>
 <?php endforeach ?>

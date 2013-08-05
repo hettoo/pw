@@ -22,6 +22,7 @@ class Table {
         $this->pager = null;
         $this->search = null;
         $this->columns = array();
+        $this->column = null;
         $this->order_index = find_index('order');
         $this->head = true;
         $this->force_columns = 1;
@@ -48,7 +49,7 @@ class Table {
         $order = secure($hierarchy[$this->order_index]);
         if (isset($default)) {
             if ($order == '')
-                $order = 'name';
+                $order = $default;
             $hierarchy[$this->order_index] = $order;
         }
         $descending = $order[0] == '-';
@@ -57,11 +58,11 @@ class Table {
         return array($order, $descending);
     }
 
-    function processOrder($default_order = null) {
+    function processOrder($default_order = 'name') {
         $table = '';
-        list($order, $this->descending) = $this->getOrdering($this->order_index, $default_order);
+        list($order, $this->descending) = $this->getOrdering($default_order);
         foreach ($this->columns as $values) {
-            if ($values['name'] == $order) {
+            if ($values[$default_order] == $order) {
                 $this->column = $values['column'];
                 $this->table = $values['table'];
             }
@@ -69,6 +70,8 @@ class Table {
     }
 
     function getOrder() {
+        if (!isset($this->column))
+            return '';
         return ' ORDER BY ' . (isset($this->table) ? $this->table . '.' : '') . $this->column . ' ' . ($this->descending ? 'DESC' : 'ASC');
     }
 

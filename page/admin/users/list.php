@@ -4,7 +4,7 @@ $s['head'] = 'Admin user list';
 $s['description'] = 'Admin user list.';
 
 import_lib('common/admin');
-if (!$s['admin_result'])
+if (is_null($s['admin']))
     return;
 
 import_lib('Table');
