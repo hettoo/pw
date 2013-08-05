@@ -62,7 +62,7 @@ class Table {
         $table = '';
         list($order, $this->descending) = $this->getOrdering($default_order);
         foreach ($this->columns as $values) {
-            if ($values[$default_order] == $order) {
+            if ($values['name'] == $order && !$values['no-order']) {
                 $this->column = $values['column'];
                 $this->table = $values['table'];
             }
@@ -72,7 +72,7 @@ class Table {
     function getOrder() {
         if (!isset($this->column))
             return '';
-        return ' ORDER BY ' . (isset($this->table) ? $this->table . '.' : '') . $this->column . ' ' . ($this->descending ? 'DESC' : 'ASC');
+        return ' ORDER BY `' . (isset($this->table) ? $this->table . '`.`' : '') . $this->column . '` ' . ($this->descending ? 'DESC' : 'ASC');
     }
 
     function getClasses($values) {
@@ -157,7 +157,8 @@ class Table {
                 $result .= '>';
                 if (isset($this->order_index)) {
                     $result .= '<a href="' . url($this->invert($values['name']), $this->order_index, false) . '">';
-                    $result .= $this->prefix($values['name']);
+                    if (!$values['no-order'])
+                        $result .= $this->prefix($values['name']);
                 }
                 $result .= $values['title'];
                 if (isset($this->order_index))

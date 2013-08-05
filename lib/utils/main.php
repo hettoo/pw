@@ -98,6 +98,14 @@ function redirect($url) {
     redirect_raw('http://' . $_SERVER['HTTP_HOST'] . $url);
 }
 
+function redirect_up($levels = 1) {
+    global $s;
+    $url = explode('/', $s['page']);
+    for ($i = 0; $i < $levels; $i++)
+        array_pop($url);
+    redirect(url(implode('/', $url)));
+}
+
 function redirect_back() {
     redirect_raw($_SERVER['HTTP_REFERER']);
 }
