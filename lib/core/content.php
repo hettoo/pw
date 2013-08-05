@@ -20,7 +20,7 @@ function real_page($page) {
     return $page;
 }
 
-function init_page($page) {
+function init_page($page, $single = false) {
     global $s;
     $s['c'] = array();
     $filtered = secure($page);
@@ -46,6 +46,12 @@ function init_page($page) {
     $file = page_file($real);
     if (file_exists(script($file)))
         import_once($file);
+}
+
+function subpage($sub) {
+    global $s, $hierarchy;
+    $hierarchy = explode('/', $s['page'] . '/' . $sub);
+    init_page($s['page'] . '/' . $sub, true);
 }
 
 function customs() {

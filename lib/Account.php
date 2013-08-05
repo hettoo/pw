@@ -82,6 +82,10 @@ class Account {
     function logout() {
         unset($_SESSION[$this->table]);
     }
+
+    function getLevel() {
+        return $this->level;
+    }
 }
 
 ?>

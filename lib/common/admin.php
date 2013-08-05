@@ -51,10 +51,51 @@ if ($register) {
     );
 }
 $result = $account->login($extra_fields);
-if (!$result) {
+
+function fail() {
+    global $s;
+    $s['admin'] = null;
     $s['head'] = 'Admin' . ($register ? ' registration' : '');
     $s['description'] = 'Administration area.';
 }
-$s['admin'] = $result ? $account : null;
+
+if (!$result) {
+    fail();
+} else {
+    $s['admin'] = $account;
+    $s['modules'] = array();
+    $s['module_levels'] = array();
+    $s['submenu'] = array();
+
+    function add_module($name, $level, $default, $items) {
+        global $s;
+        $nice = nicen($name);
+        if ($s['admin']->getLevel() >= $level) {
+            $s['modules'][] = array($name, $items);
+            $s['submenu'][] = array($nice, $name);
+        }
+        $s['module_levels'][$nice] = $level;
+        $s['module_defaults'][$nice] = $default;
+    }
+
+    import_lib('admin/init');
+
+    $s['submenu'] = create_menu(1, $s['submenu']);
+
+    $module = $hierarchy[1];
+    $level = $s['module_levels'][$module];
+    if (isset($level) && $s['admin']->getLevel() < $level) {
+        section('single', 'You do not have permission to be here.');
+        fail();
+    } elseif (count($hierarchy) == 2 && isset($s['module_defaults'][$module])) {
+        subpage($module . '/' . $s['module_defaults'][$module]);
+        $s['admin'] = null;
+    }
+}
+
+function list_modules() {
+    global $s, $hierarchy;
+    section('modules', array($hierarchy[0], $s['modules']));
+}
 
 ?>
