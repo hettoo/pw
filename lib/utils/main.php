@@ -90,6 +90,14 @@ function find_index($string) {
     return null;
 }
 
+function find_value($string) {
+    global $hierarchy;
+    $index = find_index($string);
+    if (isset($index))
+        return $hierarchy[$index];
+    return null;
+}
+
 function nicen($string) {
     return preg_replace('/[^a-z0-9_\-]/', '', strtolower($string));
 }

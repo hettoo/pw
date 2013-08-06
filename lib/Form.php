@@ -8,7 +8,7 @@ class Form {
     private $clear;
     private $data;
 
-    function __construct($id) {
+    function __construct($id = 'form') {
         $this->html = '<form action="' . this_url() . '" method="POST">';
         $this->id = $id;
         $this->data = array();
@@ -61,6 +61,9 @@ class Form {
             foreach ($options as $option)
                 $html .= '<option value="' . $i . '" ' . ($i++ == $active ? ' selected="selected"' : '') . '>' . $option . '</option>';
             return create_element($type, $html, $attributes);
+        } elseif ($type == 'checkbox') {
+            $attributes['value'] = '1';
+            return create_element('input', '', array_merge($attributes, array('type' => $type)));
         } elseif ($this->tableLess($type)) {
             return create_element('input', '', array_merge($attributes, array('value' => $title, 'type' => $type)));
         } else {

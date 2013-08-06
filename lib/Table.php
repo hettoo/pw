@@ -55,9 +55,9 @@ class Table {
                 $order = $default;
             $hierarchy[$this->order_index] = $order;
         }
-        $descending = $order[0] == '-';
+        $descending = substr($order, -1) == '-';
         if ($descending)
-            $order = substr($order, 1);
+            $order = substr($order, 0, -1);
         return array($order, $descending);
     }
 
@@ -124,16 +124,16 @@ class Table {
         global $hierarchy;
         $current = $hierarchy[$this->order_index];
         if ($current == $link)
-            return '-' . $link;
+            return $link . '-';
         return $link;
     }
 
-    function prefix($link) {
+    function suffix($link) {
         global $hierarchy;
         $current = $hierarchy[$this->order_index];
         if ($current == $link)
             return '+';
-        if ($current == '-' . $link)
+        if ($current == $link . '-')
             return '-';
         return '';
     }
@@ -165,13 +165,13 @@ class Table {
                     $result .= ' class="' . implode(' ', $classes) . '"';
                 $result .= '>';
                 $order = isset($this->order_index) && !$values['no-order'];
-                if ($order) {
-                    $result .= '<a href="' . url($this->invert($values['name']), $this->order_index, false) . '">';
-                    $result .= $this->prefix($values['name']);
-                }
-                $result .= $values['title'];
                 if ($order)
+                    $result .= '<a href="' . url($this->invert($values['name']), $this->order_index, false) . '">';
+                $result .= $values['title'];
+                if ($order) {
+                    $result .= $this->suffix($values['name']);
                     $result .= '</a>';
+                }
                 $result .= '</th>';
             }
             $result .= '</tr>';
