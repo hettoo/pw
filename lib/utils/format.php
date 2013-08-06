@@ -18,14 +18,14 @@ function create_menu($level, $menu) {
     return $result;
 }
 
-function action_list($level, $list) {
+function action_list($level, $list, $glue = ' | ') {
     $result = '<div class="actions">';
     $first = true;
     foreach ($list as $item) {
         if ($first)
             $first = false;
         else
-            $result .= ' | ';
+            $result .= $glue;
         if (is_array($item)) {
             list($link, $name) = $item;
         } else {

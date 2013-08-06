@@ -42,6 +42,8 @@ class Table {
     }
 
     function addColumn($values) {
+        if (!isset($values['name']))
+            $values['name'] = nicen($values['title']);
         if (!isset($values['column']))
             $values['column'] = $values['name'];
         $this->columns[] = $values;

@@ -14,11 +14,11 @@ $action_index = page_index();
 $urls = action_list($action_index, array(array('edit', 'add')));
 
 $table = new Table();
-$table->addColumn(array('name' => 'id', 'title' => 'Id', 'size' => 'small'));
-$table->addColumn(array('name' => 'name', 'title' => 'Name', 'size' => 'large'));
+$table->addColumn(array('title' => 'Id', 'size' => 'small'));
+$table->addColumn(array('title' => 'Name', 'size' => 'large'));
 if ($s['admin']->permits($s['admin_level']))
-    $table->addColumn(array('name' => 'password', 'title' => 'Password', 'size' => 'large'));
-$table->addColumn(array('name' => 'level', 'title' => 'Level', 'size' => 'small'));
+    $table->addColumn(array('title' => 'Password', 'size' => 'large'));
+$table->addColumn(array('title' => 'Level', 'size' => 'small'));
 $table->addColumn(array('name' => 'email', 'title' => 'E-mail', 'size' => 'large'));
 $table->addColumn(array('name' => 'actions', 'title' => '', 'size' => 'medium', 'no-order' => true));
 $table->processOrder('id');
@@ -38,7 +38,7 @@ $pager->query('*', 'admin', "WHERE `name`$like$order", function ($row, $args) {
         $table->addField($row['password']);
     $table->addField($row['level']);
     $table->addField($row['email']);
-    $table->addField('<a href="' . url('edit/' . $row['id'], $action_index) . '">edit</a> <a href="' . url('delete/' . $row['id'], $action_index) . '">delete</a>');
+    $table->addField(action_list($action_index, array(array('edit/' . $row['id'], 'edit'), array('delete/' . $row['id'], 'delete')), ' '));
 }, array($table, $action_index));
 
 section('single', $urls);
