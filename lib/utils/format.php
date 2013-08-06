@@ -76,7 +76,7 @@ function create_element($name, $content = '', $attributes = array()) {
         $result .= ' /';
     $result .= '>';
     if (!autoclose($name)) {
-        $result .= secure($content . $attributes['value'], 'html');
+        $result .= $content . secure($attributes['value'], 'html');
         $result .= '</' . $name . '>';
     }
     return $result;

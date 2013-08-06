@@ -29,7 +29,7 @@ if ($form->received()) {
         query("INSERT INTO$query");
     redirect_up();
 }
-$form->add('Key', 'text', 'key', false);
+$form->add('Key', 'text', 'key');
 $form->add('Value', 'text', 'value', false);
 $form->add('Submit', 'submit');
 

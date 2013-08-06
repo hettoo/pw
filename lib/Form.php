@@ -51,7 +51,7 @@ class Form {
         if ($type == 'textarea') {
             $value = $attributes['value'];
             unset($attributes['value']);
-            return create_element($type, $value, $attributes);
+            return create_element($type, secure($value, 'html'), $attributes);
         } else if ($type == 'select') {
             $options = $attributes['options'];
             unset($attributes['options']);
