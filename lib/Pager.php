@@ -12,6 +12,7 @@ class Pager {
         global $hierarchy;
         $this->index = find_index('page');
         $this->page = max((int)$hierarchy[$this->index] - 1, 0);
+        $hierarchy[$this->index] = $this->page + 1;
         $this->limit = (int)$limit;
     }
 
@@ -27,7 +28,7 @@ class Pager {
         return $this->page;
     }
 
-    function query($fields, $table, $rest = '') {
+    function query($fields, $table, $rest = '', $function = null, $args = null) {
         global $s;
 
         $skip = $this->getOffset();
@@ -39,6 +40,10 @@ class Pager {
         for ($i = 0; $i < $row = $result->fetch_array(); $i++)
             $this->rows[] = $row;
         $this->pages = ceil($total / $this->limit);
+        if (isset($function)) {
+            foreach ($this->rows as $row)
+                $function($row, $args);
+        }
     }
 
     function getRows() {

@@ -3,21 +3,25 @@
 class Search {
     private $index;
 
-    function __construct() {
+    function __construct($redirect = true) {
         $this->index = find_index('search');
+        if ($redirect)
+            $this->redirect();
     }
 
-    function redirect($pager) {
+    function redirect() {
         global $hierarchy;
-        if ($_POST['submit']) {
-            $hierarchy[$pager->getIndex()] = '1';
+        if ($_POST['submit'])
             redirect(url(escape_url($_POST['name']), $this->index, false));
-        }
     }
 
     function get() {
         global $hierarchy;
-        return secure(simplify(unescape_url($hierarchy[$this->index])));
+        return simplify(unescape_url($hierarchy[$this->index]));
+    }
+
+    function getLike() {
+        return " LIKE '%" . secure($this->get()) . "%'";
     }
 
     function format($pager = null) {

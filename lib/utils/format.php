@@ -18,6 +18,26 @@ function create_menu($level, $menu) {
     return $result;
 }
 
+function action_list($level, $list) {
+    $result = '<div class="actions">';
+    $first = true;
+    foreach ($list as $item) {
+        if ($first)
+            $first = false;
+        else
+            $result .= ' | ';
+        if (is_array($item)) {
+            list($link, $name) = $item;
+        } else {
+            $link = nicen($item);
+            $name = $item;
+        }
+        $result .= '<a href="' . url($link, $level) . '">' . $name . '</a>';
+    }
+    $result .= '</div>';
+    return $result;
+}
+
 function format_date_relative($time) {
     return '<span class="time">' . relative_time($time) . ($time == 0 ? '' : '<span class="exacttime">' . exact_datetime($time) . '</span>') . '</span>';
 }

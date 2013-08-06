@@ -8,36 +8,32 @@ if (is_null($s['admin']))
     return;
 
 import_lib('Table');
-import_lib('Search');
-import_lib('Pager');
 
 $s['suburl'] = array('order', 'page', 'search');
+$action_index = page_index();
+$urls = action_list($action_index, array(array('edit', 'add')));
 
 $table = new Table();
 $table->addColumn(array('name' => 'key', 'title' => 'Key', 'size' => 'large'));
 $table->addColumn(array('name' => 'value', 'title' => 'Value', 'size' => 'large'));
 $table->addColumn(array('name' => 'actions', 'title' => '', 'size' => 'medium', 'no-order' => true));
-
 $table->processOrder('key');
 
-$search = new Search();
-$like = $search->get();
+$pager = $table->setPager();
+$search = $table->setSearch();
 
-$pager = new Pager();
+$like = $search->getLike();
+$order = $table->getOrder();
 
-$search->redirect($pager);
-
-$pager->query('`key`, `value`', 'config', "WHERE `key` LIKE '%$like%'" . $table->getOrder());
-$rows = $pager->getRows();
-foreach ($rows as $row) {
+$pager->query('`key`, `value`', 'config', "WHERE `key`$like OR `value`$like$order", function ($row, $args) {
+    list($table, $action_index) = $args;
     $table->addField($row['key']);
     $table->addField($row['value']);
-    $table->addField('<a href="' . url('edit/' . $row['key'], 2) . '">edit</a> <a href="' . url('delete/' . $row['key'], 2) . '">delete</a>');
-}
-$table->setPager($pager);
-$table->setSearch($search);
+    $table->addField('<a href="' . url('edit/' . $row['key'], $action_index) . '">edit</a> <a href="' . url('delete/' . $row['key'], $action_index) . '">delete</a>');
+}, array($table, $action_index));
 
-section('single', '<a href="' . url('edit', 2) . '">add</a>');
+section('single', $urls);
 section('single', $table->format());
+section('single', $urls);
 
 ?>

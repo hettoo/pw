@@ -67,7 +67,7 @@ if (!$result) {
     $s['module_levels'] = array();
     $s['submenu'] = array(array('', 'Overview'));
 
-    function add_module($name, $level, $default, $items) {
+    function add_module($name, $level, $items) {
         global $s;
         $nice = nicen($name);
         if ($s['admin']->permits($level)) {
@@ -75,7 +75,6 @@ if (!$result) {
             $s['submenu'][] = array($nice, $name);
         }
         $s['module_levels'][$nice] = $level;
-        $s['module_defaults'][$nice] = $default;
     }
 
     import_lib('admin/init');
@@ -87,9 +86,6 @@ if (!$result) {
     if (isset($level) && !$s['admin']->permits($level)) {
         section('single', 'You do not have permission to be here.');
         fail();
-    } elseif (count($hierarchy) == 2 && isset($s['module_defaults'][$module])) {
-        subpage($module . '/' . $s['module_defaults'][$module]);
-        $s['admin'] = null;
     }
 }
 

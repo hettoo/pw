@@ -75,12 +75,17 @@ function simplify($string) {
     return $result;
 }
 
+function page_index() {
+    global $s;
+    return substr_count($s['page'], '/');
+}
+
 function find_index($string) {
     global $s;
     $count = count($s['suburl']);
     for ($i = 0; $i < $count; $i++) {
         if ($s['suburl'][$i] == $string)
-            return substr_count($s['page'], '/') + $i + 1;
+            return page_index() + $i + 1;
     }
     return null;
 }

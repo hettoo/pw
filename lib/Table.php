@@ -1,5 +1,8 @@
 <?php
 
+import_lib('Pager');
+import_lib('Search');
+
 class Table {
     private $columns;
     private $order_index;
@@ -103,12 +106,18 @@ class Table {
             $this->content .= '</tr>';
     }
 
-    function setPager($pager) {
+    function setPager($pager = null) {
+        if (!isset($pager))
+            $pager = new Pager();
         $this->pager = $pager;
+        return $pager;
     }
 
-    function setSearch($search) {
+    function setSearch($search = null) {
+        if (!isset($search))
+            $search = new Search();
         $this->search = $search;
+        return $search;
     }
 
     function invert($link) {
@@ -155,13 +164,13 @@ class Table {
                 if (count($classes))
                     $result .= ' class="' . implode(' ', $classes) . '"';
                 $result .= '>';
-                if (isset($this->order_index)) {
+                $order = isset($this->order_index) && !$values['no-order'];
+                if ($order) {
                     $result .= '<a href="' . url($this->invert($values['name']), $this->order_index, false) . '">';
-                    if (!$values['no-order'])
-                        $result .= $this->prefix($values['name']);
+                    $result .= $this->prefix($values['name']);
                 }
                 $result .= $values['title'];
-                if (isset($this->order_index))
+                if ($order)
                     $result .= '</a>';
                 $result .= '</th>';
             }
