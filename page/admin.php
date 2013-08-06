@@ -8,7 +8,11 @@ import_lib('common/admin');
 if (is_null($s['admin']))
     return;
 
-section('logout', 'admin');
+$action_index = page_index() + 1;
+$urls = action_list($action_index, array('logout'));
+
+section('single', $urls);
 list_modules();
+section('single', $urls);
 
 ?>

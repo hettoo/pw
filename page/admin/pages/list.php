@@ -10,5 +10,10 @@ if (is_null($s['admin']))
 import_lib('Table');
 
 $s['suburl'] = array('order', 'page', 'search');
+$action_index = page_index();
+$urls = action_list($action_index, array(array('edit', 'add')));
+
+section('single', $urls);
+section('single', $urls);
 
 ?>
