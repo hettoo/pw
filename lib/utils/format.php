@@ -71,13 +71,12 @@ function format_rank($rank) {
 function create_element($name, $content = '', $attributes = array()) {
     $result = '<' . $name;
     foreach ($attributes as $key => $value)
-        $result .= ' ' . $key . '="' . $value . '"';
+        $result .= ' ' . $key . '="' . secure($value, 'html') . '"';
     if (autoclose($name))
         $result .= ' /';
     $result .= '>';
     if (!autoclose($name)) {
-        $result .= $content;
-        $result .= $attributes['value'];
+        $result .= secure($content . $attributes['value'], 'html');
         $result .= '</' . $name . '>';
     }
     return $result;
