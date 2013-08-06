@@ -63,12 +63,14 @@ class Form {
             return create_element($type, $html, $attributes);
         } elseif ($type == 'checkbox') {
             $attributes['value'] = '1';
-            return create_element('input', '', array_merge($attributes, array('type' => $type)));
+            $attributes['type'] = $type;
         } elseif ($this->tableLess($type)) {
-            return create_element('input', '', array_merge($attributes, array('value' => $title, 'type' => $type)));
+            $attributes['value'] = $title;
+            $attributes['type'] = $type;
         } else {
-            return create_element('input', '', array_merge($attributes, array('type' => $type)));
+            $attributes['type'] = $type;
         }
+        return create_element('input', '', $attributes);
     }
 
     function get($name) {
@@ -76,9 +78,9 @@ class Form {
     }
 
     private function fillAttributes($attributes, $name) {
-        $attributes = array_merge($attributes, array('name' => $this->id . '_' . $name));
+        $attributes['name'] = $this->id . '_' . $name;
         if (!$this->clear)
-            $attributes = array_merge($attributes, array('value' => $this->received && !is_null($this->get($name)) ? $this->get($name) : $this->data[$name]));
+            $attributes['value'] = $this->received && !is_null($this->get($name)) ? $this->get($name) : $this->data[$name];
         return $attributes;
     }
 
