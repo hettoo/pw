@@ -31,7 +31,7 @@ if ($form->received()) {
     if ($change_password)
         $query .= ", `password`=MD5('$password')";
     if (isset($id))
-        query("UPDATE$query WHERE `id`='$id'");
+        query("UPDATE$query WHERE `id`=$id");
     else
         query("INSERT INTO$query");
     redirect_up();
