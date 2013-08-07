@@ -3,14 +3,16 @@
 class Form {
     private $html;
     private $id;
+    private $inline;
     private $received;
     private $tabled;
     private $clear;
     private $data;
 
-    function __construct($id = 'form') {
-        $this->html = '<form action="' . this_url() . '" method="POST">';
+    function __construct($id = 'form', $inline = false, $class = null) {
+        $this->html = '<form action="' . this_url() . '" method="POST"' . (isset($class) ? ' class="' . $class . '"' : '') . '>';
         $this->id = $id;
+        $this->inline = $inline;
         $this->data = array();
         $this->clear = false;
         $this->tabled = false;
@@ -87,7 +89,7 @@ class Form {
     function add($title, $type, $name = null, $obligatory = true, $attributes = array()) {
         if (isset($name))
             $attributes = $this->fillAttributes($attributes, $name);
-        if ($this->tableLess($type)) {
+        if ($this->inline || $this->tableLess($type)) {
             $this->html .= $this->finishTable();
             $this->tabled = false;
             $this->html .= $this->createInput($name, $title, $type, $attributes);

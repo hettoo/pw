@@ -117,7 +117,7 @@ class Table {
 
     function setSearch($search = null) {
         if (!isset($search))
-            $search = new Search();
+            $search = new Search(true, $this->pager);
         $this->search = $search;
         return $search;
     }

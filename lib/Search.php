@@ -1,18 +1,24 @@
 <?php
 
+import_lib('Form');
+
 class Search {
     private $index;
+    private $form;
+    private $pager;
 
-    function __construct($redirect = true) {
+    function __construct($redirect = true, $pager = null) {
         $this->index = find_index('search');
         if ($redirect)
             $this->redirect();
+        $this->form = null;
+        $this->pager = $pager;
     }
 
     function redirect() {
-        global $hierarchy;
-        if ($_POST['submit'])
-            redirect(url(escape_url($_POST['name']), $this->index, false));
+        $form = new Form('search');
+        if ($form->received())
+            redirect(url(escape_url($form->get('name')), $this->index, false));
     }
 
     function get() {
@@ -24,15 +30,22 @@ class Search {
         return " LIKE '%" . secure($this->get()) . "%'";
     }
 
-    function format($pager = null) {
+    private function setForm() {
         global $hierarchy;
+        if (isset($this->form))
+            return;
+        $this->form = new Form('search', true, isset($this->pager) && $this->pager->drawable() ? 'left' : null);
+        $this->form->setData(array('name' => unescape_url($hierarchy[$this->index])));
+        $this->form->add('Name', 'text', 'name');
+        $this->form->add('Search', 'submit');
+    }
+
+    function format() {
         $result = '<p>';
-        $result .= '<form action="' . this_url() . '" method="POST"' . ($pager && $pager->drawable() ? ' class="left"' : '' ) . '>';
-        $result .= '<input type="text" name="name" value="' . secure(unescape_url($hierarchy[$this->index]), 'html') . '" />';
-        $result .= '<input type="submit" name="submit" value="Search">';
-        $result .= '</form>';
-        if ($pager)
-            $result .= $pager->format();
+        $this->setForm();
+        $result .= $this->form->format();
+        if ($this->pager)
+            $result .= $this->pager->format();
         $result .= '</p>';
         return $result;
     }
