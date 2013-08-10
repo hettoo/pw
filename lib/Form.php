@@ -10,7 +10,7 @@ class Form {
     private $data;
 
     function __construct($id = 'form', $inline = false, $class = null) {
-        $this->html = '<form action="' . this_url() . '" method="POST"' . (isset($class) ? ' class="' . $class . '"' : '') . '>';
+        $this->html = '<form action="' . this_url() . '" method="POST" enctype="multipart/form-data"' . (isset($class) ? ' class="' . $class . '"' : '') . '>';
         $this->id = $id;
         $this->inline = $inline;
         $this->data = array();
@@ -79,16 +79,20 @@ class Form {
         return $_POST[$this->id . '_' . $name];
     }
 
-    private function fillAttributes($attributes, $name) {
+    function getFile($name) {
+        return $_FILES[$this->id . '_' . $name];
+    }
+
+    private function fillAttributes($attributes, $name, $set_value) {
         $attributes['name'] = $this->id . '_' . $name;
-        if (!$this->clear)
+        if (!$this->clear && $set_value)
             $attributes['value'] = $this->received && !is_null($this->get($name)) ? $this->get($name) : $this->data[$name];
         return $attributes;
     }
 
     function add($title, $type, $name = null, $obligatory = true, $attributes = array()) {
         if (isset($name))
-            $attributes = $this->fillAttributes($attributes, $name);
+            $attributes = $this->fillAttributes($attributes, $name, $type != 'file');
         if ($this->inline || $this->tableLess($type)) {
             $this->html .= $this->finishTable();
             $this->tabled = false;
