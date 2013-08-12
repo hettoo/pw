@@ -91,7 +91,7 @@ if (!$result) {
 
 function list_modules() {
     global $s, $hierarchy;
-    section('modules', array($hierarchy[0], $s['modules']));
+    wrap_section('modules', 'modules', array($hierarchy[0], $s['modules']));
 }
 
 ?>

@@ -59,9 +59,13 @@ function customs() {
     return count($s['c']);
 }
 
-function section($section, $data = '') {
+function wrap_section($id, $section, $data = '') {
     global $s;
-    $s['sections'][] = array($section, $data);
+    $s['sections'][] = array($id, $section, $data);
+}
+
+function section($section, $data = '') {
+    wrap_section(null, $section, $data);
 }
 
 function subsection($section, $data = '') {
@@ -75,8 +79,13 @@ function body() {
     if (empty($s['sections'])) {
         subsection('fallback');
     } else {
-        foreach ($s['sections'] as $section_data)
-            subsection($section_data[0], $section_data[1]);
+        foreach ($s['sections'] as $section_data) {
+            if (isset($section_data[0]))
+                echo '<div id="' . $section_data[0] . '">';
+            subsection($section_data[1], $section_data[2]);
+            if (isset($section_data[0]))
+                echo '</div>';
+        }
     }
 }
 
