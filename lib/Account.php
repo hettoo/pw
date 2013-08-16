@@ -61,7 +61,7 @@ class Account {
                 call_user_func_array(array($form, 'add'), $arguments);
         }
         $form->add('Submit', 'submit');
-        section('single', $form->format());
+        section('form', $form);
         return false;
     }
 

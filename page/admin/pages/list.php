@@ -34,7 +34,7 @@ $pager->query('*', 'page', "WHERE `page`$like$order", function ($row, $args) {
 }, array($table, $action_index));
 
 section('single', $urls);
-section('single', $table->format());
+section('table', $table);
 section('single', $urls);
 
 ?>

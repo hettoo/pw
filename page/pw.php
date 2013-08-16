@@ -30,7 +30,7 @@ if (!$error) {
         section('single', 'To be able to set this up, enter the code found in the key file in the setup folder of the project in the box below.');
         $form_key->add('Key', 'text', 'key');
         $form_key->add('Submit', 'submit');
-        section('single', $form_key->format());
+        section('form', $form_key);
     } elseif (!$form_setup->received()) {
         $form_setup->setData(array('host' => $s['host'], 'database' => $s['database'], 'user' => $s['user'], 'password' => $s['password']));
         $form_setup->add('Host', 'text', 'host');
@@ -39,7 +39,7 @@ if (!$error) {
         $form_setup->add('Password', 'password', 'password');
         $form_setup->add($key, 'hidden', 'key');
         $form_setup->add('Submit', 'submit');
-        section('single', $form_setup->format());
+        section('form', $form_setup);
     } else {
         $s['host'] = $form_setup->get('host');
         $s['database'] = $form_setup->get('database');

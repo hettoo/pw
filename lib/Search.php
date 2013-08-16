@@ -40,14 +40,13 @@ class Search {
         $this->form->add('Search', 'submit');
     }
 
-    function format() {
-        $result = '<p>';
+    function getForm() {
         $this->setForm();
-        $result .= $this->form->format();
-        if ($this->pager)
-            $result .= $this->pager->format();
-        $result .= '</p>';
-        return $result;
+        return $this->form;
+    }
+
+    function getPager() {
+        return $this->pager;
     }
 }
 

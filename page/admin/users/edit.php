@@ -46,6 +46,6 @@ if (isset($id))
     $form->add($id, 'hidden', 'id');
 $form->add('Submit', 'submit');
 
-section('single', $form->format());
+section('form', $form);
 
 ?>

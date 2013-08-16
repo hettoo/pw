@@ -1,8 +1,9 @@
 <?php
 
 class Form {
-    private $html;
     private $id;
+    private $class;
+    private $elements;
     private $inline;
     private $received;
     private $tabled;
@@ -10,8 +11,9 @@ class Form {
     private $data;
 
     function __construct($id = 'form', $inline = false, $class = null) {
-        $this->html = '<form action="' . this_url() . '" method="POST" enctype="multipart/form-data"' . (isset($class) ? ' class="' . $class . '"' : '') . '>';
+        $this->elements = array();
         $this->id = $id;
+        $this->class = $class;
         $this->inline = $inline;
         $this->data = array();
         $this->clear = false;
@@ -20,6 +22,14 @@ class Form {
             $this->received = true;
         else
             $this->received = false;
+    }
+
+    function getId() {
+        return $this->id;
+    }
+
+    function getClass() {
+        return $this->class;
     }
 
     function setData($data) {
@@ -34,11 +44,23 @@ class Form {
         return $this->received;
     }
 
+    private function startTable() {
+        if (!$this->tabled) {
+            $this->elements[] = '<table>';
+            $this->tabled = true;
+        }
+    }
+
     private function finishTable() {
-        $result = '';
-        if ($this->tabled)
-            $result .= '</table>';
-        return $result;
+        if ($this->tabled) {
+            $this->elements[] = '</table>';
+            $this->tabled = false;
+        }
+    }
+
+    function getElements() {
+        $this->finishTable();
+        return $this->elements;
     }
 
     private function finishForm() {
@@ -59,10 +81,11 @@ class Form {
             unset($attributes['options']);
             $active = $attributes['value'];
             unset($attributes['value']);
+            $content = '';
             $i = 0;
             foreach ($options as $option)
-                $html .= '<option value="' . $i . '" ' . ($i++ == $active ? ' selected="selected"' : '') . '>' . $option . '</option>';
-            return create_element($type, $html, $attributes);
+                $content .= '<option value="' . $i . '" ' . ($i++ == $active ? ' selected="selected"' : '') . '>' . $option . '</option>';
+            return create_element($type, $content, $attributes);
         } elseif ($type == 'checkbox') {
             $attributes['value'] = '1';
             $attributes['type'] = $type;
@@ -94,27 +117,20 @@ class Form {
         if (isset($name))
             $attributes = $this->fillAttributes($attributes, $name, $type != 'file');
         if ($this->inline || $this->tableLess($type)) {
-            $this->html .= $this->finishTable();
-            $this->tabled = false;
-            $this->html .= $this->createInput($name, $title, $type, $attributes);
+            $this->finishTable();
+            $this->elements[] = $this->createInput($name, $title, $type, $attributes);
             return;
         }
-        if (!$this->tabled) {
-            $this->html .= '<table>';
-            $this->tabled = true;
-        }
-        $this->html .= '<tr>';
-        $this->html .= '<td>' . $title . ($obligatory ? ' <span class="obligatory">*</span>' : '') . '</td><td>' . $this->createInput($name, $title, $type, $attributes) . '</td>';
-        $this->html .= '</tr>';
+        $this->startTable();
+        $content = '<tr>';
+        $content .= '<td>' . $title . ($obligatory ? ' <span class="obligatory">*</span>' : '') . '</td><td>' . $this->createInput($name, $title, $type, $attributes) . '</td>';
+        $content .= '</tr>';
+        $this->elements[] = $content;
     }
 
     function addRaw($html) {
-        $this->html .= $this->finishTable();
-        $this->tabled = false;
-    }
-
-    function format() {
-        return $this->html . $this->finishTable() . $this->finishForm();
+        $this->finishTable();
+        $this->elements[] = $html;
     }
 }
 

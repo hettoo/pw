@@ -36,6 +36,30 @@ class Table {
         $this->empty_message = $message;
     }
 
+    function getEmptyMessage() {
+        return $this->empty_message;
+    }
+
+    function getSearch() {
+        return $this->search;
+    }
+
+    function getPager() {
+        return $this->pager;
+    }
+
+    function getOrderIndex() {
+        return $this->order_index;
+    }
+
+    function getHead() {
+        return $this->head;
+    }
+
+    function getColumns() {
+        return $this->columns;
+    }
+
     function forceColumns($amount) {
         $this->head = false;
         $this->force_columns = $amount;
@@ -95,8 +119,7 @@ class Table {
         $this->content .= '<td';
         if ($this->head) {
             $classes = $this->getClasses($this->columns[$this->x]);
-            if (count($classes))
-                $this->content .= ' class="' . implode(' ', $classes) . '"';
+            $this->content .= format_classes($classes);
         } else if ($this->x == $this->force_columns - 1) {
             $this->content .= ' class="last"';
         }
@@ -106,6 +129,10 @@ class Table {
         $this->x = ($this->x + 1) % ($this->head ? count($this->columns) : $this->force_columns);
         if ($this->x == 0)
             $this->content .= '</tr>';
+    }
+
+    function getContent() {
+        return $this->content . ($this->x == 0 ? '' : '</tr>');
     }
 
     function setPager($pager = null) {
@@ -140,51 +167,8 @@ class Table {
         return '';
     }
 
-    function format() {
-        global $hierarchy;
-        if (empty($this->content))
-            return (isset($this->search) ? $this->search->format() : '') . '<p>' . $this->empty_message . '</p>';
-        $result = '';
-        if (isset($this->search))
-            $result .= $this->search->format($this->pager);
-        else if (isset($this->pager))
-            $result .= $this->pager->format();
-        if (isset($this->pager)) {
-            $index = $this->pager->getIndex();
-            $page = $hierarchy[$index];
-            $hierarchy[$index] = '1';
-        }
-        $result .= '<table';
-        if (!$this->head)
-            $result .= ' class="headless"';
-        $result .= '>';
-        if ($this->head) {
-            $result .= '<tr>';
-            foreach ($this->columns as $values) {
-                $classes = $this->getClasses($values);
-                $result .= '<th';
-                if (count($classes))
-                    $result .= ' class="' . implode(' ', $classes) . '"';
-                $result .= '>';
-                $order = isset($this->order_index) && !$values['no-order'];
-                if ($order)
-                    $result .= '<a href="' . url($this->invert($values['name']), $this->order_index, false) . '">';
-                $result .= $values['title'];
-                if ($order) {
-                    $result .= $this->suffix($values['name']);
-                    $result .= '</a>';
-                }
-                $result .= '</th>';
-            }
-            $result .= '</tr>';
-        }
-        if (isset($this->pager))
-            $hierarchy[$this->pager->getIndex()] = $page;
-        $result .= $this->content;
-        if ($this->x != 0)
-            $result .= '</tr>';
-        $result .= '</table>';
-        return $result;
+    function canOrder($values) {
+        return isset($this->order_index) && !$values['no-order'];
     }
 }
 

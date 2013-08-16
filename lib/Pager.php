@@ -58,12 +58,8 @@ class Pager {
         return $this->getPages() > 1;
     }
 
-    function format() {
+    function getRange() {
         global $s;
-
-        if (!$this->drawable())
-            return '';
-
         $pages = $this->getPages();
         $page = $this->getPage() + 1;
         $start = 1;
@@ -78,21 +74,7 @@ class Pager {
         $right = min($fit_right, $max_right + $missed_left);
         $start = $page - $left;
         $end = $page + $right;
-
-        $result = '';
-        $result .= '<ul class="pager">';
-        $result .= '<li><a href="' . url(1, $this->index, false) . '">&lt;&lt;</a></li>';
-        $result .= '<li><a href="' . url(max($page - 1, 1), $this->index, false) . '">&lt;</a></li>';
-        if ($start > 1)
-            $result .= '...';
-        for ($i = $start; $i <= $end; $i++)
-            $result .= '<li' . ($i == $page ? ' class="active"' : '') . '><a href="' . url($i, $this->index, false) . '">' . $i . '</a></li>';
-        if ($end < $pages)
-            $result .= '...';
-        $result .= '<li><a href="' . url(min($page + 1, $pages), $this->index, false) . '">&gt;</a></li>';
-        $result .= '<li><a href="' . url($pages, $this->index, false) . '">&gt;&gt;</a></li>';
-        $result .= '</ul>';
-        return $result;
+        return array($start, $end);
     }
 }
 

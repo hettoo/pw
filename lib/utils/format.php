@@ -82,4 +82,10 @@ function create_element($name, $content = '', $attributes = array()) {
     return $result;
 }
 
+function format_classes($classes) {
+    if (!isset($classes) || empty($classes))
+        return '';
+    return ' class="' . implode(' ', $classes) . '"';
+}
+
 ?>

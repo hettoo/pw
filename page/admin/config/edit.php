@@ -33,6 +33,6 @@ $form->add('Key', 'text', 'key');
 $form->add('Value', 'text', 'value', false);
 $form->add('Submit', 'submit');
 
-section('single', $form->format());
+section('form', $form);
 
 ?>

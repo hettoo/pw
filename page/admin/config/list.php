@@ -33,7 +33,7 @@ $pager->query('*', 'config', "WHERE `key`$like OR `value`$like$order", function 
 }, array($table, $action_index));
 
 section('single', $urls);
-section('single', $table->format());
+section('table', $table);
 section('single', $urls);
 
 ?>
