@@ -1,5 +1,8 @@
 <?php
 
+import_lib('core/session');
+import_lib('external/simple-php-captcha/simple-php-captcha');
+
 class Form {
     private $id;
     private $class;
@@ -106,6 +109,13 @@ class Form {
         return $_FILES[$this->id . '_' . $name];
     }
 
+    function checkCaptcha() {
+        $code = $_SESSION['captcha_' . $this->id]['code'];
+        if (!isset($code))
+            return false;
+        return $code == $this->get('captcha');
+    }
+
     private function fillAttributes($attributes, $name, $set_value) {
         $attributes['name'] = $this->id . '_' . $name;
         if (!$this->clear && $set_value)
@@ -114,8 +124,10 @@ class Form {
     }
 
     function add($title, $type, $name = null, $obligatory = true, $attributes = array()) {
+        $clear = $attributes['clear'];
+        unset($attributes['clear']);
         if (isset($name))
-            $attributes = $this->fillAttributes($attributes, $name, $type != 'file');
+            $attributes = $this->fillAttributes($attributes, $name, $type != 'file' && !$clear);
         if ($this->inline || $this->tableLess($type)) {
             $this->finishTable();
             $this->elements[] = $this->createInput($name, $title, $type, $attributes);
@@ -126,6 +138,13 @@ class Form {
         $content .= '<td>' . $title . ($obligatory ? ' <span class="obligatory">*</span>' : '') . '</td><td>' . $this->createInput($name, $title, $type, $attributes) . '</td>';
         $content .= '</tr>';
         $this->elements[] = $content;
+    }
+
+    function addCaptcha() {
+        $_SESSION['captcha_' . $this->id] = captcha();
+        $this->startTable();
+        $this->elements[] = '<tr><td></td><td><img src="' . url('captcha-image') . '" alt="CAPTCHA security code" /></td></tr>';
+        $this->add('Captcha', 'text', 'captcha', true, array('clear' => 1));
     }
 
     function addRaw($html) {

@@ -1,6 +1,5 @@
 <?php
 
-import_lib('core/session');
 import_lib('Form');
 
 class Account {
@@ -19,7 +18,7 @@ class Account {
         return $this->id != 0;
     }
 
-    function login($registration = null) {
+    function login($registration = null, $captcha) {
         if ($this->restore())
             return true;
         $form = new Form($this->table);
@@ -60,6 +59,8 @@ class Account {
             foreach ($registration as $arguments)
                 call_user_func_array(array($form, 'add'), $arguments);
         }
+        if ($captcha)
+            $form->addCaptcha();
         $form->add('Submit', 'submit');
         section('form', $form);
         return false;

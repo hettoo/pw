@@ -50,7 +50,7 @@ if ($register) {
         admin_registration
     );
 }
-$result = $account->login($extra_fields);
+$result = $account->login($extra_fields, false);
 
 function fail() {
     global $s;
