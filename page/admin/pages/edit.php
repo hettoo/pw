@@ -60,7 +60,7 @@ if ($form->received()) {
     }
     for ($i = 0; $i < $insert; $i++) {
         $content = secure($form->get('section_' . $index));
-        $page = isset($id) ? $id : $result->insert_id;
+        $page = isset($id) ? $id : $s['db']->insert_id;
         query("INSERT INTO `content` SET `content`='$content', `page`=$page");
         $index++;
     }

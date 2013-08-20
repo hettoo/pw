@@ -30,7 +30,7 @@ $pager->query('*', 'page', "WHERE `page`$like$order", function ($row, $args) {
     list($table, $action_index) = $args;
     $table->addField($row['id']);
     $table->addField($row['page']);
-    $table->addField(action_list($action_index, array(array('edit/' . $row['id'], 'edit'), array('delete/' . $row['id'], 'delete')), ' '));
+    $table->addField(action_list($action_index, array(array('edit/' . $row['id'], 'edit'), array('fotos/' . $row['id'], 'fotos'), array('delete/' . $row['id'], 'delete')), ' '));
 }, array($table, $action_index));
 
 section('single', $urls);

@@ -19,6 +19,13 @@ $setup->add('content', 'TEXT');
 $setup->add('ranking', 'INT DEFAULT 0 NOT NULL');
 $setup->setup();
 
+$setup = new TableSetup('page_images');
+$setup->add('id', 'INT NOT NULL AUTO_INCREMENT PRIMARY KEY');
+$setup->add('page', 'INT');
+$setup->add('file', 'VARCHAR(64)');
+$setup->add('description', 'TEXT');
+$setup->setup();
+
 $setup = new TableSetup('admin');
 $setup->add('id', 'INT NOT NULL AUTO_INCREMENT PRIMARY KEY');
 $setup->add('level', 'INT DEFAULT 0 NOT NULL');

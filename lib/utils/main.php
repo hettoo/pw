@@ -5,6 +5,10 @@ function resource_url($target) {
     return $base . 'r/' . $target;
 }
 
+function resource($target) {
+    return 'r/' . $target;
+}
+
 function url($target, $level = 0, $rootify = true) {
     global $base, $hierarchy;
     $result = $base;
@@ -163,6 +167,10 @@ function unescape_url($string) {
     if ($escaped)
         $result .= '|';
     return $result;
+}
+
+function extension($file) {
+    return pathinfo($file, PATHINFO_EXTENSION);
 }
 
 ?>

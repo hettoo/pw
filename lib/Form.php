@@ -124,7 +124,7 @@ class Form {
     }
 
     function add($title, $type, $name = null, $obligatory = true, $attributes = array()) {
-        $clear = $attributes['clear'];
+        $clear = isset($attributes['clear']) ? $attributes['clear'] : false;
         unset($attributes['clear']);
         if (isset($name))
             $attributes = $this->fillAttributes($attributes, $name, $type != 'file' && !$clear);
