@@ -27,6 +27,12 @@ th, td {
     padding-right: 10px;
     padding-left: 0px;
 }
+td {
+    white-space: nowrap;
+}
+th div, td div {
+    overflow: auto;
+}
 .headless th, .headless td {
     padding-right: 30px;
 }
@@ -41,16 +47,16 @@ li.active a {
 }
 
 .small {
-    width: 80px;
+    width: 60px;
 }
 .medium {
     width: 125px;
 }
 .large {
-    width: 170px;
+    width: 180px;
 }
 .huge {
-    width: 250px;
+    width: 260px;
 }
 
 form.left {

@@ -117,14 +117,17 @@ class Table {
         if ($this->x == 0)
             $this->content .= '<tr>';
         $this->content .= '<td';
+        if ($this->x == $this->force_columns - 1)
+            $this->content .= ' class="last"';
+        $this->content .= '>';
+            $this->content .= '<div';
         if ($this->head) {
             $classes = $this->getClasses($this->columns[$this->x]);
             $this->content .= format_classes($classes);
-        } else if ($this->x == $this->force_columns - 1) {
-            $this->content .= ' class="last"';
         }
         $this->content .= '>';
         $this->content .= $value;
+        $this->content .= '</div>';
         $this->content .= '</td>';
         $this->x = ($this->x + 1) % ($this->head ? count($this->columns) : $this->force_columns);
         if ($this->x == 0)

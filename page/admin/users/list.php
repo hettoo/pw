@@ -17,10 +17,10 @@ $table = new Table();
 $table->addColumn(array('title' => 'Id', 'size' => 'small'));
 $table->addColumn(array('title' => 'Name', 'size' => 'large'));
 if ($s['admin']->permits($s['admin_level']))
-    $table->addColumn(array('title' => 'Password', 'size' => 'large'));
+    $table->addColumn(array('title' => 'Password', 'size' => 'huge'));
 $table->addColumn(array('title' => 'Level', 'size' => 'small'));
 $table->addColumn(array('name' => 'email', 'title' => 'E-mail', 'size' => 'large'));
-$table->addColumn(array('name' => 'actions', 'title' => '', 'size' => 'medium', 'no-order' => true));
+$table->addColumn(array('name' => 'actions', 'title' => '', 'no-order' => true));
 $table->processOrder('id');
 
 $pager = $table->setPager();

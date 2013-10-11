@@ -26,12 +26,14 @@ if (isset($pager)) {
 <?php if ($head): ?>
     <tr>
     <?php foreach ($table->getColumns() as $values): ?>
-        <th<?= format_classes($table->getClasses($values)) ?>>
+        <th>
+        <div<?= format_classes($table->getClasses($values)) ?>>
         <?php if ($table->canOrder($values)): ?>
             <a href="<?= url($table->invert($values['name']), $table->getOrderIndex(), false) ?>"><?= $values['title'] . $table->suffix($values['name']) ?></a>
         <?php else: ?>
             <?= $values['title'] ?>
         <?php endif ?>
+        </div>
         </th>
     <?php endforeach ?>
     </tr>
