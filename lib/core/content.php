@@ -92,7 +92,7 @@ function body() {
 function default_head() {
     global $s;
 
-    echo '<meta http-equiv="Content-Type" content="text/html; charset=' . $s['charset'] . '">';
+    echo '<meta charset="' . $s['charset'] . '">';
     echo '<title>' . $s['head'] . '</title>';
     echo '<meta name="keywords" content="' . $s['keywords'] . '">';
     echo '<meta name="description" content="' . $s['description'] . '">';
