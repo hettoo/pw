@@ -44,8 +44,8 @@ if (!empty($files)) {
 }
 
 $urls = action_list($action_index, array('list', array('edit/' . $id, 'edit')));
-section('single', $urls);
+section('clean', $urls);
 section('form', $uploader->getForm());
-section('single', $urls);
+section('clean', $urls);
 
 ?>

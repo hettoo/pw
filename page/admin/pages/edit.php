@@ -79,8 +79,8 @@ if (isset($id))
 $form->add('Submit', 'submit');
 
 $urls = action_list($action_index, $actions);
-section('single', $urls);
+section('clean', $urls);
 section('form', $form);
-section('single', $urls);
+section('clean', $urls);
 
 ?>

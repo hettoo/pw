@@ -32,8 +32,8 @@ $pager->query('*', 'config', "WHERE `key`$like OR `value`$like$order", function 
     $table->addField(action_list($action_index, array(array('edit/' . $row['key'], 'edit'), array('delete/' . $row['key'], 'delete')), ' '));
 }, array($table, $action_index));
 
-section('single', $urls);
+section('clean', $urls);
 section('table', $table);
-section('single', $urls);
+section('clean', $urls);
 
 ?>

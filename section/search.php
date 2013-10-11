@@ -5,9 +5,9 @@ $form = $search->getForm();
 $pager = $search->getPager();
 
 ?>
-<p>
+<div class="search">
 <?php subsection('form', $form) ?>
 <?php if (isset($pager)): ?>
 <?php subsection('pager', $pager) ?>
 <?php endif ?>
-</p>
+</div>

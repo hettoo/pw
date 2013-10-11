@@ -41,8 +41,8 @@ $pager->query('*', 'admin', "WHERE `name`$like$order", function ($row, $args) {
     $table->addField(action_list($action_index, array(array('edit/' . $row['id'], 'edit'), array('delete/' . $row['id'], 'delete')), ' '));
 }, array($table, $action_index));
 
-section('single', $urls);
+section('clean', $urls);
 section('table', $table);
-section('single', $urls);
+section('clean', $urls);
 
 ?>
