@@ -127,7 +127,7 @@ if (empty($s['head'])) {
     $s['head'] = strip_tags($s['title']);
 }
 
-$s['menu'] = parse_menu($s['menu']);
+$s['menu'] = parse_hash($s['menu']);
 
 subsection('main');
 

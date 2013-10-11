@@ -72,7 +72,7 @@ function autoclose($name) {
     return $name == 'br' || $name == 'img' || $name == 'input';
 }
 
-function parse_menu($string) {
+function parse_hash($string) {
     $result = array();
     $pairs = explode(',', $string);
     foreach ($pairs as $pair) {

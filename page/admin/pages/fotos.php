@@ -11,6 +11,7 @@ import_lib('ImageUploader');
 
 $s['suburl'] = array('id');
 $id = (int)find_value('id');
+$action_index = page_index();
 
 $uploader = new ImageUploader('images', 'page_images');
 $uploader->setFields(7);
@@ -42,6 +43,9 @@ if (!empty($files)) {
     $uploader->setData($data);
 }
 
+$urls = action_list($action_index, array('list', array('edit/' . $id, 'edit')));
+section('single', $urls);
 section('form', $uploader->getForm());
+section('single', $urls);
 
 ?>
