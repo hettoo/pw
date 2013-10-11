@@ -107,7 +107,6 @@ function default_head() {
     echo $s['analytics'];
 }
 
-$s['template'] = 'default';
 $s['submenu'] = '';
 $s['head'] = 'Unnamed page';
 $s['keywords'] = $s['project'];
@@ -118,18 +117,18 @@ init_page($args);
 
 header('Content-Type: text/html; charset=' . $s['charset']);
 
-if ($s['head'] == '') {
-    $s['title'] = $s['project'];
-    $s['head'] = strip_tags($s['title']);
-} else {
+if (empty($s['head'])) {
     $s['title'] = $s['head'];
     $s['head'] = strip_tags($s['head']);
     $s['keywords'] = $s['head'] . (empty($s['keywords'] ? '' : ', ' . $s['keywords']));
     $s['head'] .= ' - ' . $s['project'];
+} else {
+    $s['title'] = $s['project'];
+    $s['head'] = strip_tags($s['title']);
 }
 
 $s['menu'] = parse_menu($s['menu']);
 
-import('templates/' . $s['template']);
+subsection('main');
 
 ?>
