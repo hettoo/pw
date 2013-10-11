@@ -1,5 +1,17 @@
 <?php
 
+function import($script, $original = false) {
+    global $base, $args, $hierarchy;
+    global $s;
+    $script = script($script, $original);
+    return include($script);
+}
+
+function import_raw($file, $original = false) {
+    $file = pw_file($file, $original);
+    return include($file);
+}
+
 function resource_url($target) {
     global $base;
     return $base . 'r/' . $target;

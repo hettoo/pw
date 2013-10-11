@@ -20,18 +20,6 @@ function import_once($script, $original = false) {
     return include_once($script);
 }
 
-function import($script, $original = false) {
-    global $base, $args, $hierarchy;
-    global $s;
-    $script = script($script, $original);
-    return include($script);
-}
-
-function import_raw($file, $original = false) {
-    $file = pw_file($file, $original);
-    return include($file);
-}
-
 function import_lib($lib) {
     $lib = 'lib/' . $lib;
     if (!import_once($lib))
