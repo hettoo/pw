@@ -119,14 +119,13 @@ init_page($args);
 header('Content-Type: text/html; charset=' . $s['charset']);
 
 if ($s['head'] == '') {
-    $s['head'] = $s['project'];
-    $s['title'] = $s['head'];
-    $s['head'] = strip_tags($s['head']);
+    $s['title'] = $s['project'];
+    $s['head'] = strip_tags($s['title']);
 } else {
     $s['title'] = $s['head'];
     $s['head'] = strip_tags($s['head']);
-    $s['keywords'] = $s['head'] . ', ' . $s['keywords'];
-    $s['head'] .= ' | ' . $s['project'];
+    $s['keywords'] = $s['head'] . (empty($s['keywords'] ? '' : ', ' . $s['keywords']));
+    $s['head'] .= ' - ' . $s['project'];
 }
 
 $s['menu'] = parse_menu($s['menu']);
