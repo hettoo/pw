@@ -141,7 +141,7 @@ class Form {
     }
 
     function addCaptcha() {
-        $_SESSION['captcha_' . $this->id] = captcha();
+        $_SESSION['captcha_' . $this->id] = simple_php_captcha();
         $this->startTable();
         $this->elements[] = '<tr><td></td><td><img src="' . url('captcha-image') . '" alt="CAPTCHA security code" /></td></tr>';
         $this->add('Captcha', 'text', 'captcha', true, array('clear' => 1));
