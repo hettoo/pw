@@ -13,7 +13,7 @@ $s['project'] = 'Personal Website';
 $s['analytics'] = '';
 
 $s['charset'] = 'iso-8859-1';
-$s['menu'] = ':Home,Test';
+$s['menu'] = ':Home';
 $s['css'] = 'main';
 $s['max_pages'] = 8;
 
