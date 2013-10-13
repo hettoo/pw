@@ -93,7 +93,7 @@ function default_head() {
     global $s;
 
     echo '<meta charset="' . $s['charset'] . '">';
-    echo '<title>' . $s['head'] . '</title>';
+    echo '<title>' . $s['title'] . '</title>';
     echo '<meta name="keywords" content="' . $s['keywords'] . '">';
     echo '<meta name="description" content="' . $s['description'] . '">';
     if ($s['hide'])
@@ -123,13 +123,12 @@ init_page($args);
 header('Content-Type: text/html; charset=' . $s['charset']);
 
 if (empty($s['head'])) {
-    $s['title'] = $s['head'];
-    $s['head'] = strip_tags($s['head']);
-    $s['keywords'] = $s['head'] . (empty($s['keywords'] ? '' : ', ' . $s['keywords']));
-    $s['head'] .= ' - ' . $s['project'];
+    $s['head'] = $s['project'];
+    $s['title'] = strip_tags($s['head']);
 } else {
-    $s['title'] = $s['project'];
-    $s['head'] = strip_tags($s['title']);
+    $s['title'] = strip_tags($s['head']);
+    $s['keywords'] = $s['title'] . (empty($s['keywords'] ? '' : ', ' . $s['keywords']));
+    $s['title'] .= ' - ' . $s['project'];
 }
 
 $s['menu'] = parse_hash($s['menu']);

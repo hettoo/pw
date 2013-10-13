@@ -14,7 +14,7 @@
             </div>
             <div class="clear"></div>
             <div id="head">
-                <h1><?= $s['title']; ?></h1>
+                <h1><?= $s['head']; ?></h1>
             </div>
             <div id="sub-menu">
                 <?= $s['submenu']; ?>
