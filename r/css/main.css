@@ -96,8 +96,8 @@ form.left {
 #head, #content {
     padding-left: 24px;
 }
-#head, #content p, #content h1, #content h2 {
-    width: 620px;
+#head, #content {
+    width: 580px;
 }
 #content {
     padding-bottom: 20px;
