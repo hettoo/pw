@@ -75,6 +75,8 @@ class Form {
     }
 
     private function createInput($name, $title, $type, $attributes) {
+        if (!$this->tableLess($type) && (!isset($attributes['class']) || empty($attributes['class'])))
+            $attributes['class'] = 'normal';
         if ($type == 'textarea') {
             $value = $attributes['value'];
             unset($attributes['value']);

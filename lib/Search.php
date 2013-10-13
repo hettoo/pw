@@ -36,7 +36,7 @@ class Search {
             return;
         $this->form = new Form('search', true, isset($this->pager) && $this->pager->drawable() ? 'left' : null);
         $this->form->setData(array('name' => unescape_url($hierarchy[$this->index])));
-        $this->form->add('Name', 'text', 'name');
+        $this->form->add('Name', 'text', 'name', false, array('class' => 'search'));
         $this->form->add('Search', 'submit');
     }
 
