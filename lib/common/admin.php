@@ -67,11 +67,11 @@ if (!$result) {
     $s['module_levels'] = array();
     $s['submenu'] = array(array('', 'Overview'));
 
-    function add_module($name, $level, $items) {
+    function add_module($name, $level, $items = array(), $specifics = array()) {
         global $s;
         $nice = nicen($name);
         if ($s['admin']->permits($level)) {
-            $s['modules'][] = array($name, $items);
+            $s['modules'][] = array($name, $items, $specifics);
             $s['submenu'][] = array($nice, $name);
         }
         $s['module_levels'][$nice] = $level;
@@ -92,6 +92,42 @@ if (!$result) {
 function list_modules() {
     global $s, $hierarchy;
     wrap_section('modules', 'modules', array($hierarchy[0], $s['modules']));
+}
+
+function admin_actions($index, $id = 0) {
+    global $s, $hierarchy;
+    foreach ($s['modules'] as $module) {
+        if (nicen($module[0]) == $hierarchy[1]) {
+            $result = array();
+            $items = $module[1];
+            foreach ($items as $item) {
+                if (is_array($item))
+                    $name = $item[0];
+                else
+                    $name = $item;
+                if ($id || $name != $hierarchy[2])
+                    $result[] = $item;
+            }
+            $specifics = $module[2];
+            if ($id) {
+                foreach ($specifics as $item) {
+                    if (is_array($item)) {
+                        $name = $item[0];
+                        $new = $item;
+                    } else {
+                        $name = $item;
+                        $new = array($item, $item);
+                    }
+                    if ($name != $hierarchy[2]) {
+                        $new[0] = $name . '/' . $id;
+                        $result[] = $new;
+                    }
+                }
+            }
+            return action_list($index, $result);
+        }
+    }
+    return '';
 }
 
 ?>

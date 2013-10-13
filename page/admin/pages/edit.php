@@ -10,8 +10,6 @@ if (is_null($s['admin']))
 import_lib('Form');
 
 $s['suburl'] = array('id');
-$action_index = page_index();
-$actions = array('list');
 
 $form = new Form();
 $id = find_value('id');
@@ -19,7 +17,6 @@ $section_count = 0;
 $sections = array();
 if (isset($id)) {
     $id = (int)$id;
-    $actions[] = array('fotos/' . $id, 'fotos');
     $data = array();
     $result = query("SELECT * FROM `page` WHERE `id`=$id LIMIT 1");
     if ($row = $result->fetch_array())
@@ -78,7 +75,7 @@ if (isset($id))
     $form->add($id, 'hidden', 'id');
 $form->add('Submit', 'submit');
 
-$urls = action_list($action_index, $actions);
+$urls = admin_actions(page_index(), $id);
 section('clean', $urls);
 section('form', $form);
 section('clean', $urls);

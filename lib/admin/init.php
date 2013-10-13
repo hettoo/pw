@@ -8,14 +8,21 @@ $s['admin_level'] = 5;
 add_module('Config', $s['admin_level'], array(
     array('list', 'List config'),
     array('edit', 'Add config value')
+), array(
+    array('edit', 'Edit config')
 ));
 add_module('Users', $s['cooperator_level'], array(
     array('list', 'List users'),
     array('edit', 'Add user')
+), array(
+    array('edit', 'Edit user')
 ));
 add_module('Pages', $s['editor_level'], array(
     array('list', 'List pages'),
     array('edit', 'Add page')
+), array(
+    array('edit', 'Edit page'),
+    array('fotos', 'Edit fotos')
 ));
 
 ?>

@@ -11,7 +11,6 @@ import_lib('Table');
 
 $s['suburl'] = array('order', 'page', 'search');
 $action_index = page_index();
-$urls = action_list($action_index, array(array('edit', 'add')));
 
 $table = new Table();
 $table->addColumn(array('title' => 'Id', 'size' => 'small'));
@@ -33,6 +32,7 @@ $pager->query('*', 'page', "WHERE `page`$like$order", function ($row, $args) {
     $table->addField(action_list($action_index, array(array('edit/' . $row['id'], 'edit'), array('fotos/' . $row['id'], 'fotos'), array('delete/' . $row['id'], 'delete')), ' '));
 }, array($table, $action_index));
 
+$urls = admin_actions($action_index);
 section('clean', $urls);
 section('table', $table);
 section('clean', $urls);

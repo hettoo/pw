@@ -46,6 +46,9 @@ if (isset($id))
     $form->add($id, 'hidden', 'id');
 $form->add('Submit', 'submit');
 
+$urls = admin_actions(page_index(), $id);
+section('clean', $urls);
 section('form', $form);
+section('clean', $urls);
 
 ?>
