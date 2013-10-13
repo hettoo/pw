@@ -38,7 +38,7 @@ if (isset($id)) {
 }
 if ($form->received()) {
     $page = secure($form->get('page'));
-    $query = " `page` SET `page`='$page'";
+    $query = " `" . prefix('page') . "` SET `page`='$page'";
     $wanted = (int)$form->get('sections');
     $insert = $wanted - $section_count;
     if ($section_count > $wanted) {
