@@ -34,12 +34,12 @@ function admin_registration($form) {
         $name = secure($name);
         $password = secure($password);
         $email = secure($email);
-        query("INSERT INTO `admin` SET `level`=$level, `name`='$name', `password`=MD5('$password'), `email`='$email'");
+        query("INSERT INTO `" . prefix('admin') . "` SET `level`=$level, `name`='$name', `password`=MD5('$password'), `email`='$email'");
     }
     return $errors;
 }
 
-$account = new Account('admin');
+$account = new Account(prefix('admin'));
 $extra_fields = null;
 if ($register) {
     $extra_fields = array(

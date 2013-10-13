@@ -15,14 +15,14 @@ $form = new Form();
 $key = find_value('key');
 if (isset($key)) {
     $oldkey = secure($key);
-    $result = query("SELECT * FROM `config` WHERE `key`='$oldkey' LIMIT 1");
+    $result = query("SELECT * FROM `" . prefix('config') . "` WHERE `key`='$oldkey' LIMIT 1");
     if ($row = $result->fetch_array())
         $form->setData($row);
 }
 if ($form->received()) {
     $key = secure($form->get('key'));
     $value = secure($form->get('value'));
-    $query = " `config` SET `key`='$key', `value`='$value'";
+    $query = " `" . prefix('config') . "` SET `key`='$key', `value`='$value'";
     if (isset($oldkey))
         query("UPDATE$query WHERE `key`='$oldkey'");
     else

@@ -24,7 +24,7 @@ $search = $table->setSearch();
 $like = $search->getLike();
 $order = $table->getOrder();
 
-$pager->query('*', 'page', "WHERE `page`$like$order", function ($row, $args) {
+$pager->query('*', prefix('page'), "WHERE `page`$like$order", function ($row, $args) {
     global $s;
     list($table, $action_index) = $args;
     $table->addField($row['id']);

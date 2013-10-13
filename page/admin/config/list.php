@@ -24,7 +24,7 @@ $search = $table->setSearch();
 $like = $search->getLike();
 $order = $table->getOrder();
 
-$pager->query('*', 'config', "WHERE `key`$like OR `value`$like$order", function ($row, $args) {
+$pager->query('*', prefix('config'), "WHERE `key`$like OR `value`$like$order", function ($row, $args) {
     list($table, $action_index) = $args;
     $table->addField($row['key']);
     $table->addField($row['value']);

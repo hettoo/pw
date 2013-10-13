@@ -9,8 +9,8 @@ $s['suburl'] = array('id');
 $id = find_value('id');
 if (isset($id)) {
     $id = (int)$id;
-    query("DELETE FROM `content` WHERE `page`=$id");
-    query("DELETE FROM `page` WHERE `id`=$id");
+    query("DELETE FROM `" . prefix('content') . "` WHERE `page`=$id");
+    query("DELETE FROM `" . prefix('page') . "` WHERE `id`=$id");
 }
 redirect_up();
 

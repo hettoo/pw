@@ -25,11 +25,11 @@ function init_page($page, $single = false) {
     $s['c'] = array();
     $filtered = secure($page);
     $id = 0;
-    $result = query("SELECT * FROM `page` WHERE `page`='$filtered'");
+    $result = query("SELECT * FROM `" . prefix('page') . "` WHERE `page`='$filtered'");
     if ($result && $row = $result->fetch_array()) {
         $s = array_merge($s, $row);
         $id = $row['id'];
-        $result = query("SELECT `content` FROM `content` WHERE `page`='$id' ORDER BY `ranking`");
+        $result = query("SELECT `content` FROM `" . prefix('content') . "` WHERE `page`='$id' ORDER BY `ranking`");
         while ($row = $result->fetch_array())
             $s['c'][] = $row['content'];
     }

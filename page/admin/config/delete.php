@@ -9,7 +9,7 @@ $s['suburl'] = array('key');
 $key = find_value('key');
 if (isset($key)) {
     $key = secure($key);
-    query("DELETE FROM `config` WHERE `key`='$key'");
+    query("DELETE FROM `" . prefix('config') . "` WHERE `key`='$key'");
 }
 redirect_up();
 

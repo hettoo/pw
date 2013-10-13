@@ -18,14 +18,14 @@ $sections = array();
 if (isset($id)) {
     $id = (int)$id;
     $data = array();
-    $result = query("SELECT * FROM `page` WHERE `id`=$id LIMIT 1");
+    $result = query("SELECT * FROM `" . prefix('page') . "` WHERE `id`=$id LIMIT 1");
     if ($row = $result->fetch_array())
         $data = $row;
-    $result = query("SELECT * FROM `content` WHERE `page`=$id ORDER BY `ranking`");
+    $result = query("SELECT * FROM `" . prefix('content') . "` WHERE `page`=$id ORDER BY `ranking`");
     $section_count = $result->num_rows;
     if ($section_count == 0) {
         $data['section_0'] = '';
-        query("INSERT INTO `content` SET `page`=$id, `content`=''");
+        query("INSERT INTO `" . prefix('content') . "` SET `page`=$id, `content`=''");
         $section_count++;
     }
     $data['sections'] = $section_count;
@@ -43,7 +43,7 @@ if ($form->received()) {
     $insert = $wanted - $section_count;
     if ($section_count > $wanted) {
         $delete = -$insert;
-        query("DELETE FROM `content` WHERE `page`=$id ORDER BY `ranking` DESC, `id` DESC LIMIT $delete");
+        query("DELETE FROM `" . prefix('content') . "` WHERE `page`=$id ORDER BY `ranking` DESC, `id` DESC LIMIT $delete");
         $insert = 0;
     }
     $edit = $section_count;
@@ -55,13 +55,13 @@ if ($form->received()) {
     for ($i = 0; $i < $edit; $i++) {
         $content = $form->get('section_' . $index);
         $cid = $sections[$i]['id'];
-        query("UPDATE `content` SET `content`='$content' WHERE `id`=$cid");
+        query("UPDATE `" . prefix('content') . "` SET `content`='$content' WHERE `id`=$cid");
         $index++;
     }
     for ($i = 0; $i < $insert; $i++) {
         $content = secure($form->get('section_' . $index));
         $page = isset($id) ? $id : $s['db']->insert_id;
-        query("INSERT INTO `content` SET `content`='$content', `page`=$page");
+        query("INSERT INTO `" . prefix('content') . "` SET `content`='$content', `page`=$page");
         $index++;
     }
     redirect_up();

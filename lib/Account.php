@@ -8,7 +8,9 @@ class Account {
     private $level;
     private $name;
 
-    function __construct($table = 'users') {
+    function __construct($table = null) {
+        if (!isset($table))
+            $table = prefix('users');
         $this->id = 0;
         $this->level = 0;
         $this->table = $table;

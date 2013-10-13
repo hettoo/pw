@@ -16,14 +16,14 @@ $uploader = new ImageUploader('images', 'page_images');
 $uploader->setFields(7);
 
 $data = array();
-$result = query("SELECT * FROM `page_images` WHERE `page`=$id");
+$result = query("SELECT * FROM `" . prefix('page_images') . "` WHERE `page`=$id");
 while ($row = $result->fetch_array())
     $data[] = $row;
 $uploader->setData($data);
 
 $files = $uploader->process(function () {
     global $s;
-    $result = query("INSERT INTO `page_images` () VALUES ()");
+    $result = query("INSERT INTO `" . prefix('page_images') . "` () VALUES ()");
     $id = $s['db']->insert_id;
     return array('name' => $id, 'id' => $id);
 });
@@ -32,11 +32,11 @@ if (!empty($files)) {
         $name = secure($file['name']);
         $description = secure($file['description']);
         $image = $file['id'];
-        query("UPDATE `page_images` SET `page`=$id, `file`='$name', `description`='$description' WHERE `id`=$image");
+        query("UPDATE `" . prefix('page_images') . "` SET `page`=$id, `file`='$name', `description`='$description' WHERE `id`=$image");
     }
 
     $data = array();
-    $result = query("SELECT * FROM `page_images` WHERE `page`=$id");
+    $result = query("SELECT * FROM `" . prefix('page_images') . "` WHERE `page`=$id");
     while ($row = $result->fetch_array())
         $data[] = $row;
     $uploader->setData($data);

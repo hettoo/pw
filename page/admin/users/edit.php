@@ -15,7 +15,7 @@ $form = new Form();
 $id = find_value('id');
 if (isset($id)) {
     $id = (int)$id;
-    $result = query("SELECT * FROM `admin` WHERE `id`=$id LIMIT 1");
+    $result = query("SELECT * FROM `" . prefix('admin') . "` WHERE `id`=$id LIMIT 1");
     if ($row = $result->fetch_array()) {
         unset($row['password']);
         $form->setData($row);
@@ -27,7 +27,7 @@ if ($form->received()) {
     $password = secure($form->get('password'));
     $level = (int)$form->get('level');
     $email = secure($form->get('email'));
-    $query = " `admin` SET `name`='$name', `level`=$level, `email`='$email'";
+    $query = " `" . prefix('admin') . "` SET `name`='$name', `level`=$level, `email`='$email'";
     if ($change_password)
         $query .= ", `password`=MD5('$password')";
     if (isset($id))

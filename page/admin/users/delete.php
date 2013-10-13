@@ -9,7 +9,7 @@ $s['suburl'] = array('id');
 $id = find_value('id');
 if (isset($id)) {
     $id = (int)$id;
-    query("DELETE FROM `admin` WHERE `id`=$id");
+    query("DELETE FROM `" . prefix('admin') . "` WHERE `id`=$id");
 }
 redirect_up();
 
