@@ -98,11 +98,16 @@ function default_head() {
     echo '<meta name="description" content="' . $s['description'] . '">';
     if ($s['hide'])
         echo '<meta name="robots" content="noindex, nofollow">';
-    echo '<style type="text/css">';
     $css = split_values($s['css']);
-    foreach ($css as $sheet)
-        import_raw('css/' . $sheet . '.css');
-    echo '</style>';
+    if ($s['inline']) {
+        echo '<style type="text/css">';
+        foreach ($css as $sheet)
+            import_raw(resource('css/' . $sheet . '.css'));
+        echo '</style>';
+    } else {
+        foreach ($css as $sheet)
+            echo '<link href="' . resource_url('css/' . $sheet . '.css') . '" rel="stylesheet" type="text/css" />';
+    }
     echo $s['header'];
     echo $s['analytics'];
 }
