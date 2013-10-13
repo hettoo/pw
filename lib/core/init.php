@@ -20,6 +20,8 @@ $s['max_pages'] = 8;
 $s['header'] = '';
 $s['suburl'] = array();
 
+$s['prefix'] = 'pw_';
+
 import_lib('core/database');
 
 if (file_exists('setup/setup')) {
@@ -28,6 +30,7 @@ if (file_exists('setup/setup')) {
     $s['database'] = read_line($fp);
     $s['user'] = read_line($fp);
     $s['password'] = read_line($fp);
+    $s['prefix'] = read_line($fp);
     fclose($fp);
 
     load_db();

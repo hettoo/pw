@@ -32,11 +32,12 @@ if (!$error) {
         $form_key->add('Submit', 'submit');
         section('form', $form_key);
     } elseif (!$form_setup->received()) {
-        $form_setup->setData(array('host' => $s['host'], 'database' => $s['database'], 'user' => $s['user'], 'password' => $s['password']));
+        $form_setup->setData(array('host' => $s['host'], 'database' => $s['database'], 'user' => $s['user'], 'password' => $s['password'], 'prefix' => $s['prefix']));
         $form_setup->add('Host', 'text', 'host');
         $form_setup->add('Database', 'text', 'database');
         $form_setup->add('User', 'text', 'user');
         $form_setup->add('Password', 'password', 'password');
+        $form_setup->add('Table prefix', 'text', 'prefix');
         $form_setup->add($key, 'hidden', 'key');
         $form_setup->add('Submit', 'submit');
         section('form', $form_setup);
@@ -45,6 +46,7 @@ if (!$error) {
         $s['database'] = $form_setup->get('database');
         $s['user'] = $form_setup->get('user');
         $s['password'] = $form_setup->get('password');
+        $s['prefix'] = $form_setup->get('prefix');
         load_db();
         import_lib('core/setup');
         $fp = fopen('setup/setup', 'w');
@@ -52,6 +54,7 @@ if (!$error) {
         write_line($fp, $form_setup->get('database'));
         write_line($fp, $form_setup->get('user'));
         write_line($fp, $form_setup->get('password'));
+        write_line($fp, $form_setup->get('prefix'));
         section('single', 'Setup saved!');
     }
 }

@@ -32,4 +32,9 @@ function secure($variable, $mode = 'sql') {
     return $result;
 }
 
+function prefix($table) {
+    global $s;
+    return $s['prefix'] . $table;
+}
+
 ?>
