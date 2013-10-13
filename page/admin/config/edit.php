@@ -33,8 +33,7 @@ $form->add('Key', 'text', 'key');
 $form->add('Value', 'text', 'value', false);
 $form->add('Submit', 'submit');
 
-$urls = admin_actions(page_index(), $id);
-section('clean', $urls);
+admin_upper_urls(admin_actions(page_index(), $id));
 section('form', $form);
 
 ?>

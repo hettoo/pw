@@ -130,4 +130,12 @@ function admin_actions($index, $id = 0) {
     return '';
 }
 
+function admin_upper_urls($urls) {
+    wrap_section('upper-urls', 'clean', $urls);
+}
+
+function admin_lower_urls($urls) {
+    wrap_section('lower-urls', 'clean', $urls);
+}
+
 ?>

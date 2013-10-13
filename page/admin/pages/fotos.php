@@ -42,8 +42,7 @@ if (!empty($files)) {
     $uploader->setData($data);
 }
 
-$urls = admin_actions(page_index(), $id);
-section('clean', $urls);
+admin_upper_urls(admin_actions(page_index(), $id));
 section('form', $uploader->getForm());
 
 ?>

@@ -11,8 +11,8 @@ if (is_null($s['admin']))
 $action_index = page_index() + 1;
 $urls = action_list($action_index, array('logout'));
 
-section('clean', $urls);
+admin_upper_urls($urls);
 list_modules();
-section('clean', $urls);
+admin_lower_urls($urls);
 
 ?>

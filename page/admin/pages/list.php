@@ -15,7 +15,7 @@ $action_index = page_index();
 $table = new Table();
 $table->addColumn(array('title' => 'Id', 'size' => 'small'));
 $table->addColumn(array('title' => 'Page', 'size' => 'large'));
-$table->addColumn(array('name' => 'actions', 'title' => '', 'size' => 'medium', 'no-order' => true));
+$table->addColumn(array('name' => 'actions', 'title' => '', 'no-order' => true));
 $table->processOrder('id');
 
 $pager = $table->setPager();
@@ -33,8 +33,8 @@ $pager->query('*', prefix('page'), "WHERE `page`$like$order", function ($row, $a
 }, array($table, $action_index));
 
 $urls = admin_actions($action_index);
-section('clean', $urls);
+admin_upper_urls($urls);
 section('table', $table);
-section('clean', $urls);
+admin_lower_urls($urls);
 
 ?>

@@ -170,3 +170,11 @@ p.error span {
 td.last {
     padding-right: 0px;
 }
+
+#upper-urls {
+    margin-bottom: 15px;
+}
+
+#lower-urls {
+    margin-top: 15px;
+}
