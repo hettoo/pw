@@ -127,7 +127,7 @@ if (empty($s['head'])) {
     $s['title'] = strip_tags($s['head']);
 } else {
     $s['title'] = strip_tags($s['head']);
-    $s['keywords'] = $s['title'] . (empty($s['keywords'] ? '' : ', ' . $s['keywords']));
+    $s['keywords'] = $s['title'] . (empty($s['keywords']) ? '' : ', ' . $s['keywords']);
     $s['title'] .= ' - ' . $s['project'];
 }
 
