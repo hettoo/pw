@@ -45,6 +45,5 @@ if (!empty($files)) {
 $urls = admin_actions(page_index(), $id);
 section('clean', $urls);
 section('form', $uploader->getForm());
-section('clean', $urls);
 
 ?>
