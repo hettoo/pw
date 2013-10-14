@@ -98,6 +98,8 @@ function default_head() {
     echo '<title>' . $s['title'] . '</title>';
     echo '<meta name="keywords" content="' . $s['keywords'] . '">';
     echo '<meta name="description" content="' . $s['description'] . '">';
+    if (is_null(pw_file('favicon.ico', true)))
+        echo '<link rel="shortcut icon" href="' . resource_url('stock-favicon.ico') . '" />';
     if ($s['hide'])
         echo '<meta name="robots" content="noindex, nofollow">';
     $css = split_values($s['css']);
