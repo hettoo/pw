@@ -6,7 +6,9 @@ $search = $table->getSearch();
 $pager = $table->getPager();
 $head = $table->getHead();
 if (empty($content)) {
-    echo((isset($search) ? $search->format() : '') . '<p>' . $table->getEmptyMessage() . '</p>');
+    if (isset($search))
+        subsection('search', $search);
+    subsection('single', $table->getEmptyMessage());
     return;
 }
 if (isset($search))
