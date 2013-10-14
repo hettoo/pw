@@ -25,13 +25,15 @@ function init_page($page, $single = false) {
     $s['c'] = array();
     $filtered = secure($page);
     $id = 0;
-    $result = query("SELECT * FROM `" . prefix('page') . "` WHERE `page`='$filtered'");
-    if ($result && $row = $result->fetch_array()) {
-        $s = array_merge($s, $row);
-        $id = $row['id'];
-        $result = query("SELECT `content` FROM `" . prefix('content') . "` WHERE `page`='$id' ORDER BY `ranking`");
-        while ($row = $result->fetch_array())
-            $s['c'][] = $row['content'];
+    if ($page != 'pw') {
+        $result = query("SELECT * FROM `" . prefix('page') . "` WHERE `page`='$filtered'");
+        if ($result && $row = $result->fetch_array()) {
+            $s = array_merge($s, $row);
+            $id = $row['id'];
+            $result = query("SELECT `content` FROM `" . prefix('content') . "` WHERE `page`='$id' ORDER BY `ranking`");
+            while ($row = $result->fetch_array())
+                $s['c'][] = $row['content'];
+        }
     }
     $real = real_page($page);
     if ($real == '404' && $id != 0 && $page != '404') {
