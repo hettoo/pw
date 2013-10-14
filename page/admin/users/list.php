@@ -14,7 +14,7 @@ $action_index = page_index();
 
 $table = new Table();
 $table->addColumn(array('title' => 'Id', 'size' => 'small'));
-$table->addColumn(array('title' => 'Name', 'size' => 'large'));
+$table->addColumn(array('title' => 'Name', 'size' => 'medium'));
 if ($s['admin']->permits($s['admin_level']))
     $table->addColumn(array('title' => 'Password', 'size' => 'huge'));
 $table->addColumn(array('title' => 'Level', 'size' => 'small'));
