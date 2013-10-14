@@ -97,7 +97,7 @@ function list_modules() {
 function admin_actions($index, $id = 0) {
     global $s, $hierarchy;
     foreach ($s['modules'] as $module) {
-        if (nicen($module[0]) == $hierarchy[1]) {
+        if (nicen($module[0]) == $hierarchy[$index - 1]) {
             $result = array();
             $items = $module[1];
             foreach ($items as $item) {
@@ -105,7 +105,7 @@ function admin_actions($index, $id = 0) {
                     $name = $item[0];
                 else
                     $name = $item;
-                if ($id || $name != $hierarchy[2])
+                if ($id || $name != $hierarchy[$index])
                     $result[] = $item;
             }
             $specifics = $module[2];
@@ -118,7 +118,7 @@ function admin_actions($index, $id = 0) {
                         $name = $item;
                         $new = array($item, $item);
                     }
-                    if ($name != $hierarchy[2]) {
+                    if ($name != $hierarchy[$index]) {
                         $new[0] = $name . '/' . $id;
                         $result[] = $new;
                     }

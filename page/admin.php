@@ -8,8 +8,7 @@ import_lib('common/admin');
 if (is_null($s['admin']))
     return;
 
-$action_index = page_index() + 1;
-$urls = action_list($action_index, array('logout'));
+$urls = action_list(page_index() + 1, array('logout'));
 
 admin_upper_urls($urls);
 list_modules();
