@@ -34,7 +34,7 @@ class Account {
                 $login = false;
                 $result = $function($form);
                 if (is_array($result) && !empty($result)) {
-                    section('errors', $result);
+                    section('error', $result);
                 } elseif (is_array($result) || is_null($result)) {
                     $login = true;
                 } else {
@@ -52,7 +52,7 @@ class Account {
                     $_SESSION[$this->table] = $row['id'];
                     return true;
                 }
-                section('single', 'Incorrect name / password combination.');
+                section('error', 'Incorrect name / password combination.');
             }
         }
         $form->add('Name', 'text', 'name');
