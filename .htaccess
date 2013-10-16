@@ -1,6 +1,16 @@
 <IfModule mod_deflate.c>
 AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml application/javascript
 </IfModule>
+<IfModule mod_expires.c>
+ExpiresActive On
+ExpiresByType image/jpeg "access plus 1 week"
+ExpiresByType image/gif "access plus 1 week"
+ExpiresByType image/png "access plus 1 week"
+ExpiresByType image/x-icon "access plus 1 week"
+ExpiresByType text/css "access plus 1 week"
+ExpiresByType application/pdf "access plus 1 week"
+ExpiresByType application/javascript "access plus 1 month"
+</IfModule>
 <IfModule mod_rewrite.c>
 RewriteEngine On
 RewriteBase /
