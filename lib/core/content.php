@@ -98,8 +98,9 @@ function default_head() {
     echo '<title>' . $s['title'] . '</title>';
     echo '<meta name="keywords" content="' . $s['keywords'] . '">';
     echo '<meta name="description" content="' . $s['description'] . '">';
-    if (is_null(pw_file('favicon.ico', true)))
-        echo '<link rel="shortcut icon" href="' . theme_url('favicon.ico') . '" />';
+    echo '<link rel="shortcut icon" href="'
+        . (is_null(pw_file(resource('favicon.ico'), true))
+        ? theme_url('favicon.ico') : resource_url('favicon.ico')) . '" />';
     if ($s['hide'])
         echo '<meta name="robots" content="noindex, nofollow">';
     $css = split_values($s['css']);
