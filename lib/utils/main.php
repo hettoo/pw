@@ -21,6 +21,16 @@ function resource($target) {
     return 'r/' . $target;
 }
 
+function theme_url($target) {
+    global $s;
+    return resource_url('themes/' . $s['theme'] . '/' . $target);
+}
+
+function theme_resource($target) {
+    global $s;
+    return resource('themes/' . $s['theme'] . '/' . $target);
+}
+
 function url($target, $level = 0, $rootify = true) {
     global $base, $hierarchy;
     $result = $base;

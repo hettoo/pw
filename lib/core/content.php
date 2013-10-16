@@ -99,18 +99,18 @@ function default_head() {
     echo '<meta name="keywords" content="' . $s['keywords'] . '">';
     echo '<meta name="description" content="' . $s['description'] . '">';
     if (is_null(pw_file('favicon.ico', true)))
-        echo '<link rel="shortcut icon" href="' . resource_url('stock-favicon.ico') . '" />';
+        echo '<link rel="shortcut icon" href="' . theme_url('favicon.ico') . '" />';
     if ($s['hide'])
         echo '<meta name="robots" content="noindex, nofollow">';
     $css = split_values($s['css']);
     if ($s['inline']) {
         echo '<style type="text/css">';
         foreach ($css as $sheet)
-            import_raw(resource('css/' . $sheet . '.css'));
+            import_raw(theme_resource('css/' . $sheet . '.css'));
         echo '</style>';
     } else {
         foreach ($css as $sheet)
-            echo '<link href="' . resource_url('css/' . $sheet . '.css') . '" rel="stylesheet" type="text/css" />';
+            echo '<link href="' . theme_url('css/' . $sheet . '.css') . '" rel="stylesheet" type="text/css" />';
     }
     echo $s['header'];
     echo $s['analytics'];
