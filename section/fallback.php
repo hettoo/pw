@@ -1,3 +1,3 @@
 <?php foreach ($s['c'] as $c): ?>
-<?= $c; ?>
+<p><?= $c; ?></p>
 <?php endforeach ?>

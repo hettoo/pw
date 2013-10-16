@@ -3,9 +3,7 @@
 $s['head'] = '404';
 $s['description'] = 'Page not found.';
 
-if (customs())
-    section('custom');
-else
+if (!customs())
     section('single', 'Page not found.');
 
 ?>
