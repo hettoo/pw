@@ -78,8 +78,7 @@ class ImageUploader {
                 $image->writeImage($destination);
             }
         }
-        mkdir(resource($this->directory . '/source'));
-        rename($source, resource($this->directory . '/source/' . $name));
+        unlink($source);
     }
 
     function process($namer) {
