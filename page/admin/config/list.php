@@ -28,7 +28,7 @@ $pager->query('*', prefix('config'), "WHERE `key`$like OR `value`$like$order", f
     list($table, $action_index) = $args;
     $table->addField($row['key']);
     $table->addField($row['value']);
-    $table->addField(admin_actions($action_index, $row['id'], true));
+    $table->addField(admin_actions($action_index, $row['key'], true));
 }, array($table, $action_index));
 
 $urls = admin_actions($action_index);
