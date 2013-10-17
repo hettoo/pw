@@ -53,7 +53,7 @@ class ImageUploader {
                 $max_height = 600;
             }
             if ($type == 'none') {
-                rename($source, $destination);
+                copy($source, $destination);
             } else {
                 $image = new Imagick($source);
                 $size = $image->getImageGeometry();
@@ -76,9 +76,10 @@ class ImageUploader {
                     break;
                 }
                 $image->writeImage($destination);
-                unlink($source);
             }
         }
+        mkdir(resource($this->directory . '/source'));
+        rename($source, resource($this->directory . '/source/' . $name));
     }
 
     function process($namer) {
