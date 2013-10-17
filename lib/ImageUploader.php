@@ -43,6 +43,7 @@ class ImageUploader {
 
     function processImage($source, $name) {
         foreach ($this->configurations as $sub => $settings) {
+            mkdir(resource($this->directory . '/' . $sub));
             $destination = resource($this->directory . '/' . $sub . '/' . $name);
             if (is_array($settings)) {
                 list($type, $max_width, $max_height) = $settings;
