@@ -25,9 +25,8 @@ class Account {
             return true;
         $form = new Form($this->table);
         $function = null;
-        if (!is_null($registration)) {
+        if (!is_null($registration))
             $function = array_pop($registration);
-        }
         if ($form->received()) {
             $login = true;
             if ($function != null) {

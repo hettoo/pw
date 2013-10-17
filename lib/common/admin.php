@@ -44,13 +44,15 @@ $extra_fields = null;
 if ($register) {
     $extra_fields = array(
         array('Confirmation', 'password', 'confirmation'),
-        array('Level', 'text', 'level'),
-        array('E-mail', 'text', 'email'),
-        array('Key', 'text', 'key'),
-        admin_registration
+        array('E-mail', 'text', 'email')
     );
+    if (!$s['admin_register']) {
+        $extra_fields[] = array('Level', 'text', 'level');
+        $extra_fields[] = array('Key', 'text', 'key');
+    }
+    $extra_fields[] = admin_registration;
 }
-$result = $account->login($extra_fields, false);
+$result = $account->login($extra_fields, $register && $s['admin_register']);
 
 function fail() {
     global $s;
