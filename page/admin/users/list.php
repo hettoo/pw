@@ -37,7 +37,7 @@ $pager->query('*', prefix('admin'), "WHERE `name`$like$order", function ($row, $
         $table->addField($row['password']);
     $table->addField($row['level']);
     $table->addField($row['email']);
-    $table->addField(action_list($action_index, array(array('edit/' . $row['id'], 'edit'), array('delete/' . $row['id'], 'delete')), ' '));
+    $table->addField(admin_actions($action_index, $row['id'], true));
 }, array($table, $action_index));
 
 $urls = admin_actions($action_index);

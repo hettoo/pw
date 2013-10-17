@@ -17,7 +17,7 @@ class ImageUploader {
         $this->form->setClear(true);
         $this->directory = $directory;
 
-        $configurations = array('thumbs' => array('cut', 60, 60));
+        $configurations = array('source' => 'none', 'thumbs' => array('cut', 60, 60));
         $this->configurations = $configurations;
 
         $this->fields = 1;

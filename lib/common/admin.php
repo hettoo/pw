@@ -94,19 +94,21 @@ function list_modules() {
     wrap_section('modules', 'modules', array($hierarchy[0], $s['modules']));
 }
 
-function admin_actions($index, $id = 0) {
+function admin_actions($index, $id = 0, $short = false) {
     global $s, $hierarchy;
     foreach ($s['modules'] as $module) {
         if (nicen($module[0]) == $hierarchy[$index - 1]) {
             $result = array();
-            $items = $module[1];
-            foreach ($items as $item) {
-                if (is_array($item))
-                    $name = $item[0];
-                else
-                    $name = $item;
-                if ($id || $name != $hierarchy[$index])
-                    $result[] = $item;
+            if (!$short) {
+                $items = $module[1];
+                foreach ($items as $item) {
+                    if (is_array($item))
+                        $name = $item[0];
+                    else
+                        $name = $item;
+                    if ($id || $name != $hierarchy[$index])
+                        $result[] = $item;
+                }
             }
             $specifics = $module[2];
             if ($id) {
@@ -114,6 +116,8 @@ function admin_actions($index, $id = 0) {
                     if (is_array($item)) {
                         $name = $item[0];
                         $new = $item;
+                        if ($short)
+                            $new[1] = $new[0];
                     } else {
                         $name = $item;
                         $new = array($item, $item);
@@ -124,6 +128,8 @@ function admin_actions($index, $id = 0) {
                     }
                 }
             }
+            if ($short)
+                return action_list($index, $result, ' ');
             return action_list($index, $result);
         }
     }
