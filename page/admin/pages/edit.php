@@ -35,6 +35,8 @@ if (isset($id)) {
         $data['section_' . $i++] = $row['content'];
     }
     $form->setData($data);
+} else {
+    $form->setData(array('sections' => '1'));
 }
 if ($form->received()) {
     $page = secure($form->get('page'));
