@@ -40,7 +40,9 @@ if (isset($id)) {
 }
 if ($form->received()) {
     $page = secure($form->get('page'));
-    $query = " `" . prefix('page') . "` SET `page`='$page'";
+    $head = secure($form->get('head'));
+    $title = secure($form->get('title'));
+    $query = " `" . prefix('page') . "` SET `page`='$page', `head`='$head', `title`='$title'";
     $wanted = (int)$form->get('sections');
     $insert = $wanted - $section_count;
     if ($section_count > $wanted) {
@@ -52,7 +54,7 @@ if ($form->received()) {
     if (isset($id))
         query("UPDATE$query WHERE `id`=$id");
     else
-        $result = query("INSERT INTO$query");
+        query("INSERT INTO$query");
     $index = 0;
     for ($i = 0; $i < $edit; $i++) {
         $content = $form->get('section_' . $index);
@@ -69,8 +71,10 @@ if ($form->received()) {
     redirect_up();
 }
 $section_count = max(1, $section_count);
-$form->add('Page', 'text', 'page');
+$form->add('URL', 'text', 'page');
+$form->add('Title', 'text', 'title');
 $form->add('Sections', 'text', 'sections');
+$form->add('Head', 'text', 'head');
 for ($i = 0; $i < $section_count; $i++)
     $form->add('Section ' . ($i + 1), 'textarea', 'section_' . $i, false);
 if (isset($id))

@@ -127,11 +127,12 @@ init_page($args);
 
 header('Content-Type: text/html; charset=' . $s['charset']);
 
-if (empty($s['head'])) {
+if (empty($s['head']))
     $s['head'] = $s['project'];
-    $s['title'] = strip_tags($s['head']);
-} else {
-    $s['title'] = strip_tags($s['head']);
+if (empty($s['title']))
+    $s['title'] = $s['head'];
+$s['title'] = strip_tags($s['title']);
+if (!empty($s['head'])) {
     $s['keywords'] = $s['title'] . (empty($s['keywords']) ? '' : ', ' . $s['keywords']);
     $s['title'] .= ' - ' . $s['project'];
 }
