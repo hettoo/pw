@@ -68,7 +68,9 @@ if ($form->received()) {
         query("INSERT INTO `" . prefix('content') . "` SET `content`='$content', `page`=$page");
         $index++;
     }
-    redirect_up();
+    if ($form->get('return'))
+        redirect_up();
+    $section_count = $wanted;
 }
 $section_count = max(1, $section_count);
 $form->add('URL', 'text', 'page');
@@ -79,7 +81,8 @@ for ($i = 0; $i < $section_count; $i++)
     $form->add('Section ' . ($i + 1), 'textarea', 'section_' . $i, false);
 if (isset($id))
     $form->add($id, 'hidden', 'id');
-$form->add('Submit', 'submit');
+$form->add('Save', 'submit');
+$form->add('Save and return', 'submit', 'return');
 
 admin_upper_urls(admin_actions(page_index(), $id));
 section('form', $form);
