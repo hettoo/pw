@@ -117,6 +117,18 @@ function default_head() {
     echo $s['analytics'];
 }
 
+function page_menu($index) {
+    global $hierarchy;
+    $menu = array();
+    $start = join('/', array_slice($hierarchy, 0, $index));
+    $result = query("SELECT `page` FROM `" . prefix('page') . "` WHERE `page` LIKE '$start/%'");
+    if ($result) {
+        while ($row = $result->fetch_array())
+            $menu[] = array(explode('/', $row['page'])[$index], $row['page']);
+    }
+    return create_menu($index, $menu);
+}
+
 $s['submenu'] = '';
 $s['head'] = 'Unnamed page';
 $s['keywords'] = $s['project'];
@@ -132,10 +144,9 @@ if (empty($s['head']))
 if (empty($s['title']))
     $s['title'] = $s['head'];
 $s['title'] = strip_tags($s['title']);
-if (!empty($s['head'])) {
     $s['keywords'] = $s['title'] . (empty($s['keywords']) ? '' : ', ' . $s['keywords']);
+if ($s['title'] != $s['project'])
     $s['title'] .= ' - ' . $s['project'];
-}
 
 $s['menu'] = parse_hash($s['menu']);
 
