@@ -195,4 +195,13 @@ function extension($file) {
     return pathinfo($file, PATHINFO_EXTENSION);
 }
 
+function action_page($callback) {
+    global $s;
+    $s['suburl'] = array('id');
+    $id = find_value('id');
+    if (isset($id))
+        $callback($id);
+    redirect_up();
+}
+
 ?>

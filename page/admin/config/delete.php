@@ -4,13 +4,9 @@ import_lib('common/admin');
 if (is_null($s['admin']))
     return;
 
-$s['suburl'] = array('key');
-
-$key = find_value('key');
-if (isset($key)) {
+action_page(function ($key) {
     $key = secure($key);
     query("DELETE FROM `" . prefix('config') . "` WHERE `key`='$key'");
-}
-redirect_up();
+});
 
 ?>
