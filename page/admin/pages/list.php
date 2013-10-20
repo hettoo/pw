@@ -14,7 +14,8 @@ $action_index = page_index();
 
 $table = new Table();
 $table->addColumn(array('title' => 'Id', 'size' => 'small'));
-$table->addColumn(array('title' => 'Page', 'size' => 'large'));
+$table->addColumn(array('title' => 'Title', 'size' => 'large'));
+$table->addColumn(array('title' => 'URL', 'size' => 'large'));
 $table->addColumn(array('name' => 'actions', 'title' => '', 'no-order' => true));
 $table->processOrder('id');
 
@@ -24,10 +25,11 @@ $search = $table->setSearch();
 $like = $search->getLike();
 $order = $table->getOrder();
 
-$pager->query('*', prefix('page'), "WHERE `page`$like$order", function ($row, $args) {
+$pager->query('*', prefix('page'), "WHERE `page`$like OR `title`$like$order", function ($row, $args) {
     global $s;
     list($table, $action_index) = $args;
     $table->addField($row['id']);
+    $table->addField($row['title']);
     $table->addField($row['page']);
     $table->addField(admin_actions($action_index, $row['id'], true));
 }, array($table, $action_index));
