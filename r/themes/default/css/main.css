@@ -47,7 +47,10 @@ th a:hover {
 li.active a {
     color: #000;
 }
-input.normal, select.normal, textarea {
+input.normal, select.normal {
+    min-width: 220px;
+}
+textarea {
     min-width: 360px;
 }
 input.search {
