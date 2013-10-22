@@ -43,6 +43,6 @@ if (!empty($files)) {
 }
 
 admin_upper_urls(admin_actions(page_index(), $id));
-section('form', $uploader->getForm());
+$form->show();
 
 ?>

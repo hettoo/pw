@@ -6,7 +6,7 @@ $pager = $search->getPager();
 
 ?>
 <div class="search">
-<?php subsection('form', $form) ?>
+<?php $form->show('default', true) ?>
 <?php if (isset($pager)): ?>
 <?php subsection('pager', $pager) ?>
 <?php endif ?>

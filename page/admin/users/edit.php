@@ -47,6 +47,6 @@ if (isset($id))
 $form->add('Submit', 'submit');
 
 admin_upper_urls(admin_actions(page_index(), $id));
-section('form', $form);
+$form->show();
 
 ?>

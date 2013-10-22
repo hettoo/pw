@@ -85,6 +85,6 @@ $form->add('Save', 'submit');
 $form->add('Save and return', 'submit', 'return');
 
 admin_upper_urls(admin_actions(page_index(), $id));
-section('form', $form);
+$form->show();
 
 ?>

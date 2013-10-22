@@ -63,7 +63,7 @@ class Account {
         if ($captcha)
             $form->addCaptcha();
         $form->add('Submit', 'submit');
-        section('form', $form);
+        $form->show();
         return false;
     }
 

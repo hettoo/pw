@@ -27,6 +27,13 @@ class Form {
             $this->received = false;
     }
 
+    function show($type = 'default', $now = false) {
+        if ($now)
+            subsection('forms/' . $type, $this);
+        else
+            section('forms/' . $type, $this);
+    }
+
     function getId() {
         return $this->id;
     }
