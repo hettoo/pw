@@ -146,7 +146,7 @@ $s['description'] = '';
 $s['sections'] = array();
 $s['sectioning'] = false;
 
-init_page($s['args']);
+init_page(implode('/', $s['h']));
 
 header('Content-Type: text/html; charset=' . $s['charset']);
 

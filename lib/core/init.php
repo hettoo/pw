@@ -4,8 +4,7 @@ import_lib('utils/main');
 
 $s = array();
 $s['base'] = substr($_SERVER['SCRIPT_NAME'], 0, -9);
-$s['args'] = preg_replace('/\/$/', '', substr($_SERVER['REQUEST_URI'], strlen($s['base'])));
-$s['h'] = explode('/', $s['args']);
+$s['h'] = explode('/', preg_replace('/\/$/', '', substr($_SERVER['REQUEST_URI'], strlen($s['base']))));
 
 import_lib('core/init_config');
 import_lib('core/database');
@@ -21,7 +20,7 @@ if (file_exists('setup/setup')) {
 
     load_db();
 } else {
-    $s['args'] = 'pw';
+    $s['h'] = array('pw');
 }
 
 if (!isset($s['libs']))
