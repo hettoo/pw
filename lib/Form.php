@@ -51,10 +51,6 @@ class Form {
         return $this->elements;
     }
 
-    private function finishForm() {
-        return '<input type="hidden" name="_form_id" value="' . $this->id . '" /></form>';
-    }
-
     private function tableLess($type) {
         return $type == 'hidden' || $type == 'submit';
     }
