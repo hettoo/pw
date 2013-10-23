@@ -117,14 +117,26 @@ function default_head() {
 
 function page_menu($index) {
     global $hierarchy;
-    $menu = array();
     $start = join('/', array_slice($hierarchy, 0, $index));
-    $result = query("SELECT `page` FROM `" . prefix('page') . "` WHERE `page` LIKE '$start/%'");
-    if ($result) {
-        while ($row = $result->fetch_array())
-            $menu[] = array(explode('/', $row['page'])[$index], $row['page']);
+    $result = query("SELECT `page`, `short_title` FROM `" . prefix('page') . "` WHERE `page` LIKE '$start/%'");
+    if ($result && $result->num_rows) {
+        $menu = array();
+        $mainresult = query("SELECT `page`, `short_title` FROM `" . prefix('page') . "` WHERE `page`='$start'");
+        if ($mainresult && $mainresult->num_rows && $row = $mainresult->fetch_array()) {
+            $title = $row['short_title'];
+            if (empty($title))
+                $title = $hierarchy[$index - 1];
+            $menu[] = array('', $title);
+        }
+        while ($row = $result->fetch_array()) {
+            $title = $row['short_title'];
+            if (empty($title))
+                $title = $row['page'];
+            $menu[] = array(explode('/', $row['page'])[$index], $title);
+        }
+        return create_menu($index, $menu);
     }
-    return create_menu($index, $menu);
+    return '';
 }
 
 $s['submenu'] = '';
@@ -138,6 +150,8 @@ init_page($args);
 
 header('Content-Type: text/html; charset=' . $s['charset']);
 
+if (empty($s['submenu']))
+    $s['submenu'] = page_menu(1);
 if (empty($s['head']))
     $s['head'] = $s['project'];
 if (empty($s['title']))

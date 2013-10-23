@@ -12,6 +12,7 @@ $setup->add('id', 'INT NOT NULL AUTO_INCREMENT PRIMARY KEY');
 $setup->add('page', 'TEXT');
 $setup->add('head', 'TEXT');
 $setup->add('title', 'TEXT');
+$setup->add('short_title', 'TEXT');
 $setup->setup();
 
 $setup = new TableSetup(prefix('content'));
