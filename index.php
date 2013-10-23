@@ -14,7 +14,6 @@ function script($script, $original = false) {
 }
 
 function import_once($script, $original = false) {
-    global $base, $args, $hierarchy;
     global $s;
     $script = script($script, $original);
     return include_once($script);

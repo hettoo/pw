@@ -2,12 +2,10 @@
 
 import_lib('utils/main');
 
-$base = substr($_SERVER['SCRIPT_NAME'], 0, -9);
-$args = preg_replace('/\/$/', '', substr($_SERVER['REQUEST_URI'], strlen($base)));
-
-$hierarchy = explode('/', $args);
-
 $s = array();
+$s['base'] = substr($_SERVER['SCRIPT_NAME'], 0, -9);
+$s['args'] = preg_replace('/\/$/', '', substr($_SERVER['REQUEST_URI'], strlen($s['base'])));
+$s['h'] = explode('/', $s['args']);
 
 import_lib('core/init_config');
 import_lib('core/database');
@@ -23,7 +21,7 @@ if (file_exists('setup/setup')) {
 
     load_db();
 } else {
-    $args = 'pw';
+    $s['args'] = 'pw';
 }
 
 if (!isset($s['libs']))

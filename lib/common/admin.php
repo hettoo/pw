@@ -5,7 +5,7 @@ import_lib('Account');
 $register = false;
 $index = find_index('mode');
 if (isset($index))
-    $register = $hierarchy[$index] == 'register';
+    $register = $s['h'][$index] == 'register';
 
 $s['hide'] = true;
 
@@ -83,7 +83,7 @@ if (!$result) {
 
     $s['submenu'] = create_menu(1, $s['submenu']);
 
-    $module = $hierarchy[1];
+    $module = $s['h'][1];
     $level = $s['module_levels'][$module];
     if (isset($level) && !$s['admin']->permits($level)) {
         section('single', 'You do not have permission to be here.');
@@ -92,14 +92,14 @@ if (!$result) {
 }
 
 function list_modules() {
-    global $s, $hierarchy;
-    wrap_section('modules', 'modules', array($hierarchy[0], $s['modules']));
+    global $s;
+    wrap_section('modules', 'modules', array($s['h'][0], $s['modules']));
 }
 
 function admin_actions($index, $id = 0, $short = false) {
-    global $s, $hierarchy;
+    global $s;
     foreach ($s['modules'] as $module) {
-        if (nicen($module[0]) == $hierarchy[$index - 1]) {
+        if (nicen($module[0]) == $s['h'][$index - 1]) {
             $result = array();
             if (!$short) {
                 $items = $module[1];
@@ -108,7 +108,7 @@ function admin_actions($index, $id = 0, $short = false) {
                         $name = $item[0];
                     else
                         $name = $item;
-                    if ($id || $name != $hierarchy[$index])
+                    if ($id || $name != $s['h'][$index])
                         $result[] = $item;
                 }
             }
@@ -124,7 +124,7 @@ function admin_actions($index, $id = 0, $short = false) {
                         $name = $item;
                         $new = array($item, $item);
                     }
-                    if ($name != $hierarchy[$index]) {
+                    if ($name != $s['h'][$index]) {
                         $new[0] = $name . '/' . $id;
                         $result[] = $new;
                     }

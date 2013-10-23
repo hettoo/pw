@@ -22,8 +22,8 @@ class Search {
     }
 
     function get() {
-        global $hierarchy;
-        return simplify(unescape_url($hierarchy[$this->index]));
+        global $s;
+        return simplify(unescape_url($s['h'][$this->index]));
     }
 
     function getLike() {
@@ -31,11 +31,11 @@ class Search {
     }
 
     private function setForm() {
-        global $hierarchy;
+        global $s;
         if (isset($this->form))
             return;
         $this->form = new Form('search', isset($this->pager) && $this->pager->drawable() ? 'left' : null);
-        $this->form->setData(array('name' => unescape_url($hierarchy[$this->index])));
+        $this->form->setData(array('name' => unescape_url($s['h'][$this->index])));
         $this->form->add('Name', 'text', 'name', false, array('class' => 'search'));
         $this->form->add('Search', 'submit');
     }

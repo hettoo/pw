@@ -1,7 +1,6 @@
 <?php
 
 function import($script, $original = false) {
-    global $base, $args, $hierarchy;
     global $s;
     $script = script($script, $original);
     return include($script);
@@ -13,8 +12,8 @@ function import_raw($file, $original = false) {
 }
 
 function resource_url($target) {
-    global $base;
-    return $base . 'r/' . $target;
+    global $s;
+    return $s['base'] . 'r/' . $target;
 }
 
 function resource($target) {
@@ -32,9 +31,9 @@ function theme_resource($target) {
 }
 
 function url($target, $level = 0, $rootify = true) {
-    global $base, $hierarchy;
-    $result = $base;
-    for ($i = 0; $i < count($hierarchy); $i++) {
+    global $s;
+    $result = $s['base'];
+    for ($i = 0; $i < count($s['h']); $i++) {
         if ($i > 0)
             $result .= '/';
         if ($i == $level) {
@@ -42,7 +41,7 @@ function url($target, $level = 0, $rootify = true) {
             if ($rootify)
                 return $result;
         } else {
-            $result .= $hierarchy[$i];
+            $result .= $s['h'][$i];
         }
     }
     if ($i <= $level) {
@@ -54,8 +53,8 @@ function url($target, $level = 0, $rootify = true) {
 }
 
 function this_url() {
-    global $hierarchy;
-    return url(join('/', $hierarchy));
+    global $s;
+    return url(join('/', $s['h']));
 }
 
 function read_line($fp) {
@@ -117,10 +116,10 @@ function find_index($string) {
 }
 
 function find_value($string) {
-    global $hierarchy;
+    global $s;
     $index = find_index($string);
     if (isset($index))
-        return $hierarchy[$index];
+        return $s['h'][$index];
     return null;
 }
 

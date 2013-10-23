@@ -18,8 +18,8 @@ else if (isset($pager))
 
 if (isset($pager)) {
     $index = $pager->getIndex();
-    $page = $hierarchy[$index];
-    $hierarchy[$index] = '1';
+    $page = $s['h'][$index];
+    $s['h'][$index] = '1';
 }
 
 ?>
@@ -46,6 +46,6 @@ if (isset($pager)) {
 <?php
 
 if (isset($pager))
-    $hierarchy[$pager->getIndex()] = $page;
+    $s['h'][$pager->getIndex()] = $page;
 
 ?>

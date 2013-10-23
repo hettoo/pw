@@ -1,7 +1,7 @@
 <?php
 
 function create_menu($level, $menu) {
-    global $hierarchy;
+    global $s;
     $result = '';
     foreach ($menu as $item) {
         if (is_array($item)) {
@@ -11,7 +11,7 @@ function create_menu($level, $menu) {
             $name = $item;
         }
         $result .= '<div';
-        if ($hierarchy[$level] == $link)
+        if ($s['h'][$level] == $link)
             $result .= ' class="active"';
         $result .= '><a href="' . url($link, $level) . '">' . $name . '</a></div>';
     }

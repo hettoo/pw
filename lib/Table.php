@@ -74,12 +74,12 @@ class Table {
     }
 
     function getOrdering($default = null) {
-        global $s, $hierarchy;
-        $order = secure($hierarchy[$this->order_index]);
+        global $s;
+        $order = secure($s['h'][$this->order_index]);
         if (isset($default)) {
             if ($order == '')
                 $order = $default;
-            $hierarchy[$this->order_index] = $order;
+            $s['h'][$this->order_index] = $order;
         }
         $descending = substr($order, -1) == '-';
         if ($descending)
@@ -153,16 +153,16 @@ class Table {
     }
 
     function invert($link) {
-        global $hierarchy;
-        $current = $hierarchy[$this->order_index];
+        global $s;
+        $current = $s['h'][$this->order_index];
         if ($current == $link)
             return $link . '-';
         return $link;
     }
 
     function suffix($link) {
-        global $hierarchy;
-        $current = $hierarchy[$this->order_index];
+        global $s;
+        $current = $s['h'][$this->order_index];
         if ($current == $link)
             return '+';
         if ($current == $link . '-')

@@ -51,8 +51,8 @@ function init_page($page, $single = false) {
 }
 
 function subpage($sub) {
-    global $s, $hierarchy;
-    $hierarchy = explode('/', $s['page'] . '/' . $sub);
+    global $s;
+    $s['h'] = explode('/', $s['page'] . '/' . $sub);
     init_page($s['page'] . '/' . $sub, true);
 }
 
@@ -116,8 +116,8 @@ function default_head() {
 }
 
 function page_menu($index) {
-    global $hierarchy;
-    $start = join('/', array_slice($hierarchy, 0, $index));
+    global $s;
+    $start = join('/', array_slice($s['h'], 0, $index));
     $result = query("SELECT `page`, `short_title` FROM `" . prefix('page') . "` WHERE `page` LIKE '$start/%'");
     if ($result && $result->num_rows) {
         $menu = array();
@@ -125,7 +125,7 @@ function page_menu($index) {
         if ($mainresult && $mainresult->num_rows && $row = $mainresult->fetch_array()) {
             $title = $row['short_title'];
             if (empty($title))
-                $title = $hierarchy[$index - 1];
+                $title = $s['h'][$index - 1];
             $menu[] = array('', $title);
         }
         while ($row = $result->fetch_array()) {
@@ -146,7 +146,7 @@ $s['description'] = '';
 $s['sections'] = array();
 $s['sectioning'] = false;
 
-init_page($args);
+init_page($s['args']);
 
 header('Content-Type: text/html; charset=' . $s['charset']);
 
