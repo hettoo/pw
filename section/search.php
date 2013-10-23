@@ -6,7 +6,7 @@ $pager = $search->getPager();
 
 ?>
 <div class="search">
-<?php $form->show('default') ?>
+<?php $form->show('inline') ?>
 <?php if (isset($pager)): ?>
 <?php section('pager', $pager) ?>
 <?php endif ?>
