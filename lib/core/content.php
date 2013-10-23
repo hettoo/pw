@@ -65,7 +65,7 @@ function wrap_section($id, $section, $data = '') {
     global $s;
     if ($s['sectioning']) {
         if (isset($id))
-            echo '<div id="' . $section_data[0] . '">';
+            echo '<div id="' . $id . '">';
         $s['d'] = $data;
         import('section/' . $section);
         if (isset($id))
