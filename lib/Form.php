@@ -7,20 +7,16 @@ class Form {
     private $id;
     private $class;
     private $elements;
-    private $inline;
     private $received;
-    private $tabled;
     private $clear;
     private $data;
 
-    function __construct($id = 'form', $inline = false, $class = null) {
+    function __construct($id = 'form', $class = null) {
         $this->elements = array();
         $this->id = $id;
         $this->class = $class;
-        $this->inline = $inline;
         $this->data = array();
         $this->clear = false;
-        $this->tabled = false;
         if ($_POST['_form_id'] == $id)
             $this->received = true;
         else
@@ -51,22 +47,7 @@ class Form {
         return $this->received;
     }
 
-    private function startTable() {
-        if (!$this->tabled) {
-            $this->elements[] = '<table>';
-            $this->tabled = true;
-        }
-    }
-
-    private function finishTable() {
-        if ($this->tabled) {
-            $this->elements[] = '</table>';
-            $this->tabled = false;
-        }
-    }
-
     function getElements() {
-        $this->finishTable();
         return $this->elements;
     }
 
@@ -129,33 +110,31 @@ class Form {
         return $attributes;
     }
 
-    function add($title, $type, $name = null, $obligatory = true, $attributes = array()) {
+    private function prepare($title, $type, $name, $attributes) {
         $clear = isset($attributes['clear']) ? $attributes['clear'] : false;
         unset($attributes['clear']);
         if (isset($name))
             $attributes = $this->fillAttributes($attributes, $name, $type != 'file' && !$clear);
-        if ($this->inline || $this->tableLess($type)) {
-            $this->finishTable();
-            $this->elements[] = $this->createInput($name, $title, $type, $attributes);
-            return;
+        return $this->createInput($name, $title, $type, $attributes);
+    }
+
+    function add($title, $type, $name = null, $obligatory = true, $attributes = array()) {
+        $visual_title = $title;
+        if ($this->tableLess($type)) {
+            $visual_title = '';
+            $obligatory = false;
         }
-        $this->startTable();
-        $content = '<tr>';
-        $content .= '<td>' . $title . ($obligatory ? ' <span class="obligatory">*</span>' : '') . '</td><td>' . $this->createInput($name, $title, $type, $attributes) . '</td>';
-        $content .= '</tr>';
-        $this->elements[] = $content;
+        $this->elements[] = array($visual_title, $obligatory, $this->prepare($title, $type, $name, $attributes));
+    }
+
+    function addRaw($html, $title = null, $obligatory = null) {
+        $this->elements[] = array($title, $obligatory, $html);
     }
 
     function addCaptcha() {
         $_SESSION['captcha_' . $this->id] = simple_php_captcha();
-        $this->startTable();
-        $this->elements[] = '<tr><td></td><td><img src="' . url('captcha-image') . '" alt="CAPTCHA security code" /></td></tr>';
+        $this->addRaw('<img src="' . url('captcha-image') . '" alt="CAPTCHA security code" />', '', false);
         $this->add('Captcha', 'text', 'captcha', true, array('clear' => 1));
-    }
-
-    function addRaw($html) {
-        $this->finishTable();
-        $this->elements[] = $html;
     }
 }
 
