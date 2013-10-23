@@ -8,7 +8,7 @@
 body {
     font-family: 'Oxygen', sans-serif;
     font-size: 14px;
-    margin: 0px;
+    margin: 0;
 }
 
 a {
@@ -19,15 +19,15 @@ a:hover {
     color: #090;
 }
 h1 {
-    padding: 0px;
-    margin: 0px 0px 10px 0px;
+    padding: 0;
+    margin: 0 0 10px 0;
 }
 th {
     text-align: left;
 }
 th, td {
     padding-right: 10px;
-    padding-left: 0px;
+    padding-left: 0;
 }
 td {
     white-space: nowrap;
@@ -93,22 +93,28 @@ form.left {
     width: 960px;
 }
 
+#sub-menu {
+    position: fixed;
+    left: 0;
+    top: 128px;
+}
 #first, #sub-menu {
     float: left;
     width: 128px;
     overflow: hidden;
 }
-#main-menu, #head, #content {
-    margin-left: 128px;
-}
-#head, #content {
-    padding-left: 24px;
-}
-#head, #content {
-    width: 580px;
+#main-menu {
+    position: fixed;
+    top: 0;
 }
 #content {
+    position: absolute;
+    top: 64px;
+    width: 580px;
     padding-bottom: 20px;
+}
+#main-menu, #content {
+    left: 152px;
 }
 #main-menu div {
     float: left;
@@ -117,15 +123,18 @@ form.left {
     font-weight: bold;
     font-size: 17px;
     margin-bottom: 24px;
+    background-color: #fff;
 }
 #main-menu .active a, #sub-menu .active a {
     color: #fff;
 }
-
+#main-menu .active {
+    background-color: #090;
+}
 #sub-menu div {
     font-weight: bold;
     font-size: 15px;
-    padding: 10px 22px 10px 0px;
+    padding: 10px 22px 10px 0;
     text-align: right;
 }
 
@@ -189,7 +198,7 @@ p.error span {
 }
 
 td.last {
-    padding-right: 0px;
+    padding-right: 0;
 }
 
 #upper-urls {
