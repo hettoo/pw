@@ -3,13 +3,13 @@
 import_lib('utils/format');
 
 function page_file($page) {
-    return 'page/' . $page;
+    return lib_file('page/' . $page);
 }
 
 function real_page($page) {
     while ($page != '' && is_null(script(page_file($page)))) {
         $next_page = dirname($page);
-        if ($next_page == '.')
+        if ($next_page == page_file('') || $next_page == '.')
             $next_page = '';
         $page = $next_page . '/_';
         if (is_null(script(page_file($page))))

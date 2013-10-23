@@ -19,8 +19,12 @@ function import_once($script, $original = false) {
     return include_once($script);
 }
 
+function lib_file($lib) {
+    return 'lib/' . $lib;
+}
+
 function import_lib($lib) {
-    $lib = 'lib/' . $lib;
+    $lib = lib_file($lib);
     if (!import_once($lib))
         return import_once($lib, true);
     return true;
