@@ -63,31 +63,29 @@ function customs() {
 
 function wrap_section($id, $section, $data = '') {
     global $s;
-    $s['sections'][] = array($id, $section, $data);
+    if ($s['sectioning']) {
+        if (isset($id))
+            echo '<div id="' . $section_data[0] . '">';
+        $s['d'] = $data;
+        import('section/' . $section);
+        if (isset($id))
+            echo '</div>';
+    } else {
+        $s['sections'][] = array($id, $section, $data);
+    }
 }
 
 function section($section, $data = '') {
     wrap_section(null, $section, $data);
 }
 
-function subsection($section, $data = '') {
-    global $s;
-    $s['d'] = $data;
-    import('section/' . $section);
-}
-
 function body() {
     global $s;
     if (empty($s['sections'])) {
-        subsection('fallback');
+        section('fallback');
     } else {
-        foreach ($s['sections'] as $section_data) {
-            if (isset($section_data[0]))
-                echo '<div id="' . $section_data[0] . '">';
-            subsection($section_data[1], $section_data[2]);
-            if (isset($section_data[0]))
-                echo '</div>';
-        }
+        foreach ($s['sections'] as $section_data)
+            wrap_section($section_data[0], $section_data[1], $section_data[2]);
     }
 }
 
@@ -134,6 +132,7 @@ $s['head'] = 'Unnamed page';
 $s['keywords'] = $s['project'];
 $s['description'] = '';
 $s['sections'] = array();
+$s['sectioning'] = false;
 
 init_page($args);
 
@@ -150,6 +149,7 @@ if ($s['title'] != $s['project'])
 
 $s['menu'] = parse_hash($s['menu']);
 
-subsection('main');
+$s['sectioning'] = true;
+section('main');
 
 ?>

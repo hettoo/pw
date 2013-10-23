@@ -7,14 +7,14 @@ $pager = $table->getPager();
 $head = $table->getHead();
 if (empty($content)) {
     if (isset($search))
-        subsection('search', $search);
-    subsection('single', $table->getEmptyMessage());
+        section('search', $search);
+    section('single', $table->getEmptyMessage());
     return;
 }
 if (isset($search))
-    subsection('search', $search);
+    section('search', $search);
 else if (isset($pager))
-    subsection('pager', $pager);
+    section('pager', $pager);
 
 if (isset($pager)) {
     $index = $pager->getIndex();
