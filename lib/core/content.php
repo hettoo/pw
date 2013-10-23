@@ -117,7 +117,7 @@ function default_head() {
 
 function page_menu($index) {
     global $s;
-    $start = join('/', array_slice($s['h'], 0, $index));
+    $start = implode('/', array_slice($s['h'], 0, $index));
     $result = query("SELECT `page`, `short_title` FROM `" . prefix('page') . "` WHERE `page` LIKE '$start/%'");
     if ($result && $result->num_rows) {
         $menu = array();

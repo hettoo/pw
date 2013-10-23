@@ -54,7 +54,7 @@ function url($target, $level = 0, $rootify = true) {
 
 function this_url() {
     global $s;
-    return url(join('/', $s['h']));
+    return url(implode('/', $s['h']));
 }
 
 function read_line($fp) {
