@@ -3,9 +3,11 @@
 $form = $s['d'];
 $class = $form->getClass();
 $elements = $form->getElements();
+$errors = $form->getErrors();
 $table = false;
 
 ?>
+<?php section('error', $errors) ?>
 <form action="<?= this_url() ?>" method="POST" enctype="multipart/form-data"<?= isset($class) ? ' class="' . $class . '"' : '' ?>>
 <?php
 foreach ($elements as $element) {

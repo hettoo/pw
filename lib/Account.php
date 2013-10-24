@@ -36,19 +36,17 @@ class Account {
         if ($captcha)
             $form->addCaptcha();
         $form->add('Submit', 'submit');
-        if ($form->received()) {
-            $errors = $form->check();
-            if (empty($errors)) {
+        if ($form->received() && $form->check()) {
                 $login = true;
                 if ($function != null) {
                     $login = false;
                     $result = $function($form);
                     if (is_array($result) && !empty($result)) {
-                        section('error', $result);
+                        $form->addError($result);
                     } elseif (is_array($result) || is_null($result)) {
                         $login = true;
                     } else {
-                        section('error', $result);
+                        $form->addError($result);
                     }
                 }
                 if ($login) {
@@ -62,11 +60,8 @@ class Account {
                         $_SESSION[$this->table] = $row['id'];
                         return true;
                     }
-                    $errors[] = 'Incorrect name / password combination.';
+                    $form->addError('Incorrect name / password combination.');
                 }
-            }
-            if (!empty($errors))
-                section('error', $errors);
         }
         $form->show();
         return false;

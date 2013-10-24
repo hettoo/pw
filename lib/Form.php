@@ -8,6 +8,8 @@ class Form {
     private $class;
     private $elements;
     private $names;
+    private $errors;
+    private $errored;
     private $received;
     private $clear;
     private $data;
@@ -17,6 +19,8 @@ class Form {
         $this->class = $class;
         $this->elements = array();
         $this->names = array();
+        $this->errors = array();
+        $this->errored = array();
         $this->data = array();
         $this->clear = false;
         if ($_POST['_form_id'] == $id)
@@ -49,15 +53,27 @@ class Form {
         return $this->received;
     }
 
-    function check() {
-        $errors = array();
+    function addError($error, $name = null) {
         if (!$this->received)
-            return $errors;
+            return;
+        $this->errors[] = $error;
+        if (isset($name))
+            $this->errored[$name] = true;
+    }
+
+    function check() {
+        if (!$this->received)
+            return true;
+        $result = true;
         foreach ($this->names as $name => $value) {
             if (!empty($name) && $value == 2 && empty($this->get($name)))
-                $errors[] = ucfirst($name) . ' can not be empty.';
+                $this->addError(ucfirst($name) . ' can not be empty.', $name);
         }
-        return $errors;
+        return empty($this->errors);
+    }
+
+    function getErrors() {
+        return $this->errors;
     }
 
     function getElements() {
