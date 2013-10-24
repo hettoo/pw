@@ -89,6 +89,16 @@ function body() {
     }
 }
 
+function css_file($sheet) {
+    global $s;
+    return 'css/' . $sheet . ($s['min_css'] ? '.min' : '') . '.css';
+}
+
+function js_file($script) {
+    global $s;
+    return 'js/' . $script . ($s['min_js'] ? '.min' : '') . '.js';
+}
+
 function default_head() {
     global $s;
 
@@ -101,15 +111,22 @@ function default_head() {
         ? theme_url('favicon.ico') : resource_url('favicon.ico')) . '" />';
     if ($s['hide'])
         echo '<meta name="robots" content="noindex, nofollow">';
-    $css = split_values($s['css']);
+    $s['css'] = array_unique($s['css']);
+    $s['js'] = array_unique($s['js']);
     if ($s['inline']) {
         echo '<style type="text/css">';
-        foreach ($css as $sheet)
-            import_raw(theme_resource('css/' . $sheet . '.css'));
+        foreach ($s['css'] as $sheet)
+            import_raw(theme_resource(css_file($sheet)));
         echo '</style>';
+        echo '<script>';
+        foreach ($s['js'] as $script)
+            import_raw(resource(js_file($script)));
+        echo '</script>';
     } else {
-        foreach ($css as $sheet)
-            echo '<link href="' . theme_url('css/' . $sheet . '.css') . '" rel="stylesheet" type="text/css" />';
+        foreach ($s['css'] as $sheet)
+            echo '<link href="' . theme_url(css_file($sheet)) . '" rel="stylesheet" type="text/css" />';
+        foreach ($s['js'] as $script)
+            echo '<script src="' . resource_url(js_file($js)) . '" />';
     }
     echo $s['header'];
     echo $s['analytics'];
