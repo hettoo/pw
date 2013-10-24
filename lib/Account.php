@@ -27,6 +27,15 @@ class Account {
         $function = null;
         if (!is_null($registration))
             $function = array_pop($registration);
+        $form->add('Name', 'text', 'name');
+        $form->add('Password', 'password', 'password');
+        if (!is_null($registration)) {
+            foreach ($registration as $arguments)
+                call_user_func_array(array($form, 'add'), $arguments);
+        }
+        if ($captcha)
+            $form->addCaptcha();
+        $form->add('Submit', 'submit');
         if ($form->received()) {
             $login = true;
             if ($function != null) {
@@ -54,15 +63,6 @@ class Account {
                 section('error', 'Incorrect name / password combination.');
             }
         }
-        $form->add('Name', 'text', 'name');
-        $form->add('Password', 'password', 'password');
-        if (!is_null($registration)) {
-            foreach ($registration as $arguments)
-                call_user_func_array(array($form, 'add'), $arguments);
-        }
-        if ($captcha)
-            $form->addCaptcha();
-        $form->add('Submit', 'submit');
         $form->show();
         return false;
     }

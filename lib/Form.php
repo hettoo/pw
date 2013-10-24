@@ -7,14 +7,16 @@ class Form {
     private $id;
     private $class;
     private $elements;
+    private $names;
     private $received;
     private $clear;
     private $data;
 
     function __construct($id = 'form', $class = null) {
-        $this->elements = array();
         $this->id = $id;
         $this->class = $class;
+        $this->elements = array();
+        $this->names = array();
         $this->data = array();
         $this->clear = false;
         if ($_POST['_form_id'] == $id)
@@ -45,6 +47,15 @@ class Form {
 
     function received() {
         return $this->received;
+    }
+
+    function check() {
+        $errors = array();
+        foreach ($this->names as $name => $value) {
+            if ($value == 2 && empty($this->get($name)))
+                $errors[] = $name . ' can not be empty.';
+        }
+        return $errors;
     }
 
     function getElements() {
@@ -85,10 +96,14 @@ class Form {
     }
 
     function get($name) {
+        if (!$this->names[$name])
+            return null;
         return $_POST[$this->id . '_' . $name];
     }
 
     function getFile($name) {
+        if (!$this->names[$name])
+            return null;
         return $_FILES[$this->id . '_' . $name];
     }
 
@@ -115,6 +130,7 @@ class Form {
     }
 
     function add($title, $type, $name = null, $obligatory = true, $attributes = array()) {
+        $this->names[$name] = $obligatory ? 2 : 1;
         $visual_title = $title;
         if ($this->tableLess($type)) {
             $visual_title = '';

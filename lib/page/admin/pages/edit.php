@@ -38,13 +38,23 @@ if (isset($id)) {
 } else {
     $form->setData(array('sections' => '1'));
 }
+$wanted = 1;
+$form->add('URL', 'text', 'page');
+$form->add('Title', 'text', 'title');
+$form->add('Short title', 'text', 'short_title', false);
+$form->add('Head', 'text', 'head');
+for ($i = 0; $i < $wanted; $i++)
+    $form->add('Section ' . ($i + 1), 'textarea', 'section_' . $i, false);
+if (isset($id))
+    $form->add($id, 'hidden', 'id');
+$form->add('Save', 'submit');
+$form->add('Save and return', 'submit', 'return');
 if ($form->received()) {
     $page = secure($form->get('page'));
     $head = secure($form->get('head'));
     $title = secure($form->get('title'));
     $short_title = secure($form->get('short_title'));
     $query = " `" . prefix('page') . "` SET `page`='$page', `head`='$head', `title`='$title', `short_title`='$short_title'";
-    $wanted = (int)$form->get('sections');
     $insert = $wanted - $section_count;
     if ($section_count > $wanted) {
         $delete = -$insert;
@@ -73,18 +83,6 @@ if ($form->received()) {
         redirect_up();
     $section_count = $wanted;
 }
-$section_count = max(1, $section_count);
-$form->add('URL', 'text', 'page');
-$form->add('Title', 'text', 'title');
-$form->add('Short title', 'text', 'short_title', false);
-$form->add('Sections', 'text', 'sections');
-$form->add('Head', 'text', 'head');
-for ($i = 0; $i < $section_count; $i++)
-    $form->add('Section ' . ($i + 1), 'textarea', 'section_' . $i, false);
-if (isset($id))
-    $form->add($id, 'hidden', 'id');
-$form->add('Save', 'submit');
-$form->add('Save and return', 'submit', 'return');
 
 admin_upper_urls(admin_actions(page_index(), $id));
 $form->show();

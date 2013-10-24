@@ -25,21 +25,21 @@ if (file_exists('setup/key')) {
 
 if (!$error) {
     $form_key = new Form('key');
+    $form_key->add('Key', 'text', 'key');
+    $form_key->add('Submit', 'submit');
     $form_setup = new Form('setup');
+    $form_setup->add('Host', 'text', 'host');
+    $form_setup->add('Database', 'text', 'database');
+    $form_setup->add('User', 'text', 'user');
+    $form_setup->add('Password', 'password', 'password');
+    $form_setup->add('Table prefix', 'text', 'prefix');
+    $form_setup->add($key, 'hidden', 'key');
+    $form_setup->add('Submit', 'submit');
     if ((!$form_key->received() || $form_key->get('key') != $key) && (!$form_setup->received() || $form_setup->get('key') != $key)) {
         section('single', 'To be able to set this up, enter the code found in the key file in the setup folder of the project in the box below.');
-        $form_key->add('Key', 'text', 'key');
-        $form_key->add('Submit', 'submit');
         $form_key->show();
     } elseif (!$form_setup->received()) {
         $form_setup->setData(array('host' => $s['host'], 'database' => $s['database'], 'user' => $s['user'], 'password' => $s['password'], 'prefix' => $s['prefix']));
-        $form_setup->add('Host', 'text', 'host');
-        $form_setup->add('Database', 'text', 'database');
-        $form_setup->add('User', 'text', 'user');
-        $form_setup->add('Password', 'password', 'password');
-        $form_setup->add('Table prefix', 'text', 'prefix');
-        $form_setup->add($key, 'hidden', 'key');
-        $form_setup->add('Submit', 'submit');
         $form_setup->show();
     } else {
         $s['host'] = $form_setup->get('host');

@@ -12,6 +12,9 @@ import_lib('Form');
 $s['suburl'] = array('key');
 
 $form = new Form();
+$form->add('Key', 'text', 'key');
+$form->add('Value', 'text', 'value', false);
+$form->add('Submit', 'submit');
 $key = find_value('key');
 if (isset($key)) {
     $oldkey = secure($key);
@@ -29,9 +32,6 @@ if ($form->received()) {
         query("INSERT INTO$query");
     redirect_up();
 }
-$form->add('Key', 'text', 'key');
-$form->add('Value', 'text', 'value', false);
-$form->add('Submit', 'submit');
 
 admin_upper_urls(admin_actions(page_index(), $id));
 $form->show();

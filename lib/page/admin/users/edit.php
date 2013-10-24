@@ -21,6 +21,15 @@ if (isset($id)) {
         $form->setData($row);
     }
 }
+$form->add('Name', 'text', 'name');
+if (isset($id))
+    $form->add('Change password', 'checkbox', 'change_password');
+$form->add('Password', 'password', 'password', !isset($id));
+$form->add('Level', 'text', 'level');
+$form->add('E-mail', 'text', 'email');
+if (isset($id))
+    $form->add($id, 'hidden', 'id');
+$form->add('Submit', 'submit');
 if ($form->received()) {
     $name = secure($form->get('name'));
     $change_password = !isset($id) || $form->get('change_password');
@@ -36,15 +45,6 @@ if ($form->received()) {
         query("INSERT INTO$query");
     redirect_up();
 }
-$form->add('Name', 'text', 'name');
-if (isset($id))
-    $form->add('Change password', 'checkbox', 'change_password');
-$form->add('Password', 'password', 'password', !isset($id));
-$form->add('Level', 'text', 'level');
-$form->add('E-mail', 'text', 'email');
-if (isset($id))
-    $form->add($id, 'hidden', 'id');
-$form->add('Submit', 'submit');
 
 admin_upper_urls(admin_actions(page_index(), $id));
 $form->show();
