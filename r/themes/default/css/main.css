@@ -109,6 +109,9 @@ form.left {
 #main-menu {
     position: fixed;
     top: 0;
+    background-color: #fff;
+    margin-bottom: 24px;
+    min-width: 100%;
 }
 #content {
     position: absolute;
@@ -126,8 +129,6 @@ form.left {
     border-bottom: 1px solid black;
     font-weight: bold;
     font-size: 17px;
-    margin-bottom: 24px;
-    background-color: #fff;
 }
 #main-menu .active a, #sub-menu .active a {
     color: #fff;
