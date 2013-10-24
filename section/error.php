@@ -1,10 +1,7 @@
+<?php if (!is_array($s['d'])) $s['d'] = array($s['d']) ?>
 <p class="error">
-<?php if (is_array($s['d'])): ?>
-<span>Errors:</span>
+<span>Error<?= count($s['d']) == 1 ? '' : 's' ?>:</span>
 <?php foreach ($s['d'] as $e): ?>
 <?= $e; ?><br />
 <?php endforeach ?>
-<?php else: ?>
-<?= $s['d']; ?>
-<?php endif ?>
 </p>

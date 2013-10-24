@@ -37,31 +37,36 @@ class Account {
             $form->addCaptcha();
         $form->add('Submit', 'submit');
         if ($form->received()) {
-            $login = true;
-            if ($function != null) {
-                $login = false;
-                $result = $function($form);
-                if (is_array($result) && !empty($result)) {
-                    section('error', $result);
-                } elseif (is_array($result) || is_null($result)) {
-                    $login = true;
-                } else {
-                    section('error', $result);
+            $errors = $form->check();
+            if (empty($errors)) {
+                $login = true;
+                if ($function != null) {
+                    $login = false;
+                    $result = $function($form);
+                    if (is_array($result) && !empty($result)) {
+                        section('error', $result);
+                    } elseif (is_array($result) || is_null($result)) {
+                        $login = true;
+                    } else {
+                        section('error', $result);
+                    }
+                }
+                if ($login) {
+                    $name = $form->get('name');
+                    $password = $form->get('password');
+                    $this->name = $name;
+                    $result = query("SELECT `id`, `level` FROM `$this->table` WHERE `name`='$name' AND `password`=MD5('$password')");
+                    if ($row = $result->fetch_array()) {
+                        $this->id = $row['id'];
+                        $this->level = $row['level'];
+                        $_SESSION[$this->table] = $row['id'];
+                        return true;
+                    }
+                    $errors[] = 'Incorrect name / password combination.';
                 }
             }
-            if ($login) {
-                $name = $form->get('name');
-                $password = $form->get('password');
-                $this->name = $name;
-                $result = query("SELECT `id`, `level` FROM `$this->table` WHERE `name`='$name' AND `password`=MD5('$password')");
-                if ($row = $result->fetch_array()) {
-                    $this->id = $row['id'];
-                    $this->level = $row['level'];
-                    $_SESSION[$this->table] = $row['id'];
-                    return true;
-                }
-                section('error', 'Incorrect name / password combination.');
-            }
+            if (!empty($errors))
+                section('error', $errors);
         }
         $form->show();
         return false;
