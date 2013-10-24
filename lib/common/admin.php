@@ -86,7 +86,7 @@ if (!$result) {
     $module = $s['h'][1];
     $level = $s['module_levels'][$module];
     if (isset($level) && !$s['admin']->permits($level)) {
-        section('single', 'You do not have permission to be here.');
+        section('error', 'You do not have permission to be here.');
         fail();
     }
 }

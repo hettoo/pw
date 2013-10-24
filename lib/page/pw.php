@@ -18,7 +18,7 @@ if (file_exists('setup/key')) {
         fwrite($fp, $key);
         fclose($fp);
     } else {
-        section('single', 'Unable to write a key file. Make sure the setup directory is writable.');
+        section('error', 'Unable to write a key file. Make sure the setup directory is writable.');
         $error = true;
     }
 }
