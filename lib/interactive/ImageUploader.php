@@ -102,7 +102,7 @@ class ImageUploader {
 
     function getForm() {
         foreach ($this->data as $image)
-            $this->form->addRaw('<img src="' . resource_url($this->directory . '/thumbs/' . $image['file']) . '" /><p>' . $image['description'] . '</p>');
+            $this->form->addRaw('<img src="' . resource_url($this->directory . '/thumbs/' . $image['file']) . '"><p>' . $image['description'] . '</p>');
         $count = $this->getCount();
         for ($i = 1; $i <= $count; $i++) {
             $this->form->add('Image ' . $i, 'file', 'image_' . $i, false);

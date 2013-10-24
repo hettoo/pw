@@ -3,7 +3,7 @@
 <p class="error">
 <span>Error<?= count($s['d']) == 1 ? '' : 's' ?>:</span>
 <?php foreach ($s['d'] as $e): ?>
-<?= $e; ?><br />
+<?= $e; ?><br>
 <?php endforeach ?>
 </p>
 <?php endif ?>

@@ -12,5 +12,5 @@ foreach ($elements as $element) {
     echo $content;
 }
 ?>
-<input type="hidden" name="_form_id" value="<?= $form->getId() ?>" />
+<input type="hidden" name="_form_id" value="<?= $form->getId() ?>">
 </form>

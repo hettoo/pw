@@ -101,13 +101,12 @@ function js_file($script) {
 
 function default_head() {
     global $s;
-
     echo '<meta charset="' . $s['charset'] . '">';
     echo '<title>' . $s['title'] . '</title>';
     echo '<meta name="description" content="' . $s['description'] . '">';
     echo '<link rel="shortcut icon" href="'
         . (is_null(pw_file(resource('favicon.ico'), true))
-        ? theme_url('favicon.ico') : resource_url('favicon.ico')) . '" />';
+        ? theme_url('favicon.ico') : resource_url('favicon.ico')) . '">';
     if ($s['hide'])
         echo '<meta name="robots" content="noindex, nofollow">';
     $s['css'] = array_unique($s['css']);
@@ -123,9 +122,9 @@ function default_head() {
         echo '</script>';
     } else {
         foreach ($s['css'] as $sheet)
-            echo '<link href="' . theme_url(css_file($sheet)) . '" rel="stylesheet" />';
+            echo '<link href="' . theme_url(css_file($sheet)) . '" rel="stylesheet">';
         foreach ($s['js'] as $script)
-            echo '<script src="' . resource_url(js_file($js)) . '" />';
+            echo '<script src="' . resource_url(js_file($js)) . '">';
     }
     echo $s['header'];
     echo $s['analytics'];

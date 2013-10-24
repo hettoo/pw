@@ -163,7 +163,7 @@ class Form {
 
     function addCaptcha() {
         $_SESSION['captcha_' . $this->id] = simple_php_captcha();
-        $this->addRaw('<img src="' . url('captcha-image') . '" alt="CAPTCHA security code" />', '', false);
+        $this->addRaw('<img src="' . url('captcha-image') . '" alt="CAPTCHA security code">', '', false);
         $this->add('Captcha', 'text', 'captcha', true, array('clear' => 1));
     }
 }
