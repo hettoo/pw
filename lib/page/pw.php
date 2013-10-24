@@ -28,11 +28,12 @@ if (!$error) {
     $form_key->add('Key', 'text', 'key');
     $form_key->add('Submit', 'submit');
     $form_setup = new Form('setup');
+    $form_setup->setData(array('host' => $s['host'], 'database' => $s['database'], 'user' => $s['user'], 'password' => $s['password'], 'prefix' => $s['prefix']));
     $form_setup->add('Host', 'text', 'host');
     $form_setup->add('Database', 'text', 'database');
     $form_setup->add('User', 'text', 'user');
     $form_setup->add('Password', 'password', 'password');
-    $form_setup->add('Table prefix', 'text', 'prefix');
+    $form_setup->add('Table prefix', 'text', 'prefix', false);
     $form_setup->add($key, 'hidden', 'key');
     $form_setup->add('Submit', 'submit');
     if ((!$form_key->received() || $form_key->get('key') != $key) && (!$form_setup->received() || $form_setup->get('key') != $key)) {
@@ -42,10 +43,7 @@ if (!$error) {
                 $form_key->addError('Invalid key.', 'key');
         }
         $form_key->show();
-    } elseif (!$form_setup->received() || !$form_setup->check()) {
-        $form_setup->setData(array('host' => $s['host'], 'database' => $s['database'], 'user' => $s['user'], 'password' => $s['password'], 'prefix' => $s['prefix']));
-        $form_setup->show();
-    } else {
+    } elseif ($form_setup->received() && $form_setup->check()) {
         $s['host'] = $form_setup->get('host');
         $s['database'] = $form_setup->get('database');
         $s['user'] = $form_setup->get('user');
@@ -60,6 +58,8 @@ if (!$error) {
         write_line($fp, $form_setup->get('password'));
         write_line($fp, $form_setup->get('prefix'));
         section('single', 'Setup saved!');
+    } else {
+        $form_setup->show();
     }
 }
 
