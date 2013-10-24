@@ -13,6 +13,7 @@ $setup->add('page', 'TEXT');
 $setup->add('head', 'TEXT');
 $setup->add('title', 'TEXT');
 $setup->add('short_title', 'TEXT');
+$setup->add('description', 'TEXT');
 $setup->setup();
 
 $setup = new TableSetup(prefix('content'));

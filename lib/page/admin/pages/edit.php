@@ -28,23 +28,21 @@ if (isset($id)) {
         query("INSERT INTO `" . prefix('content') . "` SET `page`=$id, `content`=''");
         $section_count++;
     }
-    $data['sections'] = $section_count;
     $i = 0;
     while ($row = $result->fetch_array()) {
         $sections[] = $row;
         $data['section_' . $i++] = $row['content'];
     }
     $form->setData($data);
-} else {
-    $form->setData(array('sections' => '1'));
 }
 $wanted = 1;
 $form->add('URL', 'text', 'page');
-$form->add('Title', 'text', 'title');
 $form->add('Short title', 'text', 'short_title', false);
 $form->add('Head', 'text', 'head');
 for ($i = 0; $i < $wanted; $i++)
     $form->add('Section ' . ($i + 1), 'textarea', 'section_' . $i, false);
+$form->add('Title', 'text', 'title');
+$form->add('Description', 'text', 'description', false);
 if (isset($id))
     $form->add($id, 'hidden', 'id');
 $form->add('Save', 'submit');
@@ -54,7 +52,8 @@ if ($form->received()) {
     $head = secure($form->get('head'));
     $title = secure($form->get('title'));
     $short_title = secure($form->get('short_title'));
-    $query = " `" . prefix('page') . "` SET `page`='$page', `head`='$head', `title`='$title', `short_title`='$short_title'";
+    $description = secure($form->get('description'));
+    $query = " `" . prefix('page') . "` SET `page`='$page', `head`='$head', `title`='$title', `short_title`='$short_title', `description`='$description'";
     $insert = $wanted - $section_count;
     if ($section_count > $wanted) {
         $delete = -$insert;
