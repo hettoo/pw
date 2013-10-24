@@ -104,7 +104,6 @@ function default_head() {
 
     echo '<meta charset="' . $s['charset'] . '">';
     echo '<title>' . $s['title'] . '</title>';
-    echo '<meta name="keywords" content="' . $s['keywords'] . '">';
     echo '<meta name="description" content="' . $s['description'] . '">';
     echo '<link rel="shortcut icon" href="'
         . (is_null(pw_file(resource('favicon.ico'), true))
@@ -158,7 +157,6 @@ function page_menu($index) {
 
 $s['submenu'] = '';
 $s['head'] = 'Unnamed page';
-$s['keywords'] = $s['project'];
 $s['description'] = '';
 $s['sections'] = array();
 $s['sectioning'] = false;
@@ -174,7 +172,6 @@ if (empty($s['head']))
 if (empty($s['title']))
     $s['title'] = $s['head'];
 $s['title'] = strip_tags($s['title']);
-    $s['keywords'] = $s['title'] . (empty($s['keywords']) ? '' : ', ' . $s['keywords']);
 if ($s['title'] != $s['project'])
     $s['title'] .= ' - ' . $s['project'];
 
