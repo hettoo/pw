@@ -178,10 +178,10 @@ p.error span {
     margin-bottom: 8px;
 }
 
-#map, #directions_panel {
+.map, .directions_panel {
     width: 480px;
 }
-#map {
+.map {
     height: 300px;
 }
 

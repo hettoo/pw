@@ -124,7 +124,7 @@ function default_head() {
         foreach ($s['css'] as $sheet)
             echo '<link href="' . theme_url(css_file($sheet)) . '" rel="stylesheet">';
         foreach ($s['js'] as $script)
-            echo '<script src="' . resource_url(js_file($js)) . '">';
+            echo '<script src="' . resource_url(js_file($js)) . '"></script>';
     }
     echo $s['header'];
     echo $s['analytics'];
