@@ -148,12 +148,12 @@ class Form {
     }
 
     function add($title, $type, $name = null, $obligatory = true, $attributes = array()) {
-        $this->names[$name] = $obligatory ? 2 : 1;
         $visual_title = $title;
         if ($this->tableLess($type)) {
             $visual_title = '';
             $obligatory = false;
         }
+        $this->names[$name] = $obligatory ? 2 : 1;
         $this->elements[] = array($visual_title, $obligatory, $this->prepare($title, $type, $name, $attributes));
     }
 

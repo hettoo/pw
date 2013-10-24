@@ -47,7 +47,7 @@ if (isset($id))
     $form->add($id, 'hidden', 'id');
 $form->add('Save', 'submit');
 $form->add('Save and return', 'submit', 'return');
-if ($form->received()) {
+if ($form->received() && $form->check()) {
     $page = secure($form->get('page'));
     $head = secure($form->get('head'));
     $title = secure($form->get('title'));
