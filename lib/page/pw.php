@@ -35,10 +35,19 @@ if (!$error) {
     $form_setup->add('Table prefix', 'text', 'prefix');
     $form_setup->add($key, 'hidden', 'key');
     $form_setup->add('Submit', 'submit');
+    $errors_setup = $form_setup->check();
     if ((!$form_key->received() || $form_key->get('key') != $key) && (!$form_setup->received() || $form_setup->get('key') != $key)) {
         section('single', 'To be able to set this up, enter the code found in the key file in the setup folder of the project in the box below.');
+        if ($form_key->received()) {
+            $errors = $form_key->check();
+            if ($form_key->get('key') != 'key')
+                $errors[] = 'Invalid key.';
+            section('error', $errors);
+        }
         $form_key->show();
-    } elseif (!$form_setup->received()) {
+    } elseif (!$form_setup->received() || !empty($errors_setup)) {
+        if (!empty($errors_setup))
+            section('error', $errors_setup);
         $form_setup->setData(array('host' => $s['host'], 'database' => $s['database'], 'user' => $s['user'], 'password' => $s['password'], 'prefix' => $s['prefix']));
         $form_setup->show();
     } else {

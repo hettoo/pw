@@ -23,14 +23,19 @@ if (isset($key)) {
         $form->setData($row);
 }
 if ($form->received()) {
-    $key = secure($form->get('key'));
-    $value = secure($form->get('value'));
-    $query = " `" . prefix('config') . "` SET `key`='$key', `value`='$value'";
-    if (isset($oldkey))
-        query("UPDATE$query WHERE `key`='$oldkey'");
-    else
-        query("INSERT INTO$query");
-    redirect_up();
+    $errors = $form->check();
+    if (!empty($errors)) {
+        section('error', $errors);
+    } else {
+        $key = secure($form->get('key'));
+        $value = secure($form->get('value'));
+        $query = " `" . prefix('config') . "` SET `key`='$key', `value`='$value'";
+        if (isset($oldkey))
+            query("UPDATE$query WHERE `key`='$oldkey'");
+        else
+            query("INSERT INTO$query");
+        redirect_up();
+    }
 }
 
 admin_upper_urls(admin_actions(page_index(), $id));

@@ -51,6 +51,8 @@ class Form {
 
     function check() {
         $errors = array();
+        if (!$this->received)
+            return $errors;
         foreach ($this->names as $name => $value) {
             if (!empty($name) && $value == 2 && empty($this->get($name)))
                 $errors[] = ucfirst($name) . ' can not be empty.';
