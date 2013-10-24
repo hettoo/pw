@@ -111,21 +111,10 @@ function default_head() {
         echo '<meta name="robots" content="noindex, nofollow">';
     $s['css'] = array_unique($s['css']);
     $s['js'] = array_unique($s['js']);
-    if ($s['inline']) {
-        echo '<style>';
-        foreach ($s['css'] as $sheet)
-            import_raw(theme_resource(css_file($sheet)));
-        echo '</style>';
-        echo '<script>';
-        foreach ($s['js'] as $script)
-            import_raw(resource(js_file($script)));
-        echo '</script>';
-    } else {
-        foreach ($s['css'] as $sheet)
-            echo '<link href="' . theme_url(css_file($sheet)) . '" rel="stylesheet">';
-        foreach ($s['js'] as $script)
-            echo '<script src="' . resource_url(js_file($js)) . '"></script>';
-    }
+    foreach ($s['css'] as $sheet)
+        echo '<link href="' . theme_url(css_file($sheet)) . '" rel="stylesheet">';
+    foreach ($s['js'] as $script)
+        echo '<script src="' . resource_url(js_file($js)) . '"></script>';
     echo $s['header'];
     echo $s['analytics'];
 }
