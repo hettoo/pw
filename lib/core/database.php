@@ -37,4 +37,14 @@ function prefix($table) {
     return $s['prefix'] . $table;
 }
 
+function update_insert($query, $field, $value, $string = false) {
+    if (isset($value)) {
+        if ($string)
+            $value = "'" . secure($value) . "'";
+        query("UPDATE$query WHERE `$field`=$value");
+    } else {
+        query("INSERT INTO$query");
+    }
+}
+
 ?>

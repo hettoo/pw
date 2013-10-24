@@ -62,10 +62,7 @@ if ($form->received()) {
         $insert = 0;
     }
     $edit = $section_count;
-    if (isset($id))
-        query("UPDATE$query WHERE `id`=$id");
-    else
-        query("INSERT INTO$query");
+    update_insert($query, 'id', $id);
     $index = 0;
     for ($i = 0; $i < $edit; $i++) {
         $content = $form->get('section_' . $index);

@@ -39,10 +39,7 @@ if ($form->received()) {
     $query = " `" . prefix('admin') . "` SET `name`='$name', `level`=$level, `email`='$email'";
     if ($change_password)
         $query .= ", `password`=MD5('$password')";
-    if (isset($id))
-        query("UPDATE$query WHERE `id`=$id");
-    else
-        query("INSERT INTO$query");
+    update_insert($query, 'id', $id);
     redirect_up();
 }
 
