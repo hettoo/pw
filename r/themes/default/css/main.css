@@ -93,12 +93,15 @@ form.left {
     width: 960px;
 }
 
+#first {
+    top: 0;
+}
 #sub-menu {
-    position: fixed;
-    left: 0;
     top: 128px;
 }
 #first, #sub-menu {
+    position: absolute;
+    left: 0;
     float: left;
     width: 128px;
     overflow: hidden;
