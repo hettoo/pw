@@ -7,7 +7,7 @@ import_lib('common/admin');
 if (is_null($s['admin']))
     return;
 
-import_lib('ImageUploader');
+import_lib('interactive/ImageUploader');
 
 $s['suburl'] = array('id');
 $id = (int)find_value('id');
@@ -43,6 +43,6 @@ if (!empty($files)) {
 }
 
 admin_upper_urls(admin_actions(page_index(), $id));
-$form->show();
+$uploader->getForm()->show();
 
 ?>

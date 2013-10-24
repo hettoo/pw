@@ -1,6 +1,6 @@
 <?php
 
-import_lib('TableSetup');
+import_lib('core/TableSetup');
 
 $setup = new TableSetup(prefix('config'));
 $setup->add('key', 'VARCHAR(32) NOT NULL PRIMARY KEY');

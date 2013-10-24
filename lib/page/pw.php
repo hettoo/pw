@@ -1,7 +1,7 @@
 <?php
 
-import_lib('Form');
-import_lib('KeyGen');
+import_lib('interactive/Form');
+import_lib('utils/KeyGen');
 
 $s['head'] = 'PW Configuration';
 $s['description'] = 'PW needs to know about its database.';

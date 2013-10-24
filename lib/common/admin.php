@@ -1,6 +1,6 @@
 <?php
 
-import_lib('Account');
+import_lib('utils/Account');
 
 $register = false;
 $index = find_index('mode');

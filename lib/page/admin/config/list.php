@@ -7,7 +7,7 @@ import_lib('common/admin');
 if (is_null($s['admin']))
     return;
 
-import_lib('Table');
+import_lib('interactive/Table');
 
 $s['suburl'] = array('order', 'page', 'search');
 $action_index = page_index();

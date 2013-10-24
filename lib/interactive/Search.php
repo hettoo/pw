@@ -1,6 +1,6 @@
 <?php
 
-import_lib('Form');
+import_lib('interactive/Form');
 
 class Search {
     private $index;

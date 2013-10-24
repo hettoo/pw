@@ -1,7 +1,7 @@
 <?php
 
-import_lib('Pager');
-import_lib('Search');
+import_lib('interactive/Pager');
+import_lib('interactive/Search');
 
 class Table {
     private $columns;

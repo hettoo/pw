@@ -7,7 +7,7 @@ import_lib('common/admin');
 if (is_null($s['admin']))
     return;
 
-import_lib('Form');
+import_lib('interactive/Form');
 
 $s['suburl'] = array('id');
 
