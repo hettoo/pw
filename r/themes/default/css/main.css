@@ -102,7 +102,6 @@ form.left {
 #first, #sub-menu {
     position: absolute;
     left: 0;
-    float: left;
     width: 128px;
     overflow: hidden;
 }
