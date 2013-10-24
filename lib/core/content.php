@@ -113,7 +113,7 @@ function default_head() {
     $s['css'] = array_unique($s['css']);
     $s['js'] = array_unique($s['js']);
     if ($s['inline']) {
-        echo '<style type="text/css">';
+        echo '<style>';
         foreach ($s['css'] as $sheet)
             import_raw(theme_resource(css_file($sheet)));
         echo '</style>';
@@ -123,7 +123,7 @@ function default_head() {
         echo '</script>';
     } else {
         foreach ($s['css'] as $sheet)
-            echo '<link href="' . theme_url(css_file($sheet)) . '" rel="stylesheet" type="text/css" />';
+            echo '<link href="' . theme_url(css_file($sheet)) . '" rel="stylesheet" />';
         foreach ($s['js'] as $script)
             echo '<script src="' . resource_url(js_file($js)) . '" />';
     }
