@@ -91,7 +91,7 @@ class Table {
         $table = '';
         list($order, $this->descending) = $this->getOrdering($default_order);
         foreach ($this->columns as $values) {
-            if ($values['name'] == $order && !$values['no-order']) {
+            if ($values['column'] == $order && !$values['no-order']) {
                 $this->column = $values['column'];
                 $this->table = $values['table'];
             }

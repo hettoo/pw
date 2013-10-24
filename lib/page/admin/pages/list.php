@@ -15,7 +15,7 @@ $action_index = page_index();
 $table = new Table();
 $table->addColumn(array('title' => 'Id', 'size' => 'small'));
 $table->addColumn(array('title' => 'Title', 'size' => 'large'));
-$table->addColumn(array('title' => 'URL', 'size' => 'large'));
+$table->addColumn(array('title' => 'URL', 'column' => 'page', 'size' => 'large'));
 $table->addColumn(array('name' => 'actions', 'title' => '', 'no-order' => true));
 $table->processOrder('id');
 
