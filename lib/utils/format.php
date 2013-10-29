@@ -38,32 +38,6 @@ function action_list($level, $list, $glue = ' | ') {
     return $result;
 }
 
-function format_date_relative($time) {
-    return '<span class="time">' . relative_time($time) . ($time == 0 ? '' : '<span class="exacttime">' . exact_datetime($time) . '</span>') . '</span>';
-}
-
-function format_date($time) {
-    return '<span class="time">' . exact_date($time) . ($time == 0 ? '' : '<span class="exacttime">' . exact_time($time) . '</span>') . '</span>';
-}
-
-function format_time($time) {
-    $negative = $time < 0;
-    $time = abs($time);
-    $result = '.' . sprintf('%03d', $time % 1000);
-    $time = floor($time / 1000);
-    $result = sprintf('%' . ($time >= 60 ? '02' : '') . 'd', $time % 60) . $result;
-    $time = floor($time / 60);
-    if ($time > 0) {
-        $result = sprintf('%' . ($time >= 60 ? '02' : '') . 'd', $time % 60) . ':' . $result;
-        $time = floor($time / 60);
-        if ($time > 0)
-            $result = $time . ':' . $result;
-    }
-    if ($negative)
-        $result = '-' . $result;
-    return $result;
-}
-
 function format_rank($rank) {
     return ($rank + 1) . '.';
 }
