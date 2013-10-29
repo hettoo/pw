@@ -11,6 +11,8 @@ function page_file($page) {
 }
 
 function real_page($page) {
+    if ($page == '')
+        $page = 'index';
     while ($page != '' && is_null(script(page_file($page)))) {
         $next_page = dirname($page);
         if ($next_page == page_file('') || $next_page == '.')
