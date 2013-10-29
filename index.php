@@ -23,13 +23,23 @@ function lib_file($lib) {
     return 'lib/' . $lib;
 }
 
-function import_lib($lib) {
-    $lib = lib_file($lib);
-    if (!import_once($lib))
-        return import_once($lib, true);
-    return true;
+function inherit() {
+    global $s;
+    $lib = end($s['l']);
+    reset($s['l']);
+    return import_once($lib, true);
 }
 
+function import_lib($lib) {
+    global $s;
+    $lib = lib_file($lib);
+    $s['l'][] = $lib;
+    $result = import_once($lib);
+    array_pop($s['l']);
+    return $result;
+}
+
+$s = array('l' => array());
 import_lib('core/init');
 
 ?>

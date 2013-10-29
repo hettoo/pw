@@ -2,7 +2,6 @@
 
 import_lib('utils/main');
 
-$s = array();
 $s['base'] = substr($_SERVER['SCRIPT_NAME'], 0, -9);
 $s['h'] = explode('/', preg_replace('/\/$/', '', substr($_SERVER['REQUEST_URI'], strlen($s['base']))));
 
