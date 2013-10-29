@@ -36,9 +36,9 @@ if (isset($id)) {
     $form->setData($data);
 }
 $wanted = 1;
-$form->add('URL', 'text', 'page');
+$form->add('URL', 'text', 'page', false);
 $form->add('Short title', 'text', 'short_title', false);
-$form->add('Head', 'text', 'head');
+$form->add('Head', 'text', 'head', false);
 for ($i = 0; $i < $wanted; $i++)
     $form->add('Section ' . ($i + 1), 'textarea', 'section_' . $i, false);
 $form->add('Title', 'text', 'title', false);
