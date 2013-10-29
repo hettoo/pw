@@ -36,7 +36,7 @@ class Pager {
         $row = $result->fetch_array();
         $total = $row['count'];
         $this->rows = array();
-        $result = query("SELECT $fields FROM `$table` $rest LIMIT $skip, $this->limit");
+        $result = query("SELECT $fields FROM $table $rest LIMIT $skip, $this->limit");
         for ($i = 0; $i < $row = $result->fetch_array(); $i++)
             $this->rows[] = $row;
         $this->pages = ceil($total / $this->limit);
