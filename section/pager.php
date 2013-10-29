@@ -10,8 +10,8 @@ $pages = $pager->getPages();
 
 ?>
 <ul class="pager">
-    <li><a href="<?= url(1, $this->index, false) ?>">&lt;&lt;</a></li>
-    <li><a href="<?= url(max($page - 1, 1), $this->index, false) ?>">&lt;</a></li>
+    <li><a href="<?= url(1, $index, false) ?>">&lt;&lt;</a></li>
+    <li><a href="<?= url(max($page - 1, 1), $index, false) ?>">&lt;</a></li>
     <?php if ($start > 1): ?>
         ...
     <?php endif ?>
@@ -21,6 +21,6 @@ $pages = $pager->getPages();
     <?php if ($end < $pages): ?>
         ...
     <?php endif ?>
-    <li><a href="<?= url(min($page + 1, $pages), $this->index, false) ?>">&gt;</a></li>
-    <li><a href="<?= url($pages, $this->index, false) ?>">&gt;&gt;</a></li>
+    <li><a href="<?= url(min($page + 1, $pages), $index, false) ?>">&gt;</a></li>
+    <li><a href="<?= url($pages, $index, false) ?>">&gt;&gt;</a></li>
 </ul>
