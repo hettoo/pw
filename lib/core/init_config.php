@@ -10,7 +10,7 @@ $s['css'] = array('main');
 $s['js'] = array();
 $s['min_css'] = false;
 $s['min_js'] = true;
-$s['max_pages'] = 8;
+$s['max_pages'] = 5;
 
 $s['header'] = '';
 $s['suburl'] = array();
