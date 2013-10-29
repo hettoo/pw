@@ -2,8 +2,12 @@
 
 import_lib('utils/format');
 
+function page_lib_file($page) {
+    return 'page/' . $page;
+}
+
 function page_file($page) {
-    return lib_file('page/' . $page);
+    return lib_file(page_lib_file($page));
 }
 
 function real_page($page) {
@@ -47,7 +51,7 @@ function init_page($page, $single = false) {
     $s['page'] = $real;
     $file = page_file($real);
     if (file_exists(script($file)))
-        import_once($file);
+        import_lib(page_lib_file($real));
 }
 
 function subpage($sub) {
