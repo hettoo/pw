@@ -64,7 +64,7 @@ if ($form->received() && $form->check()) {
     update_insert($query, 'id', $id);
     $index = 0;
     for ($i = 0; $i < $edit; $i++) {
-        $content = $form->get('section_' . $index);
+        $content = secure($form->get('section_' . $index));
         $cid = $sections[$i]['id'];
         query("UPDATE `" . prefix('content') . "` SET `content`='$content' WHERE `id`=$cid");
         $index++;
