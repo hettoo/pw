@@ -185,22 +185,6 @@ p.error span {
     height: 300px;
 }
 
-.time {
-    position: relative;
-}
-.time .exacttime {
-    display: none;
-    text-align: center;
-}
-.time:hover .exacttime {
-    position: absolute;
-    top: -20px;
-    white-space: nowrap;
-    padding: 1px 2px;
-    display: block;
-    background-color: #000;
-}
-
 td.last {
     padding-right: 0;
 }

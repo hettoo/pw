@@ -12,13 +12,6 @@ function exact_time($time) {
     return $result . date("G:i", $time);
 }
 
-function exact_datetime($time) {
-    $result = exact_date($time);
-    if ($time == 0)
-        return $result;
-    return $result . ' @ ' . exact_time($time);
-}
-
 function plural($num) {
     if ($num != 1)
         return 's';
@@ -60,11 +53,11 @@ function relative_time($time) {
 }
 
 function format_date_relative($time) {
-    return '<span class="time">' . relative_time($time) . ($time == 0 ? '' : '<span class="exacttime">' . exact_datetime($time) . '</span>') . '</span>';
+    return '<span class="time">' . relative_time($time) . '</span>';
 }
 
 function format_date($time) {
-    return '<span class="time">' . exact_date($time) . ($time == 0 ? '' : '<span class="exacttime">' . exact_time($time) . '</span>') . '</span>';
+    return '<span class="time">' . exact_date($time) . '</span>';
 }
 
 function format_time($time) {
