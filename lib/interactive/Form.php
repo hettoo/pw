@@ -66,7 +66,7 @@ class Form {
             return true;
         $result = true;
         foreach ($this->names as $name => $value) {
-            if (!empty($name) && $value == 2 && empty($this->get($name)))
+            if (!empty($name) && $value == 2 && $this->get($name) == '')
                 $this->addError(ucfirst($name) . ' can not be empty.', $name);
         }
         return empty($this->errors);
