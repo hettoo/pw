@@ -41,7 +41,7 @@ $form->add('Short title', 'text', 'short_title', false);
 $form->add('Head', 'text', 'head');
 for ($i = 0; $i < $wanted; $i++)
     $form->add('Section ' . ($i + 1), 'textarea', 'section_' . $i, false);
-$form->add('Title', 'text', 'title');
+$form->add('Title', 'text', 'title', false);
 $form->add('Description', 'text', 'description', false);
 if (isset($id))
     $form->add($id, 'hidden', 'id');
