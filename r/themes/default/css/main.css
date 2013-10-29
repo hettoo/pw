@@ -78,6 +78,10 @@ td img {
     width: 260px;
 }
 
+.search .form, .search .pager {
+    float: left;
+}
+
 form.left {
     float: left;
     padding-right: 15px;
