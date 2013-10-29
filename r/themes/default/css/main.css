@@ -33,7 +33,7 @@ td {
     white-space: nowrap;
 }
 th div, td div {
-    overflow: auto;
+    overflow-x: auto;
 }
 .headless th, .headless td {
     padding-right: 30px;
