@@ -32,11 +32,11 @@ $pager->query('*', prefix('admin'), "WHERE `name`$like$order", function ($row, $
     global $s;
     list($table, $action_index) = $args;
     $table->addField($row['id']);
-    $table->addField($row['name']);
+    $table->addField(secure($row['name'], 'html'));
     if ($s['admin']->permits($s['admin_level']))
         $table->addField($row['password']);
     $table->addField($row['level']);
-    $table->addField($row['email']);
+    $table->addField(secure($row['email'], 'html'));
     $table->addField(admin_actions($action_index, $row['id'], true));
 }, array($table, $action_index));
 

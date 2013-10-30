@@ -29,8 +29,8 @@ $pager->query('*', prefix('page'), "WHERE `page`$like OR `title`$like$order", fu
     global $s;
     list($table, $action_index) = $args;
     $table->addField($row['id']);
-    $table->addField($row['title']);
-    $table->addField($row['page']);
+    $table->addField(secure($row['title'], 'html'));
+    $table->addField(secure($row['page'], 'html'));
     $table->addField(admin_actions($action_index, $row['id'], true));
 }, array($table, $action_index));
 

@@ -26,8 +26,8 @@ $order = $table->getOrder();
 
 $pager->query('*', prefix('config'), "WHERE `key`$like OR `value`$like$order", function ($row, $args) {
     list($table, $action_index) = $args;
-    $table->addField($row['key']);
-    $table->addField($row['value']);
+    $table->addField(secure($row['key'], 'html'));
+    $table->addField(secure($row['value'], 'html'));
     $table->addField(admin_actions($action_index, $row['key'], true));
 }, array($table, $action_index));
 
