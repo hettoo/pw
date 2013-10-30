@@ -31,7 +31,7 @@ if (isset($pager)) {
         <th>
         <div<?= format_classes($table->getClasses($values)) ?>>
         <?php if ($table->canOrder($values)): ?>
-            <a href="<?= url($table->invert($values['column']), $table->getOrderIndex(), false) ?>"><?= $values['title'] . $table->suffix($values['column']) ?></a>
+            <a href="<?= url($table->invert($values['column'], $values['first_down']), $table->getOrderIndex(), false) ?>"><?= $values['title'] . $table->suffix($values['column']) ?></a>
         <?php else: ?>
             <?= $values['title'] ?>
         <?php endif ?>

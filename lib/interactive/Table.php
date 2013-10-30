@@ -152,12 +152,18 @@ class Table {
         return $search;
     }
 
-    function invert($link) {
+    function invert($link, $first_down) {
         global $s;
         $current = $s['h'][$this->order_index];
-        if ($current == $link)
+        if ($first_down) {
+            if ($current == $link . '-')
+                return $link;
             return $link . '-';
-        return $link;
+        } else {
+            if ($current == $link)
+                return $link . '-';
+            return $link;
+        }
     }
 
     function suffix($link) {
