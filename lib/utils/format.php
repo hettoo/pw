@@ -13,8 +13,8 @@ function create_menu($level, $menu) {
         $result .= '<div';
         if ($s['h'][$level] == $link)
             $result .= ' class="active"';
-        $external = preg_match('/^[a-z0-9]+:\/\//', $link);
-        $result .= '><a href="' . ($external ? $link : url($link, $level)) . '"' . ($external ? ' target="_blank"' : '') . '>' . $name . '</a></div>';
+        $external = preg_match('/^\/\//', $link);
+        $result .= '><a href="' . ('http:' . $external ? $link : url($link, $level)) . '"' . ($external ? ' target="_blank"' : '') . '>' . $name . '</a></div>';
     }
     return $result;
 }
