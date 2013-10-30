@@ -32,13 +32,13 @@ class Pager {
         global $s;
 
         $skip = $this->getOffset();
-        $result = query("SELECT COUNT(*) AS `count` FROM $table");
-        $row = $result->fetch_array();
-        $total = $row['count'];
         $this->rows = array();
-        $result = query("SELECT $fields FROM $table $rest LIMIT $skip, $this->limit");
+        $result = query("SELECT SQL_CALC_FOUND_ROWS $fields FROM $table $rest LIMIT $skip, $this->limit");
         for ($i = 0; $i < $row = $result->fetch_array(); $i++)
             $this->rows[] = $row;
+        $result = query("SELECT FOUND_ROWS() AS `count`");
+        $row = $result->fetch_array();
+        $total = $row['count'];
         $this->pages = ceil($total / $this->limit);
         if (isset($function)) {
             foreach ($this->rows as $row)
