@@ -127,15 +127,6 @@ function nicen($string) {
     return preg_replace('/[^a-z0-9_\-]/', '', strtolower($string));
 }
 
-function redirect_raw($location) {
-    header('Location: ' . $location);
-    exit;
-}
-
-function redirect($url) {
-    redirect_raw('http://' . $_SERVER['HTTP_HOST'] . $url);
-}
-
 function redirect_up($levels = 1) {
     global $s;
     $url = explode('/', $s['page']);

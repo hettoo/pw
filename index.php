@@ -39,6 +39,15 @@ function import_lib($lib) {
     return $result;
 }
 
+function redirect_raw($location) {
+    header('Location: ' . $location);
+    exit;
+}
+
+function redirect($url) {
+    redirect_raw('http://' . $_SERVER['HTTP_HOST'] . $url);
+}
+
 $s = array('l' => array());
 import_lib('core/init');
 
