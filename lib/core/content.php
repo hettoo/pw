@@ -26,27 +26,28 @@ function real_page($page) {
     return $page;
 }
 
+function page_data($page) {
+    $filtered = secure($page);
+    $result = query("SELECT * FROM `" . prefix('page') . "` WHERE `page`='$filtered'");
+    if ($result && $row = $result->fetch_array())
+        return $row;
+    return null;
+}
+
 function init_page($page, $single = false) {
     global $s;
     $s['c'] = array();
-    $filtered = secure($page);
-    $id = 0;
-    if ($page != 'pw') {
-        $result = query("SELECT * FROM `" . prefix('page') . "` WHERE `page`='$filtered'");
-        if ($result && $row = $result->fetch_array()) {
-            $s = array_merge($s, $row);
-            $id = $row['id'];
-            $result = query("SELECT `content` FROM `" . prefix('content') . "` WHERE `page`='$id' ORDER BY `ranking`");
-            while ($row = $result->fetch_array())
-                $s['c'][] = $row['content'];
-        }
-    }
+    $data = null;
+    if ($page != 'pw')
+        $data = page_data($page);
     $real = real_page($page);
-    if ($real == '404' && $id != 0 && $page != '404') {
-        $real = 'default';
-    } else if ($real == '404' && $page != '404') {
-        init_page('404');
-        return;
+    if ($real == '404' && $page != '404') {
+        if (isset($data)) {
+            $real = 'default';
+        } else {
+            init_page('404');
+            return;
+        }
     }
     if ($page == '404')
         header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
@@ -54,6 +55,15 @@ function init_page($page, $single = false) {
     $file = page_file($real);
     if (file_exists(script($file)))
         import_lib(page_lib_file($real));
+    if ($page != 'pw' && (!isset($data) || $real != 'default'))
+        $data = page_data($real);
+    if (isset($data)) {
+        $s = array_merge($s, $data);
+        $id = $s['id'];
+        $result = query("SELECT `content` FROM `" . prefix('content') . "` WHERE `page`='$id' ORDER BY `ranking`");
+        while ($row = $result->fetch_array())
+            $s['c'][] = $row['content'];
+    }
 }
 
 function subpage($sub) {
