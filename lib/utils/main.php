@@ -34,7 +34,7 @@ function url($target, $level = 0, $rootify = true) {
     global $s;
     $result = $s['base'];
     for ($i = 0; $i < count($s['h']); $i++) {
-        if ($i > 0 || $result == '')
+        if ($i > 0)
             $result .= '/';
         if ($i == $level) {
             $result .= $target;
