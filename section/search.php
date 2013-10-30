@@ -12,4 +12,5 @@ $pager = $search->getPager();
 <?php if (isset($pager)): ?>
 <?php section('pager', $pager) ?>
 <?php endif ?>
+<div class="clear"></div>
 </div>
