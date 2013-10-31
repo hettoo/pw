@@ -14,14 +14,17 @@ class Search {
         $this->form->setData(array('name' => unescape_url($s['h'][$this->index])));
         $this->form->add('Name', 'text', 'name', false, array('class' => 'search'));
         $this->form->add('Search', 'submit');
+        $this->pager = $pager;
         if ($redirect)
             $this->redirect();
-        $this->pager = $pager;
     }
 
     function redirect() {
-        if ($this->form->received())
+        global $s;
+        if ($this->form->received()) {
+            $s['h'][$this->pager->getIndex()] = 1;
             redirect(url(escape_url($this->form->get('name')), $this->index, false));
+        }
     }
 
     function get() {
