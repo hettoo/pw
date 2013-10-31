@@ -28,15 +28,15 @@ class Pager {
         return $this->page;
     }
 
-    function query($fields, $rest, $function = null, $args = null) {
+    function query($fields, $rest, $function = null, $args = null, $db_id = 'db') {
         global $s;
 
         $skip = $this->getOffset();
         $this->rows = array();
-        $result = query("SELECT SQL_CALC_FOUND_ROWS $fields FROM $rest LIMIT $skip, $this->limit");
+        $result = query("SELECT SQL_CALC_FOUND_ROWS $fields FROM $rest LIMIT $skip, $this->limit", $db_id);
         for ($i = 0; $i < $row = $result->fetch_array(); $i++)
             $this->rows[] = $row;
-        $result = query("SELECT FOUND_ROWS() AS `count`");
+        $result = query("SELECT FOUND_ROWS() AS `count`", $db_id);
         $row = $result->fetch_array();
         $total = $row['count'];
         $this->pages = ceil($total / $this->limit);
