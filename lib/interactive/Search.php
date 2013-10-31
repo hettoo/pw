@@ -22,7 +22,8 @@ class Search {
     function redirect() {
         global $s;
         if ($this->form->received()) {
-            $s['h'][$this->pager->getIndex()] = 1;
+            if (isset($this->pager))
+                $s['h'][$this->pager->getIndex()] = 1;
             redirect(url(escape_url($this->form->get('name')), $this->index, false));
         }
     }
