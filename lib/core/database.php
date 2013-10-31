@@ -1,32 +1,37 @@
 <?php
 
-function load_db() {
+function connect($host, $user, $password, $database, $id = 'db') {
+    global $s;
+    $s[$id] = new mysqli($host, $user, $password, $database) or die("Unable to connect to $id.");
+}
+
+function load_db($id = 'db') {
     global $s;
 
-    $s['db'] = new mysqli($s['host'], $s['user'], $s['password'], $s['database']) or die("Unable to connect to the database.");
+    connect($s['host'], $s['user'], $s['password'], $s['database'], $id);
 
-    $result = $s['db']->query("SELECT `key`, `value` FROM `" . prefix('config') . "`");
+    $result = $s[$id]->query("SELECT `key`, `value` FROM `" . prefix('config') . "`");
     if ($result) {
         while ($row = $result->fetch_array())
             $s[$row['key']] = $row['value'];
     }
 }
 
-function query($query) {
+function query($query, $id = 'db') {
     global $s;
-    if (!$s['db'])
+    if (!$s[$id])
         return null;
-    $result = $s['db']->query($query) or die($s['db']->error);
+    $result = $s[$id]->query($query) or die($s[$id]->error);
     return $result;
 }
 
-function secure($variable, $mode = 'sql') {
+function secure($variable, $mode = 'sql', $id = 'db') {
     global $s;
     $result = $variable;
-    if (!$s['db'])
+    if (!$s[$id])
         return $variable;
     if ($mode == 'sql')
-        $result = $s['db']->real_escape_string($result);
+        $result = $s[$id]->real_escape_string($result);
     elseif ($mode == 'html')
         $result = htmlspecialchars($result);
     return $result;
@@ -37,13 +42,13 @@ function prefix($table) {
     return $s['prefix'] . $table;
 }
 
-function update_insert($query, $field, $value, $string = false) {
+function update_insert($query, $field, $value, $string = false, $id = 'db') {
     if (isset($value)) {
         if ($string)
-            $value = "'" . secure($value) . "'";
-        query("UPDATE$query WHERE `$field`=$value");
+            $value = "'" . secure($value, 'sql', $id) . "'";
+        query("UPDATE$query WHERE `$field`=$value", $id);
     } else {
-        query("INSERT INTO$query");
+        query("INSERT INTO$query", $id);
     }
 }
 
