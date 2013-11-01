@@ -95,7 +95,6 @@ function parse_hash($string) {
 
 function simplify($string) {
     $result = strtolower($string);
-    $result = preg_replace('/[^a-zA-Z0-9\s]+/', '', $result);
     $result = preg_replace('/\s+/', ' ', $result);
     return $result;
 }
