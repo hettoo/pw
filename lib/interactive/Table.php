@@ -17,6 +17,7 @@ class Table {
 
     private $column;
     private $table;
+    private $further_order;
     private $descending;
 
     function __construct() {
@@ -94,6 +95,7 @@ class Table {
             if ($values['column'] == $order && !$values['no-order']) {
                 $this->column = $values['column'];
                 $this->table = $values['table'];
+                $this->further_order = $values['further-order'];
             }
         }
     }
@@ -101,7 +103,7 @@ class Table {
     function getOrder() {
         if (!isset($this->column))
             return '';
-        return ' ORDER BY `' . (isset($this->table) ? $this->table . '`.`' : '') . $this->column . '` ' . ($this->descending ? 'DESC' : 'ASC');
+        return ' ORDER BY `' . (isset($this->table) ? $this->table . '`.`' : '') . $this->column . '` ' . ($this->descending ? 'DESC' : 'ASC') . (isset($this->further_order) ? ', ' . $this->further_order : '');
     }
 
     function getClasses($values) {
