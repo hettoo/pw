@@ -14,7 +14,7 @@ function create_menu($level, $menu) {
         if ($s['h'][$level] == $link)
             $result .= ' class="active"';
         $external = preg_match('/^\/\//', $link);
-        $result .= '><a href="' . ($external ? 'http:' . $link : url($link, $level)) . '"' . ($external ? ' target="_blank"' : '') . '>' . $name . '</a></div>';
+        $result .= '><a' . ($external ? ' class="external"' : ''). ' href="' . ($external ? 'http:' . $link : url($link, $level)) . '"' . ($external ? ' target="_blank"' : '') . '>' . $name . '</a></div>';
     }
     return $result;
 }
