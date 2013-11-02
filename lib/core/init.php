@@ -7,7 +7,7 @@ $s['h'] = explode('/', preg_replace('/\/$/', '', substr($_SERVER['REQUEST_URI'],
 $base = preg_replace('/\/+$/', '/', $s['base']);
 if ($base != $s['base']) {
     $s['base'] = $base;
-    redirect(url(implode($s['h'])));
+    redirect_current();
 }
 
 import_lib('core/init_config');

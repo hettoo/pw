@@ -126,6 +126,11 @@ function nicen($string) {
     return preg_replace('/[^a-z0-9_\-]/', '', strtolower($string));
 }
 
+function redirect_current() {
+    global $s;
+    redirect(url(implode('/', $s['h'])));
+}
+
 function redirect_up($levels = 1) {
     global $s;
     $url = explode('/', $s['page']);
