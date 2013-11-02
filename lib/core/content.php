@@ -176,6 +176,7 @@ if (empty($s['head']))
 if (empty($s['title']))
     $s['title'] = $s['head'];
 $s['title'] = strip_tags($s['title']);
+$s['description'] = strip_tags($s['description']);
 if ($s['title'] != $s['project'])
     $s['title'] .= ' - ' . $s['project'];
 
