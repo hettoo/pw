@@ -113,7 +113,7 @@ class Table {
         return $result;
     }
 
-    function addField($value) {
+    function addField($value = '') {
         if ($this->x == 0)
             $this->content .= '<tr>';
         $this->content .= '<td';
