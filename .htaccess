@@ -1,6 +1,14 @@
 <IfModule mod_deflate.c>
 AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml application/javascript
 </IfModule>
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+RewriteCond $1#%{REQUEST_URI} ([^#]*)#(.*)\1$
+RewriteCond %1 !^index.php$
+RewriteCond %1 !^r/
+RewriteRule ^(.*)$ %2index.php [QSA,L]
+</IfModule>
 <IfModule mod_expires.c>
 ExpiresActive On
 ExpiresByType image/jpeg "access plus 1 week"
@@ -11,12 +19,4 @@ ExpiresByType text/css "access plus 1 week"
 ExpiresByType application/x-font-woff "access plus 1 week"
 ExpiresByType application/pdf "access plus 1 week"
 ExpiresByType application/javascript "access plus 1 week"
-</IfModule>
-<IfModule mod_rewrite.c>
-RewriteEngine On
-RewriteBase /
-RewriteCond $1#%{REQUEST_URI} ([^#]*)#(.*)\1$
-RewriteCond %1 !^index.php$
-RewriteCond %1 !^r/
-RewriteRule ^(.*)$ %2index.php [QSA,L]
 </IfModule>
