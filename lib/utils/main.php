@@ -144,6 +144,7 @@ function redirect_back() {
 }
 
 function escape_url($string) {
+    $string = str_replace('%', '%25', $string);
     $string = str_replace('|', '||', $string);
     $string = str_replace('\\', '|]', $string);
     $string = str_replace('/', '|[', $string);
