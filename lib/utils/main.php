@@ -20,6 +20,10 @@ function resource($target) {
     return 'r/' . $target;
 }
 
+function resource_exists($target) {
+    return !is_null(pw_file(resource($target), true));
+}
+
 function theme_url($target) {
     global $s;
     return resource_url('themes/' . $s['theme'] . '/' . $target);

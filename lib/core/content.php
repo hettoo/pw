@@ -121,8 +121,8 @@ function default_head() {
     echo '<title>' . $s['title'] . '</title>';
     echo '<meta name="description" content="' . $s['description'] . '">';
     echo '<link rel="shortcut icon" href="'
-        . (is_null(pw_file(resource('favicon.ico'), true))
-        ? theme_url('favicon.ico') : resource_url('favicon.ico')) . '">';
+        . (resource_exists('favicon.ico')
+        ? resource_url('favicon.ico') : theme_url('favicon.ico')) . '">';
     if ($s['hide'])
         echo '<meta name="robots" content="noindex, nofollow">';
     $s['css'] = array_unique($s['css']);
