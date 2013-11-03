@@ -45,7 +45,7 @@ th a {
 th a:hover {
     color: #000;
 }
-li.active a {
+.active a {
     color: #000;
 }
 input.normal, select.normal {
@@ -147,14 +147,12 @@ form.left {
     text-align: right;
 }
 
-ul.pager {
-    list-style-type: none;
+.pager {
     margin: 0;
     padding: 4px 0;
     font-size: 15px;
 }
-ul.pager li {
-    display: inline;
+.pager li {
     padding: 0 5px;
 }
 
