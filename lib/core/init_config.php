@@ -3,7 +3,7 @@
 $s['project'] = 'Personal Website';
 $s['analytics'] = '';
 
-$s['charset'] = 'iso-8859-1';
+$s['charset'] = 'utf-8';
 $s['menu'] = ':Home,Admin';
 $s['theme'] = 'default';
 $s['css'] = array('main');
