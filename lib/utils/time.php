@@ -60,6 +60,10 @@ function format_date($time) {
     return '<span class="time">' . exact_date($time) . '</span>';
 }
 
+function format_datetime($time) {
+    return '<span class="datetime">' . exact_date($time) . ' @ ' . exact_time($time) . '</span>';
+}
+
 function format_time($time) {
     $negative = $time < 0;
     $time = abs($time);
