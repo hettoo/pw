@@ -12,6 +12,12 @@ function exact_time($time) {
     return $result . date("G:i", $time);
 }
 
+function exact_datetime($time) {
+    if ($time == 0)
+        return 'unknown';
+    return date("j M Y @ G:i", $time);
+}
+
 function plural($num) {
     if ($num != 1)
         return 's';
@@ -61,7 +67,7 @@ function format_date($time) {
 }
 
 function format_datetime($time) {
-    return '<span class="datetime">' . exact_date($time) . ' @ ' . exact_time($time) . '</span>';
+    return '<span class="time">' . exact_datetime($time) . '</span>';
 }
 
 function format_time($time) {
