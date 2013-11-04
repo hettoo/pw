@@ -96,14 +96,31 @@ class Table {
                 $this->column = $values['column'];
                 $this->table = $values['table'];
                 $this->further_order = $values['further-order'];
+                if (!isset($this->further_order))
+                    $this->further_order = array();
+                elseif (!is_array($this->further_order))
+                    $this->further_order = array($this->further_order);
             }
         }
     }
 
     function getOrder() {
+        $result = '';
         if (!isset($this->column))
-            return '';
-        return ' ORDER BY `' . (isset($this->table) ? $this->table . '`.`' : '') . $this->column . '` ' . ($this->descending ? 'DESC' : 'ASC') . (isset($this->further_order) ? ', ' . $this->further_order : '');
+            return $result;
+        $result .= ' ORDER BY `' . (isset($this->table) ? $this->table . '`.`' : '') . $this->column . '` ' . ($this->descending ? 'DESC' : 'ASC');
+        foreach ($this->further_order as $order) {
+            $static = substr($order, -1) == '*';
+            if ($static)
+                $order = substr($order, 0, -1);
+            $descending = substr($order, -1) == '-';
+            if ($descending)
+                $order = substr($order, 0, -1);
+            if (!$static)
+                $descending ^= $this->descending;
+            $result .= ', ' . $order . ' ' . ($descending ? 'DESC' : 'ASC');
+        }
+        return $result;
     }
 
     function getClasses($values) {
