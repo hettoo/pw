@@ -7,6 +7,7 @@ class Pager {
 
     private $pages;
     private $rows;
+    private $total;
 
     function __construct($limit = 20) {
         global $s;
@@ -28,6 +29,14 @@ class Pager {
         return $this->page;
     }
 
+    function getDisplayed() {
+        return count($this->rows);
+    }
+
+    function getTotal() {
+        return $this->total;
+    }
+
     function query($fields, $rest, $function = null, $args = null, $db_id = 'db') {
         global $s;
 
@@ -38,8 +47,8 @@ class Pager {
             $this->rows[] = $row;
         $result = query("SELECT FOUND_ROWS() AS `count`", $db_id);
         $row = $result->fetch_array();
-        $total = $row['count'];
-        $this->pages = ceil($total / $this->limit);
+        $this->total = $row['count'];
+        $this->pages = ceil($this->total / $this->limit);
         if (isset($function)) {
             foreach ($this->rows as $row)
                 $function($row, $args);
