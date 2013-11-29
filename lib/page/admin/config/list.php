@@ -33,7 +33,7 @@ $pager->query('*', prefix('config') . " WHERE `key`$like OR `value`$like$order",
 
 $urls = admin_actions($action_index);
 admin_upper_urls($urls);
-section('table', $table);
+$table->show();
 admin_lower_urls($urls);
 
 ?>

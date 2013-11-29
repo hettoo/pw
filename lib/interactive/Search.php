@@ -1,13 +1,15 @@
 <?php
 
 import_lib('interactive/Form');
+import_lib('utils/MultiFormat');
 
-class Search {
+class Search extends MultiFormat {
     private $index;
     private $form;
     private $pager;
 
     function __construct($redirect = true, $pager = null) {
+        parent::__construct('search');
         global $s;
         $this->index = find_index('search');
         $this->form = new Form('search', isset($pager) && $pager->drawable() ? 'left' : null);

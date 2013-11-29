@@ -10,7 +10,7 @@ $pager = $search->getPager();
 <?php $form->show('inline') ?>
 </div>
 <?php if (isset($pager)): ?>
-<?php section('pager', $pager) ?>
+<?php $pager->show() ?>
 <?php endif ?>
 <div class="clear"></div>
 </div>

@@ -16,7 +16,7 @@ class Form extends MultiFormat {
     private $data;
 
     function __construct($id = 'form', $class = null) {
-        parent::__construct('forms');
+        parent::__construct('form');
         $this->id = $id;
         $this->class = $class;
         $this->elements = array();

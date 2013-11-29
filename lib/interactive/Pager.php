@@ -1,6 +1,8 @@
 <?php
 
-class Pager {
+import_lib('utils/MultiFormat');
+
+class Pager extends MultiFormat {
     private $index;
     private $page;
     private $limit;
@@ -10,6 +12,7 @@ class Pager {
     private $total;
 
     function __construct($limit = 20) {
+        parent::__construct('pager');
         global $s;
         $this->index = find_index('page');
         $this->page = max((int)$s['h'][$this->index] - 1, 0);

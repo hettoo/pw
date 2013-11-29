@@ -42,7 +42,7 @@ $pager->query('*', prefix('admin') . " WHERE `name`$like$order", function ($row,
 
 $urls = admin_actions($action_index);
 admin_upper_urls($urls);
-section('table', $table);
+$table->show();
 admin_lower_urls($urls);
 
 ?>
