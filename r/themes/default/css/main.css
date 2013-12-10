@@ -5,6 +5,13 @@
   src: local('Oxygen'), local('Oxygen-Regular'), url(../fonts/Oxygen.woff) format('woff');
 }
 
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url(../fonts/OxygenMono.woff) format('woff');
+}
+
 body {
     font-family: 'Oxygen', sans-serif;
     font-size: 14px;
