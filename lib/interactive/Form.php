@@ -2,8 +2,9 @@
 
 import_lib('core/session');
 import_lib('external/simple-php-captcha/simple-php-captcha');
+import_lib('utils/MultiFormat');
 
-class Form {
+class Form extends MultiFormat {
     private $id;
     private $class;
     private $elements;
@@ -15,6 +16,7 @@ class Form {
     private $data;
 
     function __construct($id = 'form', $class = null) {
+        parent::__construct('form');
         $this->id = $id;
         $this->class = $class;
         $this->elements = array();
@@ -27,10 +29,6 @@ class Form {
             $this->received = true;
         else
             $this->received = false;
-    }
-
-    function show($type = 'default') {
-        section('forms/' . $type, $this);
     }
 
     function getId() {

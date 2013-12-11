@@ -2,8 +2,9 @@
 
 import_lib('interactive/Pager');
 import_lib('interactive/Search');
+import_lib('utils/MultiFormat');
 
-class Table {
+class Table extends MultiFormat {
     private $columns;
     private $order_index;
     private $pager;
@@ -21,6 +22,7 @@ class Table {
     private $descending;
 
     function __construct() {
+        parent::__construct('table');
         $this->content = '';
         $this->x = 0;
         $this->pager = null;

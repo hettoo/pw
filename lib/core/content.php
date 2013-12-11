@@ -169,7 +169,7 @@ init_page(implode('/', $s['h']));
 
 header('Content-Type: text/html; charset=' . $s['charset']);
 
-if (empty($s['submenu']))
+if ((count($s['h']) == 0 || $s['h'][0] != 'pw') && empty($s['submenu']))
     $s['submenu'] = page_menu(1);
 if (empty($s['head']))
     $s['head'] = $s['project'];
