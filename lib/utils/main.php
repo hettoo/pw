@@ -121,9 +121,13 @@ function find_index($string) {
 function find_value($string) {
     global $s;
     $index = find_index($string);
-    if (isset($index))
+    if (isset($index) && $index < count($s['h']))
         return $s['h'][$index];
     return null;
+}
+
+function has_value($string) {
+    return !is_null(find_value($string));
 }
 
 function nicen($string) {
