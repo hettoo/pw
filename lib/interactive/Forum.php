@@ -64,16 +64,14 @@ class Forum extends MultiFormat {
                     if ($row = $result->fetch_array())
                         $s['head'] = secure($row['group'] . ' > ' . $row['name'], 'html') . ' forum';
                     $table = new Table();
-                    $table->addColumn(array('title' => 'Topic', 'size' => 'large'));
-                    $table->addColumn(array('title' => 'User', 'size' => 'large'));
+                    $table->addColumn(array('title' => 'Topic', 'size' => 'huge'));
                     $table->addColumn(array('title' => 'Created', 'size' => 'large'));
                     $table->addColumn(array('title' => 'Last post', 'size' => 'large'));
                     $pager = $table->setPager();
 
                     $pager->query("`id`, `title`, `user`, UNIX_TIMESTAMP(`created`) AS `created`, UNIX_TIMESTAMP(`updated`) AS `updated`, `last_user`", "`" . prefix('topic') . "` WHERE `forum`=$forum ORDER BY `updated` DESC", function($row, $table) {
                         $table->addField('<a href="' . url('topic/' . $row['id'], find_index('page')) . '">' . secure($row['title'], 'html') . '</a>');
-                        $table->addField($this->getUser($row['user']));
-                        $table->addField(format_datetime($row['created']));
+                        $table->addField(format_datetime($row['created']) . '<br>by ' . $this->getUser($row['user']));
                         $table->addField(format_datetime($row['updated']) . '<br>by ' . $this->getUser($row['last_user']));
                     }, $table);
                     $this->table = $table;
