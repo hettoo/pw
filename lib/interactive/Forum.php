@@ -127,7 +127,7 @@ class Forum extends MultiFormat {
                             }
                             $posts = array();
                             $pager = new Pager(8);
-                            $pager->query("*, UNIX_TIMESTAMP(`created`) AS `created`, UNIX_TIMESTAMP(`edited`) AS `edited`", "`" . prefix('post') . "` WHERE `topic`=" . (int)find_value('topic'));
+                            $pager->query("*, UNIX_TIMESTAMP(`created`) AS `created`, UNIX_TIMESTAMP(`edited`) AS `edited`", "`" . prefix('post') . "` WHERE `topic`=" . (int)find_value('topic') . " ORDER BY `created` ASC");
                             $this->pager = $pager;
                             parent::show($type . '/topic');
                         }
