@@ -25,6 +25,13 @@ function query($query, $id = 'db') {
     return $result;
 }
 
+function insert_id($id = 'db') {
+    global $s;
+    if (!$s[$id])
+        return null;
+    return $s[$id]->insert_id;
+}
+
 function secure($variable, $mode = 'sql', $id = 'db') {
     global $s;
     $result = $variable;

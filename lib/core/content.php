@@ -58,6 +58,13 @@ function init_page($page, $single = false) {
     if ($page != 'pw' && (!isset($data) || $real != 'default'))
         $data = page_data($real);
     if (isset($data)) {
+        $d = array();
+        foreach ($data as $key => $value) {
+            if ($value == '')
+                $d[] = $key;
+        }
+        foreach ($d as $key)
+            unset($data[$key]);
         $s = array_merge($s, $data);
         $id = $s['id'];
         $result = query("SELECT `content` FROM `" . prefix('content') . "` WHERE `page`='$id' ORDER BY `ranking`");

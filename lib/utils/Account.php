@@ -5,22 +5,52 @@ import_lib('interactive/Form');
 class Account {
     private $table;
     private $id;
+    private $db;
+    private $salt;
+    private $hasLevel;
     private $level;
     private $name;
+    private $passwordField;
+    private $nameField;
 
-    function __construct($table = null) {
+    function __construct($table = null, $hasLevel = true) {
         if (!isset($table))
             $table = prefix('users');
         $this->id = 0;
         $this->level = 0;
+        $this->hasLevel = $hasLevel;
         $this->table = $table;
+        $this->db = 'db';
+        $this->salt = '';
+        $this->passwordField = 'password';
+        $this->nameField = 'name';
+    }
+
+    function setDB($db) {
+        $this->db = $db;
+    }
+
+    function setSalt($salt) {
+        $this->salt = secure($salt);
+    }
+
+    function setPasswordField($passwordField) {
+        $this->passwordField = $passwordField;
+    }
+
+    function setNameField($nameField) {
+        $this->nameField = $nameField;
     }
 
     function loggedIn() {
         return $this->id != 0;
     }
 
-    function login($registration = null, $captcha) {
+    function getId() {
+        return $this->id;
+    }
+
+    function login($registration = null, $captcha = false) {
         if ($this->restore())
             return true;
         $form = new Form($this->table);
@@ -51,9 +81,10 @@ class Account {
                 }
                 if ($login) {
                     $name = $form->get('name');
-                    $password = $form->get('password');
                     $this->name = $name;
-                    $result = query("SELECT `id`, `level` FROM `$this->table` WHERE `name`='$name' AND `password`=MD5('$password')");
+                    $name = secure($name);
+                    $password = secure($form->get('password'));
+                    $result = query("SELECT `id`, " . ($this->hasLevel ? '' : '0 AS') . " `level` FROM `$this->table` WHERE `$this->nameField`='$name' AND `$this->passwordField`=MD5('$password$this->salt')", $this->db);
                     if ($row = $result->fetch_array()) {
                         $this->id = $row['id'];
                         $this->level = $row['level'];
@@ -72,7 +103,7 @@ class Account {
         if (!$id)
             return false;
         $this->id = $id;
-        $result = query("SELECT `name`, `level` FROM `$this->table` WHERE `id`=$id");
+        $result = query("SELECT `$this->nameField`, " . ($this->hasLevel ? '' : '0 AS') . " `level` FROM `$this->table` WHERE `id`=$id", $this->db);
         if ($row = $result->fetch_array()) {
             $this->name = $row['name'];
             $this->level = $row['level'];

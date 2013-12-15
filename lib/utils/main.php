@@ -42,8 +42,10 @@ function url($target, $level = 0, $rootify = true) {
             $result .= '/';
         if ($i == $level) {
             $result .= $target;
-            if ($rootify)
+            if ($rootify) {
+                $result = preg_replace('/(.)\/$/', '$1', $result, 1);
                 return $result;
+            }
         } else {
             $result .= $s['h'][$i];
         }
@@ -53,6 +55,7 @@ function url($target, $level = 0, $rootify = true) {
             $result .= '/';
         $result .= $target;
     }
+    $result = preg_replace('/(.)\/$/', '$1', $result, 1);
     return $result;
 }
 
@@ -142,6 +145,14 @@ function redirect_current() {
 function redirect_up($levels = 1) {
     global $s;
     $url = explode('/', $s['page']);
+    for ($i = 0; $i < $levels; $i++)
+        array_pop($url);
+    redirect(url(implode('/', $url)));
+}
+
+function redirect_realup($levels = 1) {
+    global $s;
+    $url = $s['h'];
     for ($i = 0; $i < $levels; $i++)
         array_pop($url);
     redirect(url(implode('/', $url)));
