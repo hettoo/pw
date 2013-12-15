@@ -121,7 +121,7 @@ class Forum extends MultiFormat {
                             }
                             $result = query("SELECT T.`title`, F.`name` AS `forum`, G.`name` AS `group` FROM `" . prefix('topic') . "` T LEFT JOIN `" . prefix('forum') . "` F ON F.`id`=T.`forum` LEFT JOIN `" . prefix('forum_group') . "` G ON G.`id`=F.`group` WHERE T.`id`=$topic");
                             if ($row = $result->fetch_array()) {
-                                $s['head'] = $row['title'];
+                                $s['head'] = secure($row['title'], 'html');
                                 $this->forum = $row['forum'];
                                 $this->group = $row['group'];
                             }
