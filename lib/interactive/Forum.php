@@ -21,13 +21,16 @@ class Forum extends MultiFormat {
     function setup() {
         $setup = new TableSetup(prefix('forum_group'));
         $setup->add('id', 'INT NOT NULL AUTO_INCREMENT PRIMARY KEY');
+        $setup->add('index', 'INT');
         $setup->add('name', 'VARCHAR(64)');
         $setup->setup();
 
         $setup = new TableSetup(prefix('forum'));
         $setup->add('id', 'INT NOT NULL AUTO_INCREMENT PRIMARY KEY');
         $setup->add('group', 'INT NOT NULL');
+        $setup->add('index', 'INT');
         $setup->add('name', 'VARCHAR(64)');
+        $setup->add('description', 'VARCHAR(128)');
         $setup->setup();
 
         $setup = new TableSetup(prefix('topic'));
@@ -170,7 +173,7 @@ class Forum extends MultiFormat {
 
     function getGroups() {
         $array = array();
-        $result = query("SELECT * FROM `" . prefix('forum_group') . "`");
+        $result = query("SELECT * FROM `" . prefix('forum_group') . "` ORDER BY `index`, `id`");
         while ($row = $result->fetch_array())
             $array[] = $row;
         return $array;
@@ -178,11 +181,13 @@ class Forum extends MultiFormat {
 
     function getForums($group) {
         $array = array();
-        $result = query("SELECT * FROM `" . prefix('forum') . "` WHERE `group`=$group");
+        $result = query("SELECT * FROM `" . prefix('forum') . "` WHERE `group`=$group ORDER BY `index`, `id`");
         while ($row = $result->fetch_array()) {
             $id = $row['id'];
-            $subresult = query("SELECT UNIX_TIMESTAMP(`updated`) AS `updated`, `last_user` FROM `" . prefix('topic') . "` WHERE `forum`=$id ORDER BY `updated` DESC LIMIT 1");
+            $subresult = query("SELECT UNIX_TIMESTAMP(`updated`) AS `updated`, `title`, `last_user`, `id` FROM `" . prefix('topic') . "` WHERE `forum`=$id ORDER BY `updated` DESC LIMIT 1");
             if ($subrow = $subresult->fetch_array()) {
+                $row['last_id'] = $subrow['id'];
+                $row['last_title'] = $subrow['title'];
                 $row['updated'] = $subrow['updated'];
                 $row['last_user'] = $subrow['last_user'];
             }
