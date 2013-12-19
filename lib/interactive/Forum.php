@@ -53,6 +53,81 @@ class Forum extends MultiFormat {
         $setup->setup();
     }
 
+    function topicOverview() {
+        global $s;
+        $forum = find_value('forum');
+        $s['suburl'][1] = 'page';
+        $result = query("SELECT F.`name`, G.`name` AS `group` FROM `" . prefix('forum') . "` F LEFT JOIN `" . prefix('forum_group') . "` G ON G.`id`=F.`group` WHERE F.`id`=$forum");
+        if ($row = $result->fetch_array())
+            $s['head'] = secure($row['group'] . ' > ' . $row['name'], 'html') . ' forum';
+        $table = new Table();
+        $table->addColumn(array('title' => 'Topic', 'size' => 'huge'));
+        $table->addColumn(array('title' => 'Created', 'size' => 'large'));
+        $table->addColumn(array('title' => 'Last post', 'size' => 'large'));
+        $pager = $table->setPager();
+
+        $pager->query("`id`, `title`, `user`, UNIX_TIMESTAMP(`created`) AS `created`, UNIX_TIMESTAMP(`updated`) AS `updated`, `last_user`", "`" . prefix('topic') . "` WHERE `forum`=$forum ORDER BY `updated` DESC", function($row, $table) {
+            $table->addField('<a href="' . url('topic/' . $row['id'], find_index('page')) . '">' . secure($row['title'], 'html') . '</a>');
+            $table->addField(format_datetime($row['created']) . '<br>by ' . $this->getUser($row['user']));
+            $table->addField(format_datetime($row['updated']) . '<br>by ' . $this->getUser($row['last_user']));
+        }, $table);
+        $this->table = $table;
+    }
+
+    function topicCreate() {
+        global $s;
+        $forum = find_value('forum');
+        $result = query("SELECT F.`name`, G.`name` AS `group` FROM `" . prefix('forum') . "` F LEFT JOIN `" . prefix('forum_group') . "` G ON G.`id`=F.`group` WHERE F.`id`=$forum");
+        if ($row = $result->fetch_array())
+            $s['head'] = 'Post in ' . secure($row['group'] . ' > ' . $row['name'], 'html') . ' forum';
+        $form = new Form();
+        $form->add('Title', 'text', 'title');
+        $form->add('Submit', 'submit');
+        if ($form->received() && $form->check()) {
+            $title = secure($form->get('title'));
+            $user = $this->userId();
+            $result = query("INSERT INTO `" . prefix('topic') . "` SET `user`=$user, `forum`=$forum, `created`=NOW(), `updated`=NOW(), `last_user`=$user, `title`='$title'");
+            if ($result) {
+                array_pop($s['h']);
+                $s['h'][] = 'topic';
+                $s['h'][] = insert_id();
+                redirect_current();
+            }
+        }
+        $this->form = $form;
+    }
+
+    function topicShow() {
+        global $s;
+        $topic = (int)find_value('topic');
+        if ($this->loggedIn()) {
+            $form = new Form();
+            $form->add('Comment', 'textarea', 'content');
+            $form->add('Submit', 'submit');
+            if ($form->received() && $form->check()) {
+                $content = secure($form->get('content'));
+                $user = $this->userId();
+                query("INSERT INTO `" . prefix('post') . "` SET `topic`=$topic, `user`=$user, `created`=NOW(), `edited`=NOW(), `content`='$content'");
+                query("UPDATE `" . prefix('topic') . "` SET `updated`=NOW(), `last_user`=$user WHERE `id`=$topic");
+                $form = new Form();
+                $form->setClear(true);
+                $form->add('Comment', 'textarea', 'content');
+                $form->add('Submit', 'submit');
+            }
+            $this->form = $form;
+        }
+        $result = query("SELECT T.`title`, F.`name` AS `forum`, G.`name` AS `group` FROM `" . prefix('topic') . "` T LEFT JOIN `" . prefix('forum') . "` F ON F.`id`=T.`forum` LEFT JOIN `" . prefix('forum_group') . "` G ON G.`id`=F.`group` WHERE T.`id`=$topic");
+        if ($row = $result->fetch_array()) {
+            $s['head'] = secure($row['title'], 'html');
+            $this->forum = $row['forum'];
+            $this->group = $row['group'];
+        }
+        $posts = array();
+        $pager = new Pager(8);
+        $pager->query("*, UNIX_TIMESTAMP(`created`) AS `created`, UNIX_TIMESTAMP(`edited`) AS `edited`", "`" . prefix('post') . "` WHERE `topic`=" . (int)find_value('topic') . " ORDER BY `created` ASC");
+        $this->pager = $pager;
+    }
+
     function show($type = 'default') {
         global $s;
         $s['suburl'] = array('forum', 'forum_action', 'topic', 'page');
@@ -62,74 +137,16 @@ class Forum extends MultiFormat {
             $forum = find_value('forum');
             if (is_numeric($forum)) {
                 if (!has_value('forum_action') || is_numeric(find_value('forum_action'))) {
-                    $s['suburl'][1] = 'page';
-                    $result = query("SELECT F.`name`, G.`name` AS `group` FROM `" . prefix('forum') . "` F LEFT JOIN `" . prefix('forum_group') . "` G ON G.`id`=F.`group` WHERE F.`id`=$forum");
-                    if ($row = $result->fetch_array())
-                        $s['head'] = secure($row['group'] . ' > ' . $row['name'], 'html') . ' forum';
-                    $table = new Table();
-                    $table->addColumn(array('title' => 'Topic', 'size' => 'huge'));
-                    $table->addColumn(array('title' => 'Created', 'size' => 'large'));
-                    $table->addColumn(array('title' => 'Last post', 'size' => 'large'));
-                    $pager = $table->setPager();
-
-                    $pager->query("`id`, `title`, `user`, UNIX_TIMESTAMP(`created`) AS `created`, UNIX_TIMESTAMP(`updated`) AS `updated`, `last_user`", "`" . prefix('topic') . "` WHERE `forum`=$forum ORDER BY `updated` DESC", function($row, $table) {
-                        $table->addField('<a href="' . url('topic/' . $row['id'], find_index('page')) . '">' . secure($row['title'], 'html') . '</a>');
-                        $table->addField(format_datetime($row['created']) . '<br>by ' . $this->getUser($row['user']));
-                        $table->addField(format_datetime($row['updated']) . '<br>by ' . $this->getUser($row['last_user']));
-                    }, $table);
-                    $this->table = $table;
+                    $this->topicOverview();
                     parent::show($type . '/forum');
                 } else if (has_value('forum_action')) {
                     $forum_action = find_value('forum_action');
                     if ($forum_action == 'create' && $this->loggedIn()) {
-                        $result = query("SELECT F.`name`, G.`name` AS `group` FROM `" . prefix('forum') . "` F LEFT JOIN `" . prefix('forum_group') . "` G ON G.`id`=F.`group` WHERE F.`id`=$forum");
-                        if ($row = $result->fetch_array())
-                            $s['head'] = 'Post in ' . secure($row['group'] . ' > ' . $row['name'], 'html') . ' forum';
-                        $form = new Form();
-                        $form->add('Title', 'text', 'title');
-                        $form->add('Submit', 'submit');
-                        if ($form->received() && $form->check()) {
-                            $title = secure($form->get('title'));
-                            $user = $this->userId();
-                            $result = query("INSERT INTO `" . prefix('topic') . "` SET `user`=$user, `forum`=$forum, `created`=NOW(), `updated`=NOW(), `last_user`=$user, `title`='$title'");
-                            if ($result) {
-                                array_pop($s['h']);
-                                $s['h'][] = 'topic';
-                                $s['h'][] = insert_id();
-                                redirect_current();
-                            }
-                        }
-                        $this->form = $form;
+                        $this->topicCreate();
                         parent::show($type . '/create_topic');
                     } else if ($forum_action == 'topic') {
                         if (has_value('topic')) {
-                            $topic = (int)find_value('topic');
-                            if ($this->loggedIn()) {
-                                $form = new Form();
-                                $form->add('Comment', 'textarea', 'content');
-                                $form->add('Submit', 'submit');
-                                if ($form->received() && $form->check()) {
-                                    $content = secure($form->get('content'));
-                                    $user = $this->userId();
-                                    query("INSERT INTO `" . prefix('post') . "` SET `topic`=$topic, `user`=$user, `created`=NOW(), `edited`=NOW(), `content`='$content'");
-                                    query("UPDATE `" . prefix('topic') . "` SET `updated`=NOW(), `last_user`=$user WHERE `id`=$topic");
-                                    $form = new Form();
-                                    $form->setClear(true);
-                                    $form->add('Comment', 'textarea', 'content');
-                                    $form->add('Submit', 'submit');
-                                }
-                                $this->form = $form;
-                            }
-                            $result = query("SELECT T.`title`, F.`name` AS `forum`, G.`name` AS `group` FROM `" . prefix('topic') . "` T LEFT JOIN `" . prefix('forum') . "` F ON F.`id`=T.`forum` LEFT JOIN `" . prefix('forum_group') . "` G ON G.`id`=F.`group` WHERE T.`id`=$topic");
-                            if ($row = $result->fetch_array()) {
-                                $s['head'] = secure($row['title'], 'html');
-                                $this->forum = $row['forum'];
-                                $this->group = $row['group'];
-                            }
-                            $posts = array();
-                            $pager = new Pager(8);
-                            $pager->query("*, UNIX_TIMESTAMP(`created`) AS `created`, UNIX_TIMESTAMP(`edited`) AS `edited`", "`" . prefix('post') . "` WHERE `topic`=" . (int)find_value('topic') . " ORDER BY `created` ASC");
-                            $this->pager = $pager;
+                            $this->topicShow();
                             parent::show($type . '/topic');
                         }
                     }
